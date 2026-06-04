@@ -29,12 +29,9 @@
             </tr>
             <tr>
                 <th>Role</th>
-                <td>{{ utilisateur.role }}</td>
+                <td>{{ utilisateur.role.label }}</td>
             </tr>
-            <tr>
-                <th>MotDePasse</th>
-                <td>{{ utilisateur.motDePasse }}</td>
-            </tr>
+            
             <tr>
                 <th>DateCreation</th>
                 <td>{{ utilisateur.dateCreation ? utilisateur.dateCreation|date('Y-m-d H:i:s') : '' }}</td>

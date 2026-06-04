@@ -3,6 +3,14 @@
 {% block title %}Utilisateur index{% endblock %}
 
 {% block body %}
+<aside class="fixed top-0 left-0 h-screen w-64 bg-gray-900 text-white p-4">
+    <nav class="space-y-2">
+        <a href="/" class="block p-2 hover:bg-gray-700 rounded">Home</a>
+        <a href="/events" class="block p-2 hover:bg-gray-700 rounded">Events</a>
+        <a href="/orders" class="block p-2 hover:bg-gray-700 rounded">Orders</a>
+        <a href="/settings" class="block p-2 hover:bg-gray-700 rounded">Settings</a>
+    </nav>
+</aside>
     <h1>Utilisateur index</h1>
 
     <table class="table">
@@ -14,7 +22,6 @@
                 <th>Email</th>
                 <th>Entreprise</th>
                 <th>Role</th>
-                <th>MotDePasse</th>
                 <th>DateCreation</th>
                 <th>TopActif</th>
                 <th>NumTel</th>
@@ -29,8 +36,7 @@
                 <td>{{ utilisateur.prenom }}</td>
                 <td>{{ utilisateur.email }}</td>
                 <td>{{ utilisateur.entreprise }}</td>
-                <td>{{ utilisateur.role }}</td>
-                <td>{{ utilisateur.motDePasse }}</td>
+                <td>{{ utilisateur.role.label }}</td>
                 <td>{{ utilisateur.dateCreation ? utilisateur.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ utilisateur.topActif ? 'Yes' : 'No' }}</td>
                 <td>{{ utilisateur.numTel }}</td>

@@ -22,6 +22,8 @@ class ClientType extends AbstractType
             ->add('positionY')
             ->add('dateCreation', null, [
                 'widget' => 'single_text',
+                'mapped' => false,
+                'disabled' => true,
             ])
             ->add('topActif')
         ;

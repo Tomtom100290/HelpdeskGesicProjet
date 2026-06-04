@@ -4,9 +4,9 @@ namespace App\Enum;
 
 enum Role: string
 {
-    case CLIENT      = 'client';
-    case DEVELOPPEUR = 'developpeur';
-    case ADMIN       = 'admin';
+    case CLIENT      = 'ROLE_CLIENT';
+    case DEVELOPPEUR = 'ROLE_DEVELOPPEUR';
+    case ADMIN       = 'ROLE_ADMIN';
 
     public function label(): string
     {

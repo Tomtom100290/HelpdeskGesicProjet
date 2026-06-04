@@ -94,9 +94,10 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
+    // ✅ Corrigé : $this->role->value retourne déjà 'ROLE_ADMIN', pas besoin d'ajouter 'ROLE_'
     public function getRoles(): array
     {
-        return ['ROLE_' . strtoupper($this->role->value)];
+        return [$this->role->value];
     }
 
     public function eraseCredentials(): void {}
@@ -125,6 +126,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function getEntreprise(): ?string { return $this->entreprise; }
     public function setEntreprise(?string $entreprise): static { $this->entreprise = $entreprise; return $this; }
 
+    // ✅ Corrigé : retourne l'objet Role, pas un tableau
     public function getRole(): Role { return $this->role; }
     public function setRole(Role $role): static { $this->role = $role; return $this; }
 
