@@ -25,8 +25,8 @@
 		{% endif %}
 	</head>
 	<body>
-		<main class="flex w-full">
-			<aside class="min-w-[180px] w-[20%] top-0 left-0 h-screen bg-gray-900 text-white p-4">
+		<main class="flex w-full min-h-screen">
+			<aside class="min-w-[180px] w-[20%] top-0 left-0 bg-gray-900 text-white p-4">
 				<nav class="space-y-2">
 					<a href="/" class="block p-2 hover:bg-gray-700 rounded">Home</a>
 					<a href="/events" class="block p-2 hover:bg-gray-700 rounded">Events</a>
@@ -34,7 +34,8 @@
 					<a href="/settings" class="block p-2 hover:bg-gray-700 rounded">Settings</a>
 				</nav>
 			</aside>
-			{% block body %}{% endblock %}
-		</main>
-	</body>
-</html>
+			<div class="w-[70%]"> {% block body %}{% endblock %}
+				</div>
+			</main>
+		</body>
+	</html>

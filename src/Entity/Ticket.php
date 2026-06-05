@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Enum\NiveauImpact;
 use App\Repository\TicketRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -35,12 +34,16 @@ class Ticket
     #[ORM\JoinColumn(name: 'id_destinataire', referencedColumnName: 'id_user', nullable: true)]
     private ?Utilisateur $destinataire = null;
 
-    #[ORM\ManyToOne(targetEntity: Priorite::class, inversedBy: 'tickets')]
-    #[ORM\JoinColumn(name: 'id_priorite', referencedColumnName: 'id_priorite', nullable: false)]
-    private Priorite $priorite;
+    #[ORM\ManyToOne(targetEntity: Impact::class, inversedBy: 'tickets')]
+    #[ORM\JoinColumn(name: 'id_impact', referencedColumnName: 'id_impact', nullable: false)]
+    private Impact $impact;
 
-    #[ORM\Column(name: 'note_priorite', type: 'integer')]
-    private int $notePriorite = 0;
+    #[ORM\ManyToOne(targetEntity: Urgence::class, inversedBy: 'tickets')]
+    #[ORM\JoinColumn(name: 'id_urgence', referencedColumnName: 'id_urgence', nullable: false)]
+    private Urgence $urgence;
+
+    #[ORM\Column(name: 'priorite_calculee', type: 'smallint')]
+    private int $prioriteCalculee = 0;
 
     #[ORM\ManyToOne(targetEntity: StatutTicket::class, inversedBy: 'tickets')]
     #[ORM\JoinColumn(name: 'id_statut', referencedColumnName: 'id_statut', nullable: false)]
@@ -53,9 +56,6 @@ class Ticket
     #[ORM\ManyToOne(targetEntity: CategorieTicket::class, inversedBy: 'tickets')]
     #[ORM\JoinColumn(name: 'id_categorie', referencedColumnName: 'id_categorie', nullable: false)]
     private CategorieTicket $categorie;
-
-    #[ORM\Column(name: 'niveau_impact', type: 'string', enumType: NiveauImpact::class)]
-    private NiveauImpact $niveauImpact = NiveauImpact::ISOLE;
 
     #[ORM\Column(name: 'date_creation', type: 'datetime_immutable')]
     private \DateTimeImmutable $dateCreation;
@@ -83,48 +83,150 @@ class Ticket
         $this->taches       = new ArrayCollection();
     }
 
-    public function getId(): ?int { return $this->id; }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-    public function getTitre(): string { return $this->titre; }
-    public function setTitre(string $titre): static { $this->titre = $titre; return $this; }
+    public function getTitre(): string
+    {
+        return $this->titre;
+    }
+    public function setTitre(string $t): static
+    {
+        $this->titre = $t;
+        return $this;
+    }
 
-    public function getDescription(): string { return $this->description; }
-    public function setDescription(string $description): static { $this->description = $description; return $this; }
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+    public function setDescription(string $d): static
+    {
+        $this->description = $d;
+        return $this;
+    }
 
-    public function getCreateur(): Utilisateur { return $this->createur; }
-    public function setCreateur(Utilisateur $createur): static { $this->createur = $createur; return $this; }
+    public function getCreateur(): Utilisateur
+    {
+        return $this->createur;
+    }
+    public function setCreateur(Utilisateur $u): static
+    {
+        $this->createur = $u;
+        return $this;
+    }
 
-    public function getAssigne(): ?Utilisateur { return $this->assigne; }
-    public function setAssigne(?Utilisateur $assigne): static { $this->assigne = $assigne; return $this; }
+    public function getAssigne(): ?Utilisateur
+    {
+        return $this->assigne;
+    }
+    public function setAssigne(?Utilisateur $u): static
+    {
+        $this->assigne = $u;
+        return $this;
+    }
 
-    public function getDestinataire(): ?Utilisateur { return $this->destinataire; }
-    public function setDestinataire(?Utilisateur $destinataire): static { $this->destinataire = $destinataire; return $this; }
+    public function getDestinataire(): ?Utilisateur
+    {
+        return $this->destinataire;
+    }
+    public function setDestinataire(?Utilisateur $u): static
+    {
+        $this->destinataire = $u;
+        return $this;
+    }
 
-    public function getPriorite(): Priorite { return $this->priorite; }
-    public function setPriorite(Priorite $priorite): static { $this->priorite = $priorite; return $this; }
+    public function getImpact(): Impact
+    {
+        return $this->impact;
+    }
+    public function setImpact(Impact $i): static
+    {
+        $this->impact = $i;
+        return $this;
+    }
 
-    public function getNotePriorite(): int { return $this->notePriorite; }
-    public function setNotePriorite(int $note): static { $this->notePriorite = $note; return $this; }
+    public function getUrgence(): Urgence
+    {
+        return $this->urgence;
+    }
+    public function setUrgence(Urgence $u): static
+    {
+        $this->urgence = $u;
+        return $this;
+    }
 
-    public function getStatut(): StatutTicket { return $this->statut; }
-    public function setStatut(StatutTicket $statut): static { $this->statut = $statut; return $this; }
+    public function getPrioriteCalculee(): int
+    {
+        return $this->prioriteCalculee;
+    }
+    public function setPrioriteCalculee(int $p): static
+    {
+        $this->prioriteCalculee = $p;
+        return $this;
+    }
 
-    public function getLogicielClient(): LogicielClient { return $this->logicielClient; }
-    public function setLogicielClient(LogicielClient $logicielClient): static { $this->logicielClient = $logicielClient; return $this; }
+    public function getStatut(): StatutTicket
+    {
+        return $this->statut;
+    }
+    public function setStatut(StatutTicket $s): static
+    {
+        $this->statut = $s;
+        return $this;
+    }
 
-    public function getCategorie(): CategorieTicket { return $this->categorie; }
-    public function setCategorie(CategorieTicket $categorie): static { $this->categorie = $categorie; return $this; }
+    public function getLogicielClient(): LogicielClient
+    {
+        return $this->logicielClient;
+    }
+    public function setLogicielClient(LogicielClient $l): static
+    {
+        $this->logicielClient = $l;
+        return $this;
+    }
 
-    public function getNiveauImpact(): NiveauImpact { return $this->niveauImpact; }
-    public function setNiveauImpact(NiveauImpact $niveauImpact): static { $this->niveauImpact = $niveauImpact; return $this; }
+    public function getCategorie(): CategorieTicket
+    {
+        return $this->categorie;
+    }
+    public function setCategorie(CategorieTicket $c): static
+    {
+        $this->categorie = $c;
+        return $this;
+    }
 
-    public function getDateCreation(): \DateTimeImmutable { return $this->dateCreation; }
+    public function getDateCreation(): \DateTimeImmutable
+    {
+        return $this->dateCreation;
+    }
 
-    public function getDateCloture(): ?\DateTimeInterface { return $this->dateCloture; }
-    public function setDateCloture(?\DateTimeInterface $date): static { $this->dateCloture = $date; return $this; }
+    public function getDateCloture(): ?\DateTimeInterface
+    {
+        return $this->dateCloture;
+    }
+    public function setDateCloture(?\DateTimeInterface $d): static
+    {
+        $this->dateCloture = $d;
+        return $this;
+    }
 
-    public function getMessages(): Collection { return $this->messages; }
-    public function getHistoriques(): Collection { return $this->historiques; }
-    public function getCompteRendu(): ?CompteRendu { return $this->compteRendu; }
-    public function getTaches(): Collection { return $this->taches; }
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+    public function getHistoriques(): Collection
+    {
+        return $this->historiques;
+    }
+    public function getCompteRendu(): ?CompteRendu
+    {
+        return $this->compteRendu;
+    }
+    public function getTaches(): Collection
+    {
+        return $this->taches;
+    }
 }

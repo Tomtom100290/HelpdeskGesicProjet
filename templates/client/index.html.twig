@@ -1,53 +1,56 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Client index{% endblock %}
+{% block title %}Client index
+{% endblock %}
 
 {% block body %}
-    <h1>Client index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>RaisonSocial</th>
-                <th>Adresse</th>
-                <th>Ville</th>
-                <th>CodePostal</th>
-                <th>NumTel</th>
-                <th>Email</th>
-                <th>PositionX</th>
-                <th>PositionY</th>
-                <th>DateCreation</th>
-                <th>TopActif</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for client in clients %}
-            <tr>
-                <td>{{ client.id }}</td>
-                <td>{{ client.raisonSocial }}</td>
-                <td>{{ client.adresse }}</td>
-                <td>{{ client.ville }}</td>
-                <td>{{ client.codePostal }}</td>
-                <td>{{ client.numTel }}</td>
-                <td>{{ client.email }}</td>
-                <td>{{ client.positionX }}</td>
-                <td>{{ client.positionY }}</td>
-                <td>{{ client.dateCreation ? client.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ client.topActif ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('app_client_show', {'id': client.id}) }}">show</a>
-                    <a href="{{ path('app_client_edit', {'id': client.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="12">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	<h1>Client index</h1>
 
-    <a href="{{ path('app_client_new') }}">Create new</a>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>RaisonSocial</th>
+				<th>Adresse</th>
+				<th>Ville</th>
+				<th>CodePostal</th>
+				<th>NumTel</th>
+				<th>Email</th>
+				<th>PositionX</th>
+				<th>PositionY</th>
+				<th>DateCreation</th>
+				<th>TopActif</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for client in clients %}
+				<tr>
+					<td>{{ client.id }}</td>
+					<td>{{ client.raisonSocial }}</td>
+					<td>{{ client.adresse }}</td>
+					<td>{{ client.ville }}</td>
+					<td>{{ client.codePostal }}</td>
+					<td>{{ client.numTel }}</td>
+					<td>{{ client.email }}</td>
+					<td>{{ client.positionX }}</td>
+					<td>{{ client.positionY }}</td>
+					<td>{{ client.dateCreation ? client.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+					<td>{{ client.topActif ? 'Yes' : 'No' }}</td>
+					<td>
+						<a href="{{ path('app_client_show', {'id': client.id}) }}">show</a>
+						<a href="{{ path('app_client_edit', {'id': client.id}) }}">edit</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="12">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a href="{{ path('app_client_new') }}">Create new</a>
+
 {% endblock %}

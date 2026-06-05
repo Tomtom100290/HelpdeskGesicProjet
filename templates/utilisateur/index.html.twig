@@ -5,49 +5,49 @@
 
 {% block body %}
 
-	<div class="w-[70%]">
-		<h1>Utilisateur index</h1>
 
-		<table class="table">
-			<thead>
+	<h1>Utilisateur index</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Nom</th>
+				<th>Prenom</th>
+				<th>Email</th>
+				<th>Entreprise</th>
+				<th>Role</th>
+				<th>DateCreation</th>
+				<th>TopActif</th>
+				<th>NumTel</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for utilisateur in utilisateurs %}
 				<tr>
-					<th>Id</th>
-					<th>Nom</th>
-					<th>Prenom</th>
-					<th>Email</th>
-					<th>Entreprise</th>
-					<th>Role</th>
-					<th>DateCreation</th>
-					<th>TopActif</th>
-					<th>NumTel</th>
-					<th>actions</th>
+					<td>{{ utilisateur.id }}</td>
+					<td>{{ utilisateur.nom }}</td>
+					<td>{{ utilisateur.prenom }}</td>
+					<td>{{ utilisateur.email }}</td>
+					<td>{{ utilisateur.entreprise }}</td>
+					<td>{{ utilisateur.role.label }}</td>
+					<td>{{ utilisateur.dateCreation ? utilisateur.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+					<td>{{ utilisateur.topActif ? 'Yes' : 'No' }}</td>
+					<td>{{ utilisateur.numTel }}</td>
+					<td>
+						<a href="{{ path('app_utilisateur_show', {'id': utilisateur.id}) }}">show</a>
+						<a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}">edit</a>
+					</td>
 				</tr>
-			</thead>
-			<tbody>
-				{% for utilisateur in utilisateurs %}
-					<tr>
-						<td>{{ utilisateur.id }}</td>
-						<td>{{ utilisateur.nom }}</td>
-						<td>{{ utilisateur.prenom }}</td>
-						<td>{{ utilisateur.email }}</td>
-						<td>{{ utilisateur.entreprise }}</td>
-						<td>{{ utilisateur.role.label }}</td>
-						<td>{{ utilisateur.dateCreation ? utilisateur.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
-						<td>{{ utilisateur.topActif ? 'Yes' : 'No' }}</td>
-						<td>{{ utilisateur.numTel }}</td>
-						<td>
-							<a href="{{ path('app_utilisateur_show', {'id': utilisateur.id}) }}">show</a>
-							<a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}">edit</a>
-						</td>
-					</tr>
-				{% else %}
-					<tr>
-						<td colspan="11">no records found</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+			{% else %}
+				<tr>
+					<td colspan="11">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 
-		<a href="{{ path('app_utilisateur_new') }}">Create new</a>
-	</div>
+	<a href="{{ path('app_utilisateur_new') }}">Create new</a>
+
 {% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Impact{% endblock %}
+
+{% block body %}
+    <h1>Edit Impact</h1>
+
+    {{ include('impact/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_impact_index') }}">back to list</a>
+
+    {{ include('impact/_delete_form.html.twig') }}
+{% endblock %}

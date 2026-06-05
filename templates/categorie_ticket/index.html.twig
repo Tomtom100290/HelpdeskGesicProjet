@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CategorieTicket index
+{% endblock %}
+
+{% block body %}
+	<div class="w-full p-6">
+
+		<h1 class="text-2xl font-bold mb-4">CategorieTicket index</h1>
+
+		<table class="table-auto w-full border-collapse border border-gray-300 mb-4">
+			<thead>
+				<tr class="bg-gray-100">
+					<th class="border border-gray-300 p-2 text-left">Id</th>
+					<th class="border border-gray-300 p-2 text-left">Libelle</th>
+					<th class="border border-gray-300 p-2 text-left">ValeurBloquant</th>
+					<th class="border border-gray-300 p-2 text-left">actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for categorie_ticket in categorie_tickets %}
+					<tr class="hover:bg-gray-50">
+						<td class="border border-gray-300 p-2">{{ categorie_ticket.id }}</td>
+						<td class="border border-gray-300 p-2">{{ categorie_ticket.libelle }}</td>
+						<td class="border border-gray-300 p-2">{{ categorie_ticket.valeurBloquant }}</td>
+						<td class="border border-gray-300 p-2">
+							<a href="{{ path('app_categorie_ticket_show', {'id': categorie_ticket.id}) }}" class="text-blue-600 hover:underline mr-2">show</a>
+							<a href="{{ path('app_categorie_ticket_edit', {'id': categorie_ticket.id}) }}" class="text-green-600 hover:underline">edit</a>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="4" class="border border-gray-300 p-2 text-center text-gray-500">no records found</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<a href="{{ path('app_categorie_ticket_new') }}" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Create new</a>
+
+	</div>
+{% endblock %}

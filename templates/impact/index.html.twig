@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Impact index{% endblock %}
+
+{% block body %}
+    <h1>Impact index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Niveau</th>
+                <th>Libelle</th>
+                <th>Prompt</th>
+                <th>Note</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for impact in impacts %}
+            <tr>
+                <td>{{ impact.id }}</td>
+                <td>{{ impact.niveau }}</td>
+                <td>{{ impact.libelle }}</td>
+                <td>{{ impact.prompt }}</td>
+                <td>{{ impact.note }}</td>
+                <td>
+                    <a href="{{ path('app_impact_show', {'id': impact.id}) }}">show</a>
+                    <a href="{{ path('app_impact_edit', {'id': impact.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_impact_new') }}">Create new</a>
+{% endblock %}

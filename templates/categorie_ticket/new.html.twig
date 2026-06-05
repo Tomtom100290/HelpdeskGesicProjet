@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New CategorieTicket
+{% endblock %}
+
+{% block body %}
+	<div class="w-full p-6">
+		<h1>Créer une nouvelle Categorie de demande</h1>
+
+		{{ include('categorie_ticket/_form.html.twig') }}
+
+		<a href="{{ path('app_categorie_ticket_index') }}">Retour à  la liste</a>
+	</div>
+{% endblock %}

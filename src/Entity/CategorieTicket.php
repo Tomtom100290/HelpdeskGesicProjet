@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CategorieTicketRepository::class)]
 #[ORM\Table(name: 'categorie_ticket')]
 class CategorieTicket
+//Catégorie ticket permet spécifié le type de demande : Bug, Demande d'évolution, Question, Installation, Blocage logiciel...
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -30,13 +31,33 @@ class CategorieTicket
         $this->tickets = new ArrayCollection();
     }
 
-    public function getId(): ?int { return $this->id; }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-    public function getLibelle(): string { return $this->libelle; }
-    public function setLibelle(string $libelle): static { $this->libelle = $libelle; return $this; }
+    public function getLibelle(): string
+    {
+        return $this->libelle;
+    }
+    public function setLibelle(string $libelle): static
+    {
+        $this->libelle = $libelle;
+        return $this;
+    }
 
-    public function getValeurBloquant(): int { return $this->valeurBloquant; }
-    public function setValeurBloquant(int $valeur): static { $this->valeurBloquant = $valeur; return $this; }
+    public function getValeurBloquant(): int
+    {
+        return $this->valeurBloquant;
+    }
+    public function setValeurBloquant(int $valeur): static
+    {
+        $this->valeurBloquant = $valeur;
+        return $this;
+    }
 
-    public function getTickets(): Collection { return $this->tickets; }
+    public function getTickets(): Collection
+    {
+        return $this->tickets;
+    }
 }

@@ -30,7 +30,7 @@ class LogicielClient
     #[ORM\Column(name: 'version_logiciel', type: 'string', length: 20, nullable: true)]
     private ?string $versionLogiciel = null;
 
-    #[ORM\Column(name: 'notes', type: 'text', nullable: true)]
+    #[ORM\Column(name: 'notes', type: 'text', nullable: true)] //notes = Textes qui permet d'ajouter des précisions sur l'installation du logiciel chez le client
     private ?string $notes = null;
 
     #[ORM\Column(name: 'date_creation', type: 'datetime_immutable')]
@@ -45,24 +45,68 @@ class LogicielClient
         $this->tickets      = new ArrayCollection();
     }
 
-    public function getId(): ?int { return $this->id; }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-    public function getClient(): Client { return $this->client; }
-    public function setClient(Client $client): static { $this->client = $client; return $this; }
+    public function getClient(): Client
+    {
+        return $this->client;
+    }
+    public function setClient(Client $client): static
+    {
+        $this->client = $client;
+        return $this;
+    }
 
-    public function getLogiciel(): Logiciel { return $this->logiciel; }
-    public function setLogiciel(Logiciel $logiciel): static { $this->logiciel = $logiciel; return $this; }
+    public function getLogiciel(): Logiciel
+    {
+        return $this->logiciel;
+    }
+    public function setLogiciel(Logiciel $logiciel): static
+    {
+        $this->logiciel = $logiciel;
+        return $this;
+    }
 
-    public function getDateInstallation(): ?\DateTimeInterface { return $this->dateInstallation; }
-    public function setDateInstallation(?\DateTimeInterface $date): static { $this->dateInstallation = $date; return $this; }
+    public function getDateInstallation(): ?\DateTimeInterface
+    {
+        return $this->dateInstallation;
+    }
+    public function setDateInstallation(?\DateTimeInterface $date): static
+    {
+        $this->dateInstallation = $date;
+        return $this;
+    }
 
-    public function getVersionLogiciel(): ?string { return $this->versionLogiciel; }
-    public function setVersionLogiciel(?string $version): static { $this->versionLogiciel = $version; return $this; }
+    public function getVersionLogiciel(): ?string
+    {
+        return $this->versionLogiciel;
+    }
+    public function setVersionLogiciel(?string $version): static
+    {
+        $this->versionLogiciel = $version;
+        return $this;
+    }
 
-    public function getNotes(): ?string { return $this->notes; }
-    public function setNotes(?string $notes): static { $this->notes = $notes; return $this; }
+    public function getNotes(): ?string
+    {
+        return $this->notes;
+    }
+    public function setNotes(?string $notes): static
+    {
+        $this->notes = $notes;
+        return $this;
+    }
 
-    public function getDateCreation(): \DateTimeImmutable { return $this->dateCreation; }
+    public function getDateCreation(): \DateTimeImmutable
+    {
+        return $this->dateCreation;
+    }
 
-    public function getTickets(): Collection { return $this->tickets; }
+    public function getTickets(): Collection
+    {
+        return $this->tickets;
+    }
 }

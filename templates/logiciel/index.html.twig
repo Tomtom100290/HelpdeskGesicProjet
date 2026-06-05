@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Logiciel index{% endblock %}
+
+{% block body %}
+    <h1>Logiciel index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Libelle</th>
+                <th>Description</th>
+                <th>TypeLogiciel</th>
+                <th>CoeffCriticite</th>
+                <th>TopActif</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for logiciel in logiciels %}
+            <tr>
+                <td>{{ logiciel.id }}</td>
+                <td>{{ logiciel.libelle }}</td>
+                <td>{{ logiciel.description }}</td>
+                <td>{{ logiciel.typeLogiciel }}</td>
+                <td>{{ logiciel.coeffCriticite }}</td>
+                <td>{{ logiciel.topActif ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_logiciel_show', {'id': logiciel.id}) }}">show</a>
+                    <a href="{{ path('app_logiciel_edit', {'id': logiciel.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_logiciel_new') }}">Create new</a>
+{% endblock %}
