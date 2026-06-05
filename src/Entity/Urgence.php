@@ -84,9 +84,6 @@ class Urgence
 
     public function setNote(int $note): static
     {
-        if ($note < 1 || $note > 4) {
-            throw new \InvalidArgumentException('La note doit être comprise entre 1 et 4.');
-        }
         $this->note = $note;
         return $this;
     }
