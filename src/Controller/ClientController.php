@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Client;
+use App\Entity\LogicielClient;
 use App\Form\ClientType;
 use App\Repository\ClientRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -43,13 +44,18 @@ final class ClientController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_client_show', methods: ['GET'])]
-    public function show(Client $client): Response
+    public function show(Client $client, EntityManagerInterface $em): Response
     {
+        // On va chercher dans la table pivot toutes les lignes liées à CE client
+        $logicielsInstalles = $em->getRepository(LogicielClient::class)->findBy([
+            'client' => $client
+        ]);
+
         return $this->render('client/show.html.twig', [
             'client' => $client,
+            'logicielClient' => $logicielsInstalles, // Contient maintenant un tableau/tableau d'objets
         ]);
     }
-
     #[Route('/{id}/edit', name: 'app_client_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Client $client, EntityManagerInterface $entityManager): Response
     {
@@ -71,7 +77,7 @@ final class ClientController extends AbstractController
     #[Route('/{id}', name: 'app_client_delete', methods: ['POST'])]
     public function delete(Request $request, Client $client, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$client->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $client->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($client);
             $entityManager->flush();
         }

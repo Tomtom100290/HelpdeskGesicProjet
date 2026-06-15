@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LogicielClient index{% endblock %}
+
+{% block body %}
+    <h1>LogicielClient index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>DateInstallation</th>
+                <th>VersionLogiciel</th>
+                <th>Notes</th>
+                <th>DateCreation</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for logiciel_client in logiciel_clients %}
+            <tr>
+                <td>{{ logiciel_client.id }}</td>
+                <td>{{ logiciel_client.dateInstallation ? logiciel_client.dateInstallation|date('Y-m-d') : '' }}</td>
+                <td>{{ logiciel_client.versionLogiciel }}</td>
+                <td>{{ logiciel_client.notes }}</td>
+                <td>{{ logiciel_client.dateCreation ? logiciel_client.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_logiciel_client_show', {'id': logiciel_client.id}) }}">show</a>
+                    <a href="{{ path('app_logiciel_client_edit', {'id': logiciel_client.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_logiciel_client_new') }}">Create new</a>
+{% endblock %}

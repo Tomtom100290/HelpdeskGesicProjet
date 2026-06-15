@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New LogicielClient{% endblock %}
+
+{% block body %}
+    <h1>Create new LogicielClient</h1>
+
+    {{ include('logiciel_client/_form.html.twig') }}
+
+    <a href="{{ path('app_logiciel_client_index') }}">back to list</a>
+{% endblock %}

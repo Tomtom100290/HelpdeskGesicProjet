@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LogicielClient
+{% endblock %}
+
+{% block body %}
+	<h1>LogicielClient</h1>
+
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ logiciel_client.id }}</td>
+			</tr>
+			<tr>
+				<th>DateInstallation</th>
+				<td>{{ logiciel_client.dateInstallation ? logiciel_client.dateInstallation|date('Y-m-d') : '' }}</td>
+			</tr>
+			<tr>
+				<th>VersionLogiciel</th>
+				<td>{{ logiciel_client.versionLogiciel }}</td>
+			</tr>
+			<tr>
+				<th>Notes</th>
+				<td>{{ logiciel_client.notes }}</td>
+			</tr>
+			<tr>
+				<th>DateCreation</th>
+				<td>{{ logiciel_client.dateCreation ? logiciel_client.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+			</tr>
+
+			<tr>
+				<th>Logiciel</th>
+				<td>{{ logiciel_client.logiciel ? logiciel_client.logiciel.nom : '' }}</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+	<a href="{{ path('app_logiciel_client_index') }}">back to list</a>
+
+	<a href="{{ path('app_logiciel_client_edit', {'id': logiciel_client.id}) }}">edit</a>
+
+	{{ include('logiciel_client/_delete_form.html.twig') }}
+{% endblock %}

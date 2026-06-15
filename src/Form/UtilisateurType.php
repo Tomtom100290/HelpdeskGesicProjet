@@ -18,7 +18,7 @@ class UtilisateurType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        
+
             ->add('role', EnumType::class, [
                 'class'        => Role::class,
                 'choice_label' => fn(Role $role) => $role->label(),
@@ -31,25 +31,25 @@ class UtilisateurType extends AbstractType
             ->add('email')
             //->add('entreprise')
             ->add('motDePasse')
-            ->add('dateCreation', null, [
-                'widget' => 'single_text',
-                'mapped' => false,
-                'disabled' => true,
-            ])
+            //->add('dateCreation', null, [
+            //    'widget' => 'single_text',
+            //    'mapped' => false,
+            //    'disabled' => true,
+            //])
             ->add('topActif')
             ->add('numTel')
             ->add('client', EntityType::class, [
-                'class'         => Client::class,
-                'choice_label'  => 'raisonSocial',
-                'placeholder'   => '-- Sélectionner un client --',
-                'label'         => 'Entreprise',
+                'class' => Client::class,
+                'choice_label' => 'raisonSocial',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c')
                         ->where('c.topActif = :actif')
                         ->setParameter('actif', true)
                         ->orderBy('c.raisonSocial', 'ASC');
-                    },
-                ])
+                },
+                'placeholder' => 'Aucun client',
+                'required' => false,
+            ])
         ;
     }
 

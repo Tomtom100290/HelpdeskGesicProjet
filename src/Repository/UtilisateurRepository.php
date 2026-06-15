@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Utilisateur;
 use App\Enum\Role;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 class UtilisateurRepository extends ServiceEntityRepository
@@ -72,5 +73,19 @@ class UtilisateurRepository extends ServiceEntityRepository
             ->orderBy('nbTicketsEnCours', 'ASC')
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * Retourne le QueryBuilder pour le formulaire (filtré sur le nom de l'entreprise)
+     */
+    public function createFindByEntrepriseQueryBuilder(string $nomEntreprise): QueryBuilder
+    {
+        return $this->createQueryBuilder('u')
+            ->join('u.client', 'c')
+            ->where('c.raisonSocial = :entreprise')
+            ->andWhere('u.topActif = :actif')
+            ->setParameter('entreprise', $nomEntreprise)
+            ->setParameter('actif', true)
+            ->orderBy('u.nom', 'ASC');
     }
 }

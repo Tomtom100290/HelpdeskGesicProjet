@@ -55,6 +55,23 @@
 		</tbody>
 	</table>
 
+	<h3>Configuration des logiciels installés :</h3>
+
+	{% if logicielClient is not empty %}
+		<ul>
+			{% for installation in logicielClient %}
+				<li>
+					{{ installation.logiciel.libelle }}
+					- Version :
+					{{ installation.versionLogiciel }}
+				</li>
+			{% endfor %}
+		</ul>
+	{% else %}
+		<p>Aucun logiciel n'est installé pour ce client.</p>
+	{% endif %}
+
+
 	<a href="{{ path('app_client_index') }}">back to list</a>
 
 	<a href="{{ path('app_client_edit', {'id': client.id}) }}">edit</a>

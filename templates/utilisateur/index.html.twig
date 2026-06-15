@@ -30,7 +30,7 @@
 					<td>{{ utilisateur.nom }}</td>
 					<td>{{ utilisateur.prenom }}</td>
 					<td>{{ utilisateur.email }}</td>
-					<td>{{ utilisateur.entreprise }}</td>
+					<td>{{ utilisateur.client ? utilisateur.client.raisonSocial : 'N/A' }}</td>
 					<td>{{ utilisateur.role.label }}</td>
 					<td>{{ utilisateur.dateCreation ? utilisateur.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
 					<td>{{ utilisateur.topActif ? 'Yes' : 'No' }}</td>

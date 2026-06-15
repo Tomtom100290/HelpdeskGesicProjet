@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\TicketRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use App\Enum\StatutTicket;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TicketRepository::class)]
@@ -45,17 +46,17 @@ class Ticket
     #[ORM\Column(name: 'priorite_calculee', type: 'smallint')]
     private int $prioriteCalculee = 0;
 
-    #[ORM\ManyToOne(targetEntity: StatutTicket::class, inversedBy: 'tickets')]
-    #[ORM\JoinColumn(name: 'id_statut', referencedColumnName: 'id_statut', nullable: false)]
-    private StatutTicket $statut;
+    // ✅ Enum au lieu de ManyToOne
+    #[ORM\Column(name: 'statut', type: 'string', enumType: StatutTicket::class)]
+    private StatutTicket $statut = StatutTicket::NOUVEAU;
 
     #[ORM\ManyToOne(targetEntity: LogicielClient::class, inversedBy: 'tickets')]
     #[ORM\JoinColumn(name: 'id_logiciel_client', referencedColumnName: 'id_client_logiciel', nullable: false)]
     private LogicielClient $logicielClient;
 
-    #[ORM\ManyToOne(targetEntity: CategorieTicket::class, inversedBy: 'tickets')]
-    #[ORM\JoinColumn(name: 'id_categorie', referencedColumnName: 'id_categorie', nullable: false)]
-    private CategorieTicket $categorie;
+    //#[ORM\ManyToOne(targetEntity: CategorieTicket::class, inversedBy: 'tickets')]
+    // #[ORM\JoinColumn(name: 'id_categorie', referencedColumnName: 'id_categorie', nullable: false)]
+    // private CategorieTicket $categorie;
 
     #[ORM\Column(name: 'date_creation', type: 'datetime_immutable')]
     private \DateTimeImmutable $dateCreation;
@@ -188,15 +189,15 @@ class Ticket
         return $this;
     }
 
-    public function getCategorie(): CategorieTicket
-    {
-        return $this->categorie;
-    }
-    public function setCategorie(CategorieTicket $c): static
-    {
-        $this->categorie = $c;
-        return $this;
-    }
+    //public function getCategorie(): CategorieTicket
+    //{
+    //    return $this->categorie;
+    //}
+    //public function setCategorie(CategorieTicket $c): static
+    //{
+    //    $this->categorie = $c;
+    //    return $this;
+    //}
 
     public function getDateCreation(): \DateTimeImmutable
     {

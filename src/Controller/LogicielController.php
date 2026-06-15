@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\DTO\InstallationMultipleDTO;
 use App\Entity\Logiciel;
+use App\Entity\LogicielClient;
+use App\Form\InstallationMultipleType;
 use App\Form\LogicielType;
 use App\Repository\LogicielRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -42,6 +45,35 @@ final class LogicielController extends AbstractController
         ]);
     }
 
+    //  Placée ici, cette route fixe est lue AVANT le /{id} générique
+    #[Route('/deployer', name: 'app_logiciel_deployer', methods: ['GET', 'POST'])]
+    public function deployer(Request $request, EntityManagerInterface $em): Response
+    {
+        $dto = new InstallationMultipleDTO();
+        $form = $this->createForm(InstallationMultipleType::class, $dto);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            foreach ($dto->clients as $client) {
+                $installation = new LogicielClient();
+
+                $installation->setLogiciel($dto->logiciel);
+                $installation->setClient($client);
+                $installation->setVersionLogiciel($dto->version);
+
+                $em->persist($installation);
+            }
+            $em->flush();
+
+            $this->addFlash('success', 'Le déploiement a bienété enregistrer.');
+            return $this->redirectToRoute('app_logiciel_deployer');
+        }
+
+        return $this->render('logiciel/deployer.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
     #[Route('/{id}', name: 'app_logiciel_show', methods: ['GET'])]
     public function show(Logiciel $logiciel): Response
     {
@@ -71,7 +103,7 @@ final class LogicielController extends AbstractController
     #[Route('/{id}', name: 'app_logiciel_delete', methods: ['POST'])]
     public function delete(Request $request, Logiciel $logiciel, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$logiciel->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $logiciel->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($logiciel);
             $entityManager->flush();
         }

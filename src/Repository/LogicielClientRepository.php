@@ -16,19 +16,18 @@ class LogicielClientRepository extends ServiceEntityRepository
     /**
      * Retourne les logiciels actifs déployés chez un client donné
      */
-    public function findByClient(int $idClient): array
+    public function findByClient(int $idClient)
     {
         return $this->createQueryBuilder('lc')
             ->join('lc.logiciel', 'l')
             ->addSelect('l')
+            ->join('lc.client', 'c')
+            ->addSelect('c')
             ->andWhere('lc.client = :client')
-            ->andWhere('lc.estActif = :actif')
             ->andWhere('l.topActif = :actif')
             ->setParameter('client', $idClient)
             ->setParameter('actif', true)
-            ->orderBy('l.libelle', 'ASC')
-            ->getQuery()
-            ->getResult();
+            ->orderBy('l.libelle', 'ASC');
     }
 
     /**
