@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+@theme {
+    --color-mon-bleu: oklch(60% 0.1 200);
+    --color-mes-tickets: oklch(85% 0.15 280);
+    --color-charge-de-l-equipe: oklch(60% 0.1 200);
+}
+
 body {
     background-color: skyblue;
 }

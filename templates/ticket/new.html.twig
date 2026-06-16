@@ -1,11 +1,68 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Ticket{% endblock %}
+{% block title %}Nouveau ticket
+{% endblock %}
 
 {% block body %}
-    <h1>Create new Ticket</h1>
+	<div class="min-h-screen bg-gray-50 py-8 px-4">
+		<div class="max-w-3xl mx-auto">
 
-    {{ include('ticket/_form.html.twig') }}
 
-    <a href="{{ path('app_ticket_index') }}">back to list</a>
+			<div class="mb-8">
+				<span class="inline-flex items-center gap-1.5 text-xs font-medium text-blue-700 bg-blue-50 border border-blue-200 rounded-full px-3 py-1 mb-3">
+					<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+					Nouveau ticket
+				</span>
+				<h1 class="text-2xl font-semibold text-gray-900">Créer un ticket</h1>
+				<p class="text-sm text-gray-800 mt-1">Renseignez les informations pour ouvrir une nouvelle demande de support.</p>
+			</div>
+
+			{{ form_start(form, { attr: { class: 'space-y-4' } }) }}
+
+
+			<div class="bg-white border border-gray-200 rounded-xl p-6">
+				<h2 class="text-s font-semibold uppercase tracking-wide text-gray-800 border-b border-gray-100 pb-3 mb-5">
+					Informations générales
+				</h2>
+				{{ form_row(form.titre) }}
+				{{ form_row(form.logicielClient) }}
+				<div class="bg-white border border-gray-200 rounded-xl p-6">
+					<h2 class="text-s font-semibold uppercase tracking-wide text-gray-800 border-b border-gray-100 pb-3 mb-5">
+						Qualification
+					</h2>
+					<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+						{{ form_row(form.impact) }}
+						{{ form_row(form.urgence) }}
+					</div>
+
+				</div>
+				{{ form_row(form.description) }}
+
+			</div>
+
+
+			<div class="bg-white border border-gray-200 rounded-xl p-6">
+				<h2 class="text-s font-semibold uppercase tracking-wide text-gray-800 border-b border-gray-100 pb-3 mb-5">
+					Intervenants
+				</h2>
+				<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+					{{ form_row(form.destinataire) }}
+				</div>
+			</div>
+
+
+			<div class="flex items-center justify-between pt-2 pb-6">
+				<a href="{{ path('app_ticket_index') }}" class="inline-flex items-center gap-2 text-sm text-gray-500 border border-gray-200 bg-white hover:bg-gray-50 px-4 py-2 rounded-lg transition-colors">
+					← Retour à la liste
+				</a>
+				<button type="submit" class="inline-flex items-center gap-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 px-5 py-2.5 rounded-lg transition-colors shadow-sm">
+					✓ Créer le ticket
+				</button>
+			</div>
+
+			{{ form_end(form) }}
+
+		</div>
+	</div>
 {% endblock %}

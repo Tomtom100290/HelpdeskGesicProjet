@@ -168,6 +168,21 @@ class Ticket
         $this->prioriteCalculee = $p;
         return $this;
     }
+    //Calcul de la priorité en fonction de l'impact et de l'urgence
+    public function getLibellePriorite(): string
+    {
+        if ($this->urgence->getNote() >= 17) {
+            return 'URGENTE';
+        }
+
+        return match (true) {
+            $this->prioriteCalculee >= 17 => 'URGENTE',
+            $this->prioriteCalculee >= 12 => 'HAUTE',
+            $this->prioriteCalculee >= 8  => 'NORMALE',
+            $this->prioriteCalculee >= 3  => 'BASSE',
+            default                       => 'TRÈS BASSE',
+        };
+    }
 
     public function getStatut(): StatutTicket
     {

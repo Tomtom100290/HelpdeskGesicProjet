@@ -4,7 +4,7 @@ namespace App\Enum;
 
 enum StatutTicket: string
 {
-    case NOUVEAU        = 'a_faire';
+    case NOUVEAU        = 'nouveau';
     case EN_COURS       = 'en_cours';
     case EN_ATTENTE     = 'en_attente';
     case RESOLU         = 'résolu';

@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Ticket;
+use App\Form\NvxTicketType;
 use App\Form\TicketType;
 use App\Repository\TicketRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\UtilisateurRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,25 +25,30 @@ final class TicketController extends AbstractController
     }
 
     #[Route('/new', name: 'app_ticket_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $em, UtilisateurRepository $ur): Response
     {
         $ticket = new Ticket();
-        $form = $this->createForm(TicketType::class, $ticket, [
-            'id_client' => 1, // ou récupéré dynamiquement
+        $form = $this->createForm(NvxTicketType::class, $ticket, [
+            'id_client' => 2,
         ]);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($ticket);
-            $entityManager->flush();
+            $fakeUser = $ur->find(1);
+            $ticket->setCreateur($fakeUser);
 
-            return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
+            // Calcul priorité = note impact × note urgence
+            $score = $ticket->getImpact()->getNote() * $ticket->getUrgence()->getNote();
+            $ticket->setPrioriteCalculee($score);
+
+            $em->persist($ticket);
+            $em->flush();
+
+            return $this->redirectToRoute('app_ticket_index');
         }
 
-        return $this->render('ticket/new.html.twig', [
-            'ticket' => $ticket,
-            'form' => $form,
-        ]);
+        return $this->render('ticket/new.html.twig', ['form' => $form]);
     }
 
     #[Route('/{id}/edit', name: 'app_ticket_edit', methods: ['GET', 'POST'])]

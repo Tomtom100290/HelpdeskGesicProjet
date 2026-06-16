@@ -1,0 +1,33 @@
+{# templates/dashboard/client.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace Support - Helpflow
+{% endblock %}
+
+{% block body %}
+	<h1 class="text-center text-4xl mt-8 mb-8 font-semibold ">
+		Mon Espace Support</h1>
+	<div
+		class="blocDashboard w-full flex">
+
+
+		<!--Nouveaux tickets-->
+		<div class="blocDashboard w-14 flex-1 bg-mon-bleu m-[16px] p-[8px] h-[80vh] rounded-xl">
+			<h2 class="text-center pt-4 text-2xl font-semibold">
+				Nouveaux tickets
+			</h2>
+		</div>
+		<!--Tickets de l'utilisateur-->
+		<div class="blocDashboard w-62 flex-1 bg-mes-tickets m-[16px] p-[8px] h-[80vh] rounded-xl">
+			<h2 class="text-center pt-4 text-2xl font-semibold">
+				Mes tickets
+			</h2>
+		</div>
+		<!--Charge de l'équipe-->
+		<div class="blocDashboard w-24 flex-2 bg-charge-de-l-equipe m-[16px] p-[8px] h-[80vh] rounded-xl">
+			<h2 class="text-center pt-4 text-2xl font-semibold">
+				Charge de l'équipe
+			</h2>
+		</div>
+	</div>
+{% endblock %}

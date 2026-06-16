@@ -27,15 +27,32 @@
 	<body>
 		<main class="flex w-full min-h-screen">
 			<aside class="min-w-[180px] w-[20%] top-0 left-0 bg-gray-900 text-white p-4">
-				<nav class="space-y-2">
-					<a href="/" class="block p-2 hover:bg-gray-700 rounded">Home</a>
-					<a href="/events" class="block p-2 hover:bg-gray-700 rounded">Events</a>
-					<a href="/orders" class="block p-2 hover:bg-gray-700 rounded">Orders</a>
-					<a href="/settings" class="block p-2 hover:bg-gray-700 rounded">Settings</a>
-				</nav>
-			</aside>
-			<div class="w-[70%]"> {% block body %}{% endblock %}
+				<nav
+					class="space-y-2">
+					<!--Liens de navigation-->
+					<div class="liens">
+						<a href="{{ path('app_ticket_new') }}">Nouveau ticket</a>
+					</div>
+					<!--Séparateur-->
+					<div class="w-[90%] h-[2px] bg-gray-600 mx-auto"></div>
+					<!--stats-->
+					<div class="stats mx-auto">
+						<div class="start-1 h-[150px] w-[150px] rounded-xl bg-amber-200 mt-[16px] flex flex-col justify-center items-center mx-auto">
+							<h3 class="text-black text-center text-2xl  ">Tickets</br>
+							ouvert
+						</h3>
+						<p class="text-black text-center text-4xl font-bold mt-2">10</p>
+					</div>
+					<div class="start-2 h-[150px] w-[150px] rounded-xl bg-green-100 mt-[16px] flex flex-col justify-center items-center mx-auto">
+						<h3 class="text-black text-center text-2xl ">Tickets</br>
+						en cours</h3>
+					<p class="text-black text-center text-4xl font-bold mt-2 ">4</p>
 				</div>
-			</main>
+
+			</nav>
+		</aside>
+		<div class="flex-1"> {% block body %}{% endblock %}
+			</div>
 		</body>
 	</html>
+</main></body></html></body></html>
