@@ -1,0 +1,12 @@
+<!--HORLOGE pour menu-->
+<span id="clock"></span>
+
+<script>
+	function updateClock() {
+const now = new Date();
+document.getElementById('clock').textContent = now.toLocaleTimeString('fr-FR');
+}
+
+updateClock(); // affichage immédiat
+setInterval(updateClock, 1000); // mise à jour chaque seconde
+</script>

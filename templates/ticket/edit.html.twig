@@ -1,13 +1,88 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Ticket{% endblock %}
+{% block title %}Éditer le ticket #{{ ticket.id }}
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Ticket</h1>
+	<div class="min-h-screen bg-gray-50 py-8 px-4">
+		<div class="max-w-3xl mx-auto">
 
-    {{ include('ticket/_form.html.twig', {'button_label': 'Update'}) }}
+			<div class="flex items-center justify-between mb-6">
+				<div>
+					<h1 class="text-2xl font-semibold text-gray-900">Éditer le ticket #{{ ticket.id }}</h1>
+					<p class="text-sm text-gray-500 mt-1">{{ ticket.titre }}</p>
+				</div>
+				<div id="statut-{{ ticket.id }}">
+					<span class="inline-flex text-xs font-medium px-2 py-1 rounded-full {{ ticket.statut.color() }}">
+						{{ ticket.statut.label() }}
+					</span>
+				</div>
+			</div>
 
-    <a href="{{ path('app_ticket_index') }}">back to list</a>
+			{{ include('ticket/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    {{ include('ticket/_delete_form.html.twig') }}
+			<div class="flex items-center justify-between mt-4">
+				<a href="{{ path('app_ticket_index') }}" class="inline-flex items-center gap-2 text-sm text-gray-500 border border-gray-200 bg-white hover:bg-gray-50 px-4 py-2 rounded-lg transition-colors">
+					← Retour à la liste
+				</a>
+				{{ include('ticket/_delete_form.html.twig') }}
+			</div>
+
+		</div>
+	</div>
+
+	<script>
+		const STATUTS = {
+{% for statut in statuts %}
+'{{ statut.value }}' : {
+label: '{{ statut.label() }}',
+css: '{{ statut.color() }}'
+},{% endfor %}
+};
+
+const ticketId = parseInt('{{ ticket.id }}');
+
+const hubUrl = new URL('http://127.0.0.1:3000/.well-known/mercure');
+hubUrl.searchParams.append('topic', 'ticket/liste');
+const es = new EventSource(hubUrl);
+
+es.onerror = (e) => {
+console.error('Mercure erreur');
+console.log('readyState:', es.readyState);
+
+if (es.readyState === EventSource.CLOSED) {
+console.log('Connexion Mercure fermée');
+}
+};
+
+es.onmessage = (e) => {
+console.log('Mercure reçu :', e.data);
+const data = JSON.parse(e.data);
+
+if (parseInt(data.id) !== ticketId) 
+return;
+
+
+
+const statutCell = document.getElementById (`statut-${
+data.id
+}`);
+if (statutCell) {
+const info = STATUTS[data.statut] ?? {
+label: data.statut,
+css: 'bg-gray-100 text-gray-600'
+};
+statutCell.innerHTML = `
+            <span class="inline-flex text-xs font-medium px-2 py-1 rounded-full ${
+info.css
+}">
+                ${
+info.label
+}${
+data.assigne ? ' — ' + data.assigne : ''
+}
+            </span>`;
+}
+};
+	</script>
 {% endblock %}

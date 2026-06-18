@@ -7,6 +7,7 @@
 			{% endblock %}
 		</title>
 		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+		<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 		{% block stylesheets %}
 			<link rel="stylesheet" href="{{ asset('styles/app.css') }}">
 		{% endblock %}
@@ -22,19 +23,39 @@
 			<meta name="frankenphp-hot-reload:url" content="{{ frankenphpHotReload }}">
 			<script src="https://cdn.jsdelivr.net/npm/idiomorph"></script>
 			<script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"></script>
 		{% endif %}
 	</head>
 	<body>
 		<main class="flex w-full min-h-screen">
-			<aside class="min-w-[180px] w-[20%] top-0 left-0 bg-gray-900 text-white p-4">
+			<aside class="min-w-[180px] w-[20%] top-0 left-0 bg-gray-500 text-white p-4">
 				<nav
 					class="space-y-2">
+					<!--Affichage HORLOGE-->
+					<div class="horloge">{% include 'horloge/afficheheure.html.twig' %}</div>
 					<!--Liens de navigation-->
 					<div class="liens">
-						<a href="{{ path('app_ticket_new') }}">Nouveau ticket</a>
+						<a href="{{ path('app_ticket_index') }}" style="display: flex; align-items: center; gap: 6px; color: white; text-decoration: none;">
+							<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 640 640" width="24" height="24" fill="white">
+								<path d="M304 70.1C313.1 61.9 326.9 61.9 336 70.1L568 278.1C577.9 286.9 578.7 302.1 569.8 312C560.9 321.9 545.8 322.7 535.9 313.8L527.9 306.6L527.9 511.9C527.9 547.2 499.2 575.9 463.9 575.9L175.9 575.9C140.6 575.9 111.9 547.2 111.9 511.9L111.9 306.6L103.9 313.8C94 322.6 78.9 321.8 70 312C61.1 302.2 62 287 71.8 278.1L304 70.1zM320 120.2L160 263.7L160 512C160 520.8 167.2 528 176 528L224 528L224 424C224 384.2 256.2 352 296 352L344 352C383.8 352 416 384.2 416 424L416 528L464 528C472.8 528 480 520.8 480 512L480 263.7L320 120.3zM272 528L368 528L368 424C368 410.7 357.3 400 344 400L296 400C282.7 400 272 410.7 272 424L272 528z"/>
+							</svg>
+							Accueil
+						</a>
+						<a href="{{ path('app_ticket_new') }}" style="display: flex; align-items: center; gap: 6px; color: white; text-decoration: none;">
+							<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 640 640" width="24" height="24" fill="white">
+								<path d="M352 128C352 110.3 337.7 96 320 96C302.3 96 288 110.3 288 128L288 288L128 288C110.3 288 96 302.3 96 320C96 337.7 110.3 352 128 352L288 352L288 512C288 529.7 302.3 544 320 544C337.7 544 352 529.7 352 512L352 352L512 352C529.7 352 544 337.7 544 320C544 302.3 529.7 288 512 288L352 288L352 128z"/>
+							</svg>
+							Nouveau ticket
+						</a>
+						<!--Séparateur-->
+						<div class="w-[90%] h-[2px] bg-gray-600 my-[16px]"></div>
+						<div class="paramAvancer"></div>
+						<h3>Paramètres avancés</h3>
+						<a href="{{ path('app_logiciel_index') }}">Logiciel</a>
+						<a href="{{ path('app_client_index') }}">Client</a>
 					</div>
 					<!--Séparateur-->
-					<div class="w-[90%] h-[2px] bg-gray-600 mx-auto"></div>
+					<div class="w-[90%] h-[2px] bg-gray-600  my-[16px]"></div>
 					<!--stats-->
 					<div class="stats mx-auto">
 						<div class="start-1 h-[150px] w-[150px] rounded-xl bg-amber-200 mt-[16px] flex flex-col justify-center items-center mx-auto">
@@ -50,9 +71,7 @@
 				</div>
 
 			</nav>
-		</aside>
-		<div class="flex-1"> {% block body %}{% endblock %}
-			</div>
 		</body>
-	</html>
-</main></body></html></body></html>
+	</body>
+</html></aside><div class="flex-1"> {% block body %}{% endblock %}
+</div></body></html></main></body></html></body></html>
