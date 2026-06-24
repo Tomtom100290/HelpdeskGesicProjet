@@ -81,6 +81,37 @@ li {
     font-family: 'DM Sans', sans-serif;
 }
 
+/* ---Base.html.twig----*/
+.UtilisateurID {
+    width: 100%;
+    margin: 0 4px;
+    background-color: rgba(67, 67, 75, 0);
+    height: 140px;
+    padding: 2px;
+}
+
+.imgUtilisateur {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgb(233, 230, 230);
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    margin-bottom: 4px;
+    background-image: url('../images/imageUtilisateurParDefaut.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+#mailrole {
+    font-style: italic;
+    color: #dcdcdc;
+    font-size: 14px;
+}
+
 /* ─── CARD ──────────────────────────────────────────────── */
 .card {
     width: 280px;

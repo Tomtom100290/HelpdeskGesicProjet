@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\StatutTicket;
 use App\Entity\Ticket;
 use App\Entity\Utilisateur;
+use App\Enum\StatutTicket as EnumStatutTicket;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -72,22 +74,39 @@ class TicketRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
+    //**Affiche tous les tickets d'un client, sauf les nouveaux */
+    public function findByClientSansNouveau(Utilisateur $user): array
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.createur = :user')
+            ->andWhere('t.statut != :statut')
+            ->setParameter('user', $user)
+            ->setParameter('statut', EnumStatutTicket::NOUVEAU->value)
+            ->orderBy('t.dateCreation', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
     /**
      * Tickets assignés à un développeur
      */
     public function findByAssigne(Utilisateur $developpeur): array
     {
         return $this->createQueryBuilder('t')
-            ->join('t.statut', 's')
-            ->join('t.priorite', 'p')
-            ->join('t.logicielClient', 'lc')
-            ->join('lc.client', 'cl')
-            ->addSelect('s', 'p', 'lc', 'cl')
+            // ❌ SUPPRIMÉ : ->join('t.priorite', 'p') car ce n'est pas une relation !
+
+            // 🛠️ Changement en leftJoin pour ne pas bloquer les tickets incomplets
+            ->leftJoin('t.logicielClient', 'lc')
+            ->leftJoin('lc.client', 'cl')
+            ->addSelect('lc', 'cl')
+
+            // On filtre sur le développeur passé en paramètre
             ->andWhere('t.assigne = :dev')
             ->setParameter('dev', $developpeur)
-            ->orderBy('p.niveauCriticite', 'ASC')
+
+            // 🎯 CORRIGÉ : On trie sur la propriété numérique directe 'prioriteCalculee'
+            ->orderBy('t.prioriteCalculee', 'DESC')
             ->addOrderBy('t.dateCreation', 'ASC')
+
             ->getQuery()
             ->getResult();
     }
@@ -98,19 +117,21 @@ class TicketRepository extends ServiceEntityRepository
     public function findNonAssignes(): array
     {
         return $this->createQueryBuilder('t')
-            ->join('t.statut', 's')
-            ->join('t.priorite', 'p')
-            ->join('t.categorie', 'c')
-            ->join('t.logicielClient', 'lc')
-            ->join('lc.client', 'cl')
-            ->join('lc.logiciel', 'l')
-            ->join('t.createur', 'u')
-            ->addSelect('s', 'p', 'c', 'lc', 'cl', 'l', 'u')
-            ->andWhere('t.assigne IS NULL')
-            ->andWhere('s.libelle = :statut')
-            ->setParameter('statut', 'Nouveau')
-            ->orderBy('p.niveauCriticite', 'ASC')
+            // Jointures facultatives pour éviter les erreurs si un champ est vide
+            ->leftJoin('t.logicielClient', 'lc')
+            ->leftJoin('lc.client', 'cl')
+            ->leftJoin('lc.logiciel', 'l')
+            ->leftJoin('t.createur', 'u')
+            ->addSelect('lc', 'cl', 'l', 'u')
+
+            // 🎯 UNIQUE CONDITION : Le statut doit être "nouveau"
+            ->where('t.statut = :statut')
+            ->setParameter('statut', \App\Enum\StatutTicket::NOUVEAU)
+
+            // Les tris pour avoir les plus urgents en premier
+            ->orderBy('t.prioriteCalculee', 'DESC')
             ->addOrderBy('t.dateCreation', 'ASC')
+
             ->getQuery()
             ->getResult();
     }

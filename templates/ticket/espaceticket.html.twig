@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+{% block title %}Espace tickets
+{% endblock %}
+{% block body %}
+	<div class="flex items-center justify-between mb-6">
+		<h1 class="">Espace Support</h1>
+
+	</div>
+
+	<div
+		class="indexSupport">
+
+		<!--..........Bloc des nouveaux tickets.............-->
+		<div class="BlocTickets">
+			<h2>Nouveaux tickets</h2>
+			<div id="tickets-container">
+
+				{% if tickets is empty %}
+					<p class="text-gray-400">Aucun ticket trouvé</p>
+				{% endif %}
+				{% for ticket in tickets %}
+					<div class="card" data-ticket-id="{{ ticket.id }}">
+						<div class="head">
+							<div class="clientId">#{{ ticket.id }}</div>
+							<p class="priority">{{ ticket.libellePriorite }}</p>
+						</div>
+
+						<div class="ticket-body">
+							<h3>{{ ticket.titre }}</h3>
+							<p class="descripTicket">{{ ticket.description }}</p>
+						</div>
+
+						<div class="foot">
+							<div class="datecreat">
+								{{ ticket.dateCreation|date('d/m/Y') }}
+							</div>
+
+							<div class="actions">
+								<a href="{{ path('app_ticket_show', {'id': ticket.id}) }}" class="card-link">
+									Voir
+								</a>
+								<a href="{{ path('app_ticket_edit', {'id': ticket.id}) }}" class="card-link">
+									Éditer
+								</a>
+							</div>
+						</div>
+
+						<div id="statut-{{ ticket.id }}" class="status">
+							<span class="libstatus {{ ticket.statut.color() }}">
+								{{ ticket.statut.label() }}
+							</span>
+
+							{% if ticket.statut.value == 'nouveau' %}
+								<button data-action="prendre-en-charge" data-id="{{ ticket.id }}" class="takeit">
+									Prendre en charge
+								</button>
+							{% endif %}
+						</div>
+					</div>
+				{% else %}
+					<p class="text-gray-400">Aucun ticket trouvé</p>
+				{% endfor %}
+			</div>
+		</div>
+		<!--..........FIN Bloc des nouveaux tickets.............-->
+	{% endblock %}
+	<script></script>

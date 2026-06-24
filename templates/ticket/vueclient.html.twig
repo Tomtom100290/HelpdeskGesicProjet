@@ -1,0 +1,247 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des tickets
+{% endblock %}
+
+{% block body %}
+	<div class="bg-gray-50 py-8 px-4" style="box-sizing: border-box; height: 100vh; overflow: hidden;">
+		<div class="flex items-center justify-between mb-6">
+			<h1 class="">Espace client</h1>
+
+		</div>
+
+		<div
+			class="indexSupport">
+
+			<!--..........Bloc des nouveaux tickets.............-->
+			<div class="BlocTickets">
+				<h2>Mes nouveaux tickets</h2>
+				<div id="ticket
+																s-container">
+
+
+					{% for nvxticket in nouveauxtickets %}
+						<div class="card" data-ticket-id="{{ nvxticket.id }}">
+							<div class="head">
+								<div class="clientId">#{{ nvxticket.id }}</div>
+								<p class="priority">{{ nvxticket.libellePriorite }}</p>
+							</div>
+
+							<div class="ticket-body">
+								<h3>{{ nvxticket.titre }}</h3>
+								<p class="descripTicket">{{ nvxticket.description }}</p>
+							</div>
+
+							<div class="foot">
+								<div class="datecreat">
+									{{ nvxticket.dateCreation|date('d/m/Y') }}
+								</div>
+
+								<div class="actions">
+									<a href="{{ path('app_ticket_show', {'id': nvxticket.id}) }}" class="card-link">
+										Voir
+									</a>
+									<a href="{{ path('app_ticket_edit', {'id': nvxticket.id}) }}" class="card-link">
+										Éditer
+									</a>
+								</div>
+							</div>
+
+							<div id="statut-{{ nvxticket.id }}" class="status">
+								<span class="libstatus {{ nvxticket.statut.color() }}">
+									{{ nvxticket.statut.label() }}
+								</span>
+
+
+							</div>
+						</div>
+					{% else %}
+						<p class="text-gray-400">Pas de nouveaux Tickets</p>
+					{% endfor %}
+				</div>
+			</div>
+			<!--..........FIN Bloc des nouveaux tickets.............-->
+			<!--..........Bloc des Tickets pris en charge...........-->
+			<div class="BlocTickets">
+				<h2>Mes Tickets "en cours"</h2>
+				<div id="mestickets-container">
+
+					{% if tickets is empty %}
+						<p class="text-gray-400">Aucun ticket trouvé</p>
+					{% endif %}
+					{% for ticket in tickets %}
+						<div class="cardEnCours" data-ticket-id="{{ ticket.id }}">
+							<div class="head">
+								<div class="clientId">#{{ ticket.id }}</div>
+								<p class="priority">{{ ticket.libellePriorite }}</p>
+							</div>
+
+							<div class="ticket-body">
+								<h3>{{ ticket.titre }}</h3>
+								<p class="descripTicket">{{ ticket.description }}</p>
+							</div>
+
+							<div class="foot">
+								<div class="datecreat">
+									{{ ticket.dateCreation|date('d/m/Y') }}
+								</div>
+
+								<div class="actions">
+									<a href="{{ path('app_ticket_show', {'id': ticket.id}) }}" class="card-link">
+										Voir
+									</a>
+									<a href="{{ path('app_ticket_edit', {'id': ticket.id}) }}" class="card-link">
+										Éditer
+									</a>
+								</div>
+							</div>
+
+
+						</div>
+					{% else %}
+						<p class="text-gray-400">Aucun ticket trouvé</p>
+					{% endfor %}
+				</div>
+			</div>
+			<!--..........FIN Bloc des Tickets pris en charge...........-->
+
+		</div>
+	</div>
+	<script>
+
+
+		const STATUTS = {
+
+{% for statut in statuts %}
+
+'{{ statut.value }}' : {
+label:'{{ statut.label() }}',
+css:'{{ statut.color() }}'
+},{% endfor %}
+
+};
+
+
+const hubUrl = new URL('http://127.0.0.1:3000/.well-known/mercure');
+
+
+hubUrl.searchParams.append('topic', 'ticket/liste');
+
+
+const es = new EventSource(hubUrl);
+
+
+es.onerror = () => {
+
+console.error("Mercure erreur", es.readyState);
+
+};
+
+
+es.onmessage = (e) => {
+
+
+const data = JSON.parse(e.data);
+
+
+const card = document.querySelector (`[data-ticket-id="${
+data.id
+}"]`);
+
+
+if (! card) 
+return;
+
+
+
+const statut = document.getElementById (`statut-${
+data.id
+}`);
+
+
+if (statut) {
+
+
+const info = STATUTS[data.statut] ?? {
+
+label: data.statut,
+
+css: 'bg-gray-100 text-gray-600'
+
+};
+
+
+statut.innerHTML = `
+
+<span class="inline-flex text-xs font-medium px-2 py-1 rounded-full ${
+info.css
+}">
+
+${
+info.label
+}
+
+${
+data.assigne ? ' — ' + data.assigne : ''
+}
+
+</span>
+
+`;
+
+}
+
+
+if (data.statut !== 'nouveau') {
+
+
+const btn = card.querySelector('[data-action="prendre-en-charge"]');
+
+
+if (btn) 
+btn.remove();
+
+
+
+}
+
+
+card.style.transform = "scale(1.03)";
+
+
+setTimeout(() => {
+
+card.style.transform = "";
+
+}, 500);
+
+
+};
+
+
+document.addEventListener('click', async (e) => {
+
+
+const btn = e.target.closest('[data-action="prendre-en-charge"]');
+
+
+if (! btn) 
+return;
+
+
+
+btn.disabled = true;
+
+btn.textContent = "En cours...";
+
+
+await fetch (`/ticket/${
+btn.dataset.id
+}/prendre-en-charge`, {method: 'POST'});
+
+
+});
+	</script>
+
+
+{% endblock %}

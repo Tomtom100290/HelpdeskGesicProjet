@@ -1,0 +1,14 @@
+{
+    auto_https off
+    admin off
+}
+
+:3000 {
+    mercure {
+        publisher_jwt e89ceaf739142fc3c7d182a86ed52286be4053656d17f5e9b8d68429fcae943c
+        subscriber_jwt e89ceaf739142fc3c7d182a86ed52286be4053656d17f5e9b8d68429fcae943c
+        anonymous
+        cors_origins http://127.0.0.1:8000
+    }
+    respond /healthz 200
+}

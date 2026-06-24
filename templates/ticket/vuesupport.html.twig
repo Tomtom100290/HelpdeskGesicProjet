@@ -1,0 +1,270 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des tickets
+{% endblock %}
+
+{% block body %}
+	<div class="bg-gray-50 py-8 px-4" style="box-sizing: border-box; height: 100vh; overflow: hidden;">
+		<div class="flex items-center justify-between mb-6">
+			<h1>Espace Support</h1>
+		</div>
+
+		<div class="indexSupport">
+
+			<div class="BlocTickets">
+				<h2>Nouveaux tickets</h2>
+				<div id="tickets-container">
+					{% if nouveauxtickets is empty %}
+						<p class="text-gray-400 empty-message">Aucun ticket trouvé</p>
+					{% endif %}
+					{% for nouveauxticket in nouveauxtickets %}
+						<div class="card" data-ticket-id="{{ nouveauxticket.id }}">
+							<div class="head">
+								<div class="clientId">#{{ nouveauxticket.id }}</div>
+								<p class="priority">{{ nouveauxticket.libellePriorite }}</p>
+							</div>
+
+							<div class="ticket-body">
+								<h3>{{ nouveauxticket.titre }}</h3>
+								<p class="descripTicket">{{ nouveauxticket.description }}</p>
+							</div>
+
+							<div class="foot">
+								<div class="datecreat">
+									{{ nouveauxticket.dateCreation|date('d/m/Y') }}
+								</div>
+
+								<div class="actions">
+									<a href="{{ path('app_ticket_show', {'id': nouveauxticket.id}) }}" class="card-link">Voir</a>
+									<a href="{{ path('app_ticket_edit', {'id': nouveauxticket.id}) }}" class="card-link">Éditer</a>
+								</div>
+							</div>
+
+							<div id="statut-{{ nouveauxticket.id }}" class="status">
+								<span class="libstatus {{ nouveauxticket.statut.color() }}">
+									{{ nouveauxticket.statut.label() }}
+								</span>
+
+								{% if nouveauxticket.statut.value == 'nouveau' %}
+									<button data-action="prendre-en-charge" data-id="{{ nouveauxticket.id }}" class="takeit">
+										Prendre en charge
+									</button>
+								{% endif %}
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="BlocTickets">
+				<h2>Mes Tickets "en cours"</h2>
+				<div id="mestickets-container">
+					{% if ticketsassignes is empty %}
+						<p class="text-gray-400 empty-message">Aucun ticket trouvé</p>
+					{% endif %}
+					{% for ticketsassigne in ticketsassignes %}
+						<div class="card" data-ticket-id="{{ ticketsassigne.id }}">
+							<div class="head">
+								<div class="clientId">#{{ ticketsassigne.id }}</div>
+								<p class="priority">{{ ticketsassigne.libellePriorite }}</p>
+							</div>
+
+							<div class="ticket-body">
+								<h3>{{ ticketsassigne.titre }}</h3>
+								<p class="descripTicket">{{ ticketsassigne.description }}</p>
+							</div>
+
+							<div class="foot">
+								<div class="datecreat">
+									{{ ticketsassigne.dateCreation|date('d/m/Y') }}
+								</div>
+
+								<div class="actions">
+									<a href="{{ path('app_ticket_show', {'id': ticketsassigne.id}) }}" class="card-link">Voir</a>
+									<a href="{{ path('app_ticket_edit', {'id': ticketsassigne.id}) }}" class="card-link">Éditer</a>
+								</div>
+							</div>
+
+							<div id="statut-{{ ticketsassigne.id }}" class="status">
+								<span class="libstatus {{ ticketsassigne.statut.color() }}">
+									{{ ticketsassigne.statut.label() }}
+								</span>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="BlocEquipe">
+				<h2>Charge de l'Équipe</h2>
+				<div id="equipe-container">
+					{% if tickets is empty %}
+						<p class="text-gray-400">Aucun ticket trouvé</p>
+					{% endif %}
+					{% for ticket in tickets %}
+						<div class="card" data-ticket-id="{{ ticket.id }}">
+							<div class="head">
+								<div class="clientId">#{{ ticket.id }}</div>
+								<p class="priority">{{ ticket.libellePriorite }}</p>
+							</div>
+
+							<div class="ticket-body">
+								<h3>{{ ticket.titre }}</h3>
+								<p class="descripTicket">{{ ticket.description }}</p>
+							</div>
+
+							<div class="foot">
+								<div class="datecreat">
+									{{ ticket.dateCreation|date('d/m/Y') }}
+								</div>
+
+								<div class="actions">
+									<a href="{{ path('app_ticket_show', {'id': ticket.id}) }}" class="card-link">Voir</a>
+									<a href="{{ path('app_ticket_edit', {'id': ticket.id}) }}" class="card-link">Éditer</a>
+								</div>
+							</div>
+
+							<div id="statut-{{ ticket.id }}" class="status">
+								<span class="libstatus {{ ticket.statut.color() }}">
+									{{ ticket.statut.label() }}
+								</span>
+
+								{% if ticket.statut.value == 'nouveau' %}
+									<button data-action="prendre-en-charge" data-id="{{ ticket.id }}" class="takeit">
+										Prendre en charge
+									</button>
+								{% endif %}
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		(function () { // Ferme l'ancienne connexion si elle existe
+if (window._mercureEs) {
+window._mercureEs.close();
+}
+
+const currentUserId = {{ app.user.id }};
+
+const STATUTS = {
+{% for statut in statuts %}
+'{{ statut.value }}' : {
+label: '{{ statut.label() }}',
+css: '{{ statut.color() }}'
+},{% endfor %}
+};
+
+const hubUrl = new URL('http://127.0.0.1:3000/.well-known/mercure');
+hubUrl.searchParams.append('topic', 'ticket/liste');
+
+window._mercureEs = new EventSource(hubUrl);
+const es = window._mercureEs;
+
+es.onerror = () => console.error("Mercure erreur", es.readyState);
+
+es.onmessage = (e) => {
+const data = JSON.parse(e.data);
+console.log('Mercure reçu:', data);
+
+if (data.statut === 'en_cours') { // 1. Supprimer du bloc "Nouveaux tickets"
+const cardNouveau = document.querySelector (`#tickets-container [data-ticket-id="${
+data.id
+}"]`);
+if (cardNouveau) {
+cardNouveau.style.opacity = "0";
+cardNouveau.style.transition = "all 0.4s ease";
+setTimeout(() => cardNouveau.remove(), 400);
+}
+
+// 2. Si c'est MOI → ajouter dans "Mes tickets"
+if (parseInt(data.assigneId) === parseInt(currentUserId)) {
+const colonneMesTickets = document.getElementById('mestickets-container');
+const emptyMsg = colonneMesTickets.querySelector('.empty-message');
+if (emptyMsg) 
+emptyMsg.remove();
+
+
+const nouvelleCard = document.createElement('div');
+nouvelleCard.className = 'card';
+nouvelleCard.dataset.ticketId = data.id;
+nouvelleCard.style.opacity = "0";
+nouvelleCard.style.transition = "all 0.4s ease";
+nouvelleCard.innerHTML = `
+                    <div class="head">
+                        <div class="clientId">#${
+data.id
+}</div>
+                    </div>
+                    <div id="statut-${
+data.id
+}" class="status">
+                        <span class="libstatus ${
+STATUTS['en_cours'] ?. css ?? ''
+}">
+                            ${
+STATUTS['en_cours'] ?. label ?? 'En cours'
+}
+                        </span>
+                    </div>
+                `;
+
+colonneMesTickets.prepend(nouvelleCard);
+setTimeout(() => {
+nouvelleCard.style.opacity = "1";
+nouvelleCard.style.transform = "scale(1.03)";
+setTimeout(() => nouvelleCard.style.transform = "", 300);
+}, 50);
+}
+
+// 3. Mettre à jour la carte dans "Charge de l'équipe"
+const cardEquipe = document.querySelector (`#equipe-container [data-ticket-id="${
+data.id
+}"]`);
+if (cardEquipe) {
+const statutDiv = document.getElementById (`statut-${
+data.id
+}`);
+if (statutDiv) {
+const info = STATUTS[data.statut] ?? {
+label: data.statut,
+css: 'bg-gray-100 text-gray-600'
+};
+statutDiv.innerHTML = `
+                        <span class="libstatus ${
+info.css
+}">
+                            ${
+info.label
+}${
+data.assigne ? ' — ' + data.assigne : ''
+}
+                        </span>
+                    `;
+}
+const btn = cardEquipe.querySelector('[data-action="prendre-en-charge"]');
+if (btn) 
+btn.remove();
+
+}
+}
+};
+
+document.addEventListener('click', async (e) => {
+const btn = e.target.closest('[data-action="prendre-en-charge"]');
+if (! btn) 
+return;
+
+
+btn.disabled = true;
+btn.textContent = "En cours...";
+
+await fetch (`/ticket/${
+btn.dataset.id
+}/prendre-en-charge`, {method: 'POST'});
+});
+
+})();
+	</script>
+{% endblock %}

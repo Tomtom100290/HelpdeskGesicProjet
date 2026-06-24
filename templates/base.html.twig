@@ -31,6 +31,27 @@
 			<aside class="min-w-[180px] w-[20%] top-0 left-0 bg-gray-500 text-white p-4">
 				<nav
 					class="space-y-2">
+					<!--Récupération de l'utilisateur-->
+					<div class="UtilisateurID">
+						<div class="imgUtilisateur"></div>
+						{% if app.user %}
+							<p>Bonjour,
+								{{ app.user.prenom }}
+								{{ app.user.nom }}
+								!</p>
+
+							<p id="mailrole">
+								{{ app.user.email }}
+								-
+								{{ app.user.role.label() }}</p>
+
+							<a href="{{ path('app_logout') }}">Se déconnecter</a>
+						{% else %}
+							<a href="{{ path('app_login') }}">Se Connecter</a>
+						{% endif %}
+						<!--FIN Récupération de l'utilisateur-->
+					</div>
+
 					<!--Affichage HORLOGE-->
 					<div class="horloge">{% include 'horloge/afficheheure.html.twig' %}</div>
 					<!--Liens de navigation-->
@@ -73,5 +94,4 @@
 			</nav>
 		</body>
 	</body>
-</html></aside><div class="flex-1"> {% block body %}{% endblock %}
-</div></body></html></main></body></html></body></html>
+</html></body></html></aside><div class="flex-1"> {% block body %}{% endblock %}</div></body></html></main></body></html></body></html>

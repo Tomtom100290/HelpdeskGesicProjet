@@ -2,13 +2,12 @@
 
 namespace App\Controller;
 
-
 use App\Entity\Ticket;
+use App\Entity\Utilisateur;
 use App\Form\NvxTicketType;
 use App\Form\TicketType;
 use App\Repository\TicketRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\UtilisateurRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,28 +20,58 @@ use App\Enum\StatutTicket;
 #[Route('/ticket')]
 final class TicketController extends AbstractController
 {
-    #[Route(name: 'app_ticket_index', methods: ['GET'])]
+    #[Route(name: 'app_ticket_index', methods: ['GET'])] // 👈 Renommé en app_ticket_index (ton point d'entrée global)
     public function index(TicketRepository $ticketRepository): Response
     {
-        return $this->render('ticket/index.html.twig', [
-            'tickets' => $ticketRepository->findAll(),
+        /** @var \App\Entity\Utilisateur $user */
+        $user = $this->getUser();
+        $roles = $user->getRoles();
+
+        // 1. Si c'est le support (ADMIN ou DEVELOPPEUR) -> On affiche tout
+        if (in_array('ROLE_ADMIN', $roles) || in_array('ROLE_DEVELOPPEUR', $roles)) {
+            return $this->render('ticket/vuesupport.html.twig', [
+                'tickets' => $ticketRepository->findAll(),
+                'statuts' => StatutTicket::cases(),
+                'nouveauxtickets' => $ticketRepository->findNonAssignes(),
+                'ticketsassignes' => $ticketRepository->findByAssigne($user),
+            ]);
+        }
+
+        // 2. Si c'est un CLIENT -> On filtre pour n'afficher que SES tickets
+        return $this->render('ticket/vueclient.html.twig', [
+            'nouveauxtickets' => $ticketRepository->findBy([
+                'createur' => $user,
+                'statut'   => StatutTicket::NOUVEAU->value,
+            ]),
+            'tickets' => $ticketRepository->findByClientSansNouveau($user),
             'statuts' => StatutTicket::cases(),
         ]);
     }
 
+    /*#[Route('/espacetickets', name: 'app_espace_ticket', methods: ['GET', 'POST'])]
+    public function espaceticket(Request $request, EntityManagerInterface $em): Response {}
+*/
     #[Route('/new', name: 'app_ticket_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $em, UtilisateurRepository $ur): Response
+
+    public function new(Request $request, EntityManagerInterface $em): Response
     {
+        /** @var \App\Entity\Utilisateur $user */
+        $user = $this->getUser();
+
         $ticket = new Ticket();
+
+        // On récupère dynamiquement l'id du client lié à l'utilisateur connecté s'il existe
+        $idClient = $user->getClient()?->getId() ?? 2;
+
         $form = $this->createForm(NvxTicketType::class, $ticket, [
-            'id_client' => 2,
+            'id_client' => $idClient,
         ]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $fakeUser = $ur->find(1);
-            $ticket->setCreateur($fakeUser);
+            // plus de fakeUser ! On associe l'utilisateur connecté
+            $ticket->setCreateur($user);
 
             // Calcul priorité = note impact × note urgence
             $score = $ticket->getImpact()->getNote() * $ticket->getUrgence()->getNote();
@@ -91,22 +120,22 @@ final class TicketController extends AbstractController
             'statuts' => StatutTicket::cases(),
         ]);
     }
+
     #[Route('/{id}/prendre-en-charge', name: 'app_ticket_prendre', methods: ['POST'])]
     public function prendreEnCharge(
         Ticket $ticket,
         EntityManagerInterface $em,
-        HubInterface $hub,
-        UtilisateurRepository $ur
+        HubInterface $hub
     ): JsonResponse {
-        /** @var \App\Entity\Utilisateur $fakeUser */
-        $fakeUser = $ur->find(1);
+        /** @var \App\Entity\Utilisateur $user */
+        $user = $this->getUser(); // 👈 On prend l'utilisateur connecté réel
 
-        if (!$fakeUser) {
+        if (!$user) {
             return $this->json(['success' => false, 'error' => 'Utilisateur introuvable'], 404);
         }
 
         $ticket->setStatut(StatutTicket::EN_COURS);
-        $ticket->setAssigne($fakeUser);
+        $ticket->setAssigne($user);
         $em->flush();
 
         $hub->publish(new Update(
@@ -114,7 +143,8 @@ final class TicketController extends AbstractController
             json_encode([
                 'id'      => $ticket->getId(),
                 'statut'  => $ticket->getStatut()->value,
-                'assigne' => $fakeUser->getPrenom() . ' ' . $fakeUser->getNom(),
+                'assigne' => $user->getPrenom() . ' ' . $user->getNom(),
+                'assigneId'   => $ticket->getAssigne()?->getId(),
             ])
         ));
 
