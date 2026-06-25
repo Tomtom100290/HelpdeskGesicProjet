@@ -8,48 +8,140 @@
 		class="blocshowdetail  flex justify-between h-screen w-full bg-gray-100">
 
 		<!--Détail du ticket-->
-		<div class="detailTicket w-3/5">
-			<h1>Ticket</h1>
+		<div
+			class="detailTicket w-3/5 px-8 py-6 overflow-y-auto">
 
-			<table class="table">
-				<tbody>
-					<tr>
-						<th>Id</th>
-						<td>{{ ticket.id }}</td>
-					</tr>
-					<tr>
-						<th>Titre</th>
-						<td>{{ ticket.titre }}</td>
-					</tr>
-					<tr>
-						<th>Description</th>
-						<td>{{ ticket.description }}</td>
-					</tr>
-					<tr>
-						<th>PrioriteCalculee</th>
-						<td>{{ ticket.prioriteCalculee }}</td>
-					</tr>
-					<tr>
-						<th>DateCreation</th>
-						<td>{{ ticket.dateCreation ? ticket.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
-					</tr>
-					<tr>
-						<th>DateCloture</th>
-						<td>{{ ticket.dateCloture ? ticket.dateCloture|date('Y-m-d H:i:s') : '' }}</td>
-					</tr>
-				</tbody>
-			</table>
+			<!-- Card principale -->
+			<div
+				class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
 
-			<a href="{{ path('app_ticket_index') }}">back to list</a>
+				<!-- Header -->
+				<div class="flex items-center justify-between mb-6">
+					<a href="{{ path('app_ticket_index') }}" class="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
+						← Retour
+					</a>
+					<h1 class="text-xl font-semibold text-gray-800">
+						Ticket
+						<span class="text-indigo-500">#{{ ticket.id }}</span>
+					</h1>
+					<div class="">
+						<a href="{{ path('app_ticket_edit', {'id': ticket.id}) }}" class="px-4 py-2 text-sm font-medium text-white bg-indigo-500 rounded-lg hover:bg-indigo-600 transition">
+							Éditer
+						</a>
 
-			<a href="{{ path('app_ticket_edit', {'id': ticket.id}) }}">edit</a>
+					</div>
+				</div>
 
-			{{ include('ticket/_delete_form.html.twig') }}
+				<!-- Champs -->
+				<div
+					class="space-y-4">
+					<!-- Le statut-->
+					<div id="statut-{{ ticket.id }}" class="status">
+						<span class="libstatus {{ ticket.statut.color() }}">
+							{{ ticket.statut.label() }}
+						</span>
+
+
+					</div>
+
+					<!-- Titre -->
+					<div>
+						<label class="text-xs font-semibold text-gray-400 uppercase tracking-wide">Titre</label>
+						<p class="mt-1 text-gray-800 font-medium">{{ ticket.titre }}</p>
+					</div>
+
+					<hr
+					class="border-gray-100">
+
+					<!-- Description -->
+					<div>
+						<label class="text-xs font-semibold text-gray-400 uppercase tracking-wide">Description</label>
+						<div class="mt-1 min-h-40 p-4 bg-gray-50 rounded-xl text-gray-700 text-sm leading-relaxed">
+							{{ ticket.description }}
+						</div>
+					</div>
+
+					<hr
+					class="border-gray-100">
+
+					<!-- Priorité -->
+					<div>
+						<label class="text-xs font-semibold text-gray-400 uppercase tracking-wide">Priorité calculée</label>
+						<p class="mt-1 text-gray-800">{{ ticket.prioriteCalculee }}</p>
+					</div>
+
+					<hr
+					class="border-gray-100">
+
+					<!-- Dates -->
+					<div class="grid grid-cols-2 gap-4">
+						<div>
+							<label class="text-xs font-semibold text-gray-400 uppercase tracking-wide">Date de création</label>
+							<p class="mt-1 text-gray-700 text-sm">
+								{{ ticket.dateCreation ? ticket.dateCreation|date('d/m/Y H:i') : '—' }}
+							</p>
+						</div>
+						<div>
+							<label class="text-xs font-semibold text-gray-400 uppercase tracking-wide">Date de clôture</label>
+							<p class="mt-1 text-gray-700 text-sm">
+								{{ ticket.dateCloture ? ticket.dateCloture|date('d/m/Y H:i') : '—' }}
+							</p>
+						</div>
+					</div>
+
+				</div>
+
+				<!-- Footer actions -->
+				<div class="mt-6 pt-4 border-t border-gray-100">
+					{{ include('ticket/_delete_form.html.twig') }}
+				</div>
+
+			</div>
 		</div>
 		<!--sidebar droite-->
-		<aside class="h-screen w-2/5" style=" background-color: oklch(58.6% 0.100 17.585);">
-			<div class="Messagerie"></div>
+		<aside id="MessageTicket" class="h-screen w-2/5" style=" background-color: oklch(58.6% 0.100 17.585);">
 			<h2>Messagerie</h2>
+			<div class="Messagerie">
+
+				{% for message in messages %}
+					<div class="message">
+						<div class="infoMessage">
+							<div class="imgUtilisateurMessagerie"></div>
+							<strong>{{ message.utilisateur.prenom }}
+								{{ message.utilisateur.nom }}</strong>
+							<span class="datefont">{{ message.dateEnvoi|date('d/m/Y H:i') }}</span>
+
+						</div>
+						<p>{{ message.contenu }}</p>
+
+						{# Réponses imbriquées #}
+						{% for reponse in message.reponses %}
+							{% if reponse.topActif %}
+								<div class="reponse ml-8">
+									<div class="imgUtilisateur"></div>
+									<strong>{{ reponse.utilisateur.prenom }}
+										{{ reponse.utilisateur.nom }}</strong>
+									<span>{{ reponse.dateEnvoi|date('d/m/Y H:i') }}</span>
+									<p>{{ reponse.contenu }}</p>
+								</div>
+							{% endif %}
+						{% endfor %}
+
+						{# Bouton répondre #}
+						<button onclick="document.getElementById('parent_id').value = {{ message.id }}">
+							Répondre
+						</button>
+					</div>
+				{% endfor %}
+
+				{# Formulaire d'envoi #}
+				{{ form_start(form) }}
+				<input type="hidden" name="parent_id" id="parent_id" value="">
+				{{ form_widget(form.contenu) }}
+				<button type="submit">Envoyer</button>
+				{{ form_end(form) }}
+			</div>
+
 		</aside>
 	</div>
 {% endblock %}

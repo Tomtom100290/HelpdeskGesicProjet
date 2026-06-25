@@ -33,11 +33,13 @@
     box-sizing: border-box;
 }
 
+/* CORRECTION : empêche le débordement horizontal sur toute la page */
 body {
     background: var(--bg-page);
     font-family: 'DM Sans', sans-serif;
     color: var(--text);
     margin: 0;
+    overflow-x: hidden;
 }
 
 h1,
@@ -49,6 +51,7 @@ h6 {
     font-family: 'Plus Jakarta Sans', sans-serif;
     color: var(--text);
     line-height: 1.2;
+    text-align: center;
 }
 
 h1 {
@@ -81,7 +84,7 @@ li {
     font-family: 'DM Sans', sans-serif;
 }
 
-/* ---Base.html.twig----*/
+/* ---Base.html.twig---- */
 .UtilisateurID {
     width: 100%;
     margin: 0 4px;
@@ -95,11 +98,21 @@ li {
     height: 50px;
     border: 3px solid rgb(233, 230, 230);
     border-radius: 50%;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    -ms-border-radius: 50%;
-    -o-border-radius: 50%;
     margin-bottom: 4px;
+    margin-right: 8px;
+    background-image: url('../images/imageUtilisateurParDefaut.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+}
+
+.imgUtilisateurMessagerie {
+    width: 24px;
+    height: 24px;
+    border: 1px solid rgb(233, 230, 230);
+    border-radius: 50%;
+    margin-right: 4px;
     background-image: url('../images/imageUtilisateurParDefaut.svg');
     background-repeat: no-repeat;
     background-size: cover;
@@ -122,7 +135,7 @@ li {
     -webkit-backdrop-filter: blur(14px);
     border-radius: var(--radius-card);
     border: 1px solid var(--border);
-    box-shadow: var(--shadFticketow-card);
+    box-shadow: var(--shadow-card);
     transition: transform .3s ease, box-shadow .3s ease;
     position: relative;
     overflow: hidden;
@@ -138,15 +151,11 @@ li {
     -webkit-backdrop-filter: blur(14px);
     border-radius: var(--radius-card);
     border: 1px solid var(--border);
-    box-shadow: var(--shadFticketow-card);
+    box-shadow: var(--shadow-card);
     transition: transform .3s ease, box-shadow .3s ease;
     position: relative;
     overflow: hidden;
     margin: 16px auto;
-    -webkit-transition: transform .3s ease, box-shadow .3s ease;
-    -moz-transition: transform .3s ease, box-shadow .3s ease;
-    -ms-transition: transform .3s ease, box-shadow .3s ease;
-    -o-transition: transform .3s ease, box-shadow .3s ease;
 }
 
 /* liseré dégradé mauve → vert */
@@ -188,14 +197,12 @@ li {
     font-size: 16px;
     align-items: center;
     margin-left: 8px;
-
 }
 
 .liens a svg {
     margin-right: 0px;
     padding-bottom: 4px;
     color: white;
-
 }
 
 .clientId {
@@ -292,7 +299,6 @@ li {
     font-size: 12px;
     font-weight: 500;
     color: #fff;
-    background: #3E0E82;
     background: linear-gradient(195deg, rgba(62, 14, 130, 1) 0%, rgba(124, 92, 191, 1) 50%, rgba(74, 52, 128, 1) 100%);
     border: none;
     padding: 8px 16px;
@@ -329,7 +335,6 @@ li {
     letter-spacing: .02em;
 }
 
-/* mapping Tailwind → custom (si tu gardes les classes Tailwind dans Twig) */
 .bg-purple-100 {
     background: var(--mauve-light) !important;
 }
@@ -370,7 +375,7 @@ li {
     color: var(--text-muted) !important;
 }
 
-/* ─── CONTENEUR DE TICKETS ──────────────────────────────── */
+/* ─── CONTENEURS DE TICKETS ─────────────────────────────── */
 #tickets-container {
     width: 100%;
     background: var(--mauve-light);
@@ -408,7 +413,8 @@ li {
     border-radius: 14px;
     flex: 1;
     min-height: 0;
-    overflow-y: auto;
+    overflow: hidden;
+    /* CORRECTION : bloque tout débordement horizontal */
     margin: 8px 0 32px;
     padding: 8px 0;
 }
@@ -439,7 +445,7 @@ li {
     background: var(--mauve);
 }
 
-/* ─── BLOC TICKETS ──────────────────────────────────────── */
+/* ─── BLOCS COLONNES ────────────────────────────────────── */
 .BlocTickets {
     width: 24%;
     min-width: 320px;
@@ -458,6 +464,8 @@ li {
     display: flex;
     flex-direction: column;
     margin: 8px;
+    overflow: hidden;
+    /* CORRECTION : contient les enfants qui débordent */
 }
 
 .BlocTickets h2,
@@ -497,7 +505,7 @@ li {
     margin-top: 4px;
 }
 
-/* ─── BOUTON PRIMAIRE (nouveau ticket, etc.) ────────────── */
+/* ─── BOUTON PRIMAIRE ───────────────────────────────────── */
 .btn-primary {
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 13px;
@@ -556,7 +564,7 @@ label {
     margin-bottom: 5px;
 }
 
-/* ─── NAVIGATION  ──────────────────────────── */
+/* ─── NAVIGATION ────────────────────────────────────────── */
 .page-header {
     display: flex;
     align-items: center;
@@ -571,13 +579,147 @@ label {
     color: var(--text);
 }
 
-/*-------HORLOGE-----*/
+/* ─── HORLOGE ───────────────────────────────────────────── */
 .horloge {
     font-size: large;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
-/*dashboard support */
+/* ─── DASHBOARD SUPPORT ─────────────────────────────────── */
 .indexSupport {
     display: flex;
+    overflow-x: hidden;
+    /* CORRECTION : empêche le débordement du layout flex */
 }
+
+/* ─── MESSAGERIE ────────────────────────────────────────── */
+.Messagerie {
+    padding: 16px;
+    margin: 16px;
+    background-color: #a485b7;
+    height: 90%;
+    border-radius: 10px;
+}
+
+#MessageTicket h2 {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.infoMessage {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.datefont {
+    font-size: 14px;
+    font-style: italic;
+    color: rgb(39, 39, 39);
+    padding-top: 3px;
+    margin-left: 4px;
+}
+
+.message {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    margin-bottom: 16px;
+    border-radius: 10px;
+}
+
+/* ─── CHARGE ÉQUIPE ─────────────────────────────────────── */
+.idpersonnel {
+    display: flex;
+    align-items: center;
+    /* CORRECTION : était "baseline", mal aligné avec l'avatar rond */
+}
+
+.donnéesCharge {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    /* CORRECTION : permet la troncature dans un contexte flex */
+    width: 100%;
+}
+
+/* CORRECTION PRINCIPALE : le conteneur clip le ruban défilant */
+.listeTickets {
+    width: 100%;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+/* CORRECTION PRINCIPALE : max-content au lieu de 100% */
+.listeTickets-inner {
+    display: flex;
+    flex-direction: row;
+    width: max-content;
+    /* ← clé du fix : prend la taille réelle du contenu */
+    animation: scroll-right 16s linear infinite;
+    -webkit-animation: scroll-right 16s linear infinite;
+    overflow: hidden;
+}
+
+.listeTickets-inner:hover {
+    animation-play-state: paused;
+}
+
+.listeTickets-inner div {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+@keyframes scroll-right {
+    from {
+        transform: translateX(0);
+        -webkit-transform: translateX(0);
+        -moz-transform: translateX(0);
+        -ms-transform: translateX(0);
+        -o-transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+        -webkit-transform: translateX(-50%);
+        -moz-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        -o-transform: translateX(-50%);
+    }
+}
+
+.listeTickets div {
+    margin: 0 3px;
+    background-color: #2e9e6e;
+    padding: 4px;
+    border-radius: 6px;
+    color: whitesmoke;
+    border: 1px solid #74ad94;
+}
+
+.personnel {
+    width: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    border-radius: 10px;
+    margin: 6px auto;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    /* CORRECTION : contient le ruban qui déborderait sinon */
+}
+
+.personnel:hover {
+    transform: scale(1.01);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+/* NOTE : l'effet rotatex(180deg) d'origine retournait la carte à l'envers,
+   ce qui cachait le contenu. Remplacé par un hover plus lisible. */

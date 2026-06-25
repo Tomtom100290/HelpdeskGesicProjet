@@ -9,14 +9,17 @@
 			<h1>Espace Support</h1>
 		</div>
 
-		<div class="indexSupport">
+		<div
+			class="indexSupport">
 
+			{# ── Nouveaux tickets ── #}
 			<div class="BlocTickets">
 				<h2>Nouveaux tickets</h2>
 				<div id="tickets-container">
 					{% if nouveauxtickets is empty %}
 						<p class="text-gray-400 empty-message">Aucun ticket trouvé</p>
 					{% endif %}
+
 					{% for nouveauxticket in nouveauxtickets %}
 						<div class="card" data-ticket-id="{{ nouveauxticket.id }}">
 							<div class="head">
@@ -33,7 +36,6 @@
 								<div class="datecreat">
 									{{ nouveauxticket.dateCreation|date('d/m/Y') }}
 								</div>
-
 								<div class="actions">
 									<a href="{{ path('app_ticket_show', {'id': nouveauxticket.id}) }}" class="card-link">Voir</a>
 									<a href="{{ path('app_ticket_edit', {'id': nouveauxticket.id}) }}" class="card-link">Éditer</a>
@@ -44,7 +46,6 @@
 								<span class="libstatus {{ nouveauxticket.statut.color() }}">
 									{{ nouveauxticket.statut.label() }}
 								</span>
-
 								{% if nouveauxticket.statut.value == 'nouveau' %}
 									<button data-action="prendre-en-charge" data-id="{{ nouveauxticket.id }}" class="takeit">
 										Prendre en charge
@@ -55,12 +56,15 @@
 					{% endfor %}
 				</div>
 			</div>
+
+			{# ── Mes tickets en cours ── #}
 			<div class="BlocTickets">
 				<h2>Mes Tickets "en cours"</h2>
 				<div id="mestickets-container">
 					{% if ticketsassignes is empty %}
 						<p class="text-gray-400 empty-message">Aucun ticket trouvé</p>
 					{% endif %}
+
 					{% for ticketsassigne in ticketsassignes %}
 						<div class="card" data-ticket-id="{{ ticketsassigne.id }}">
 							<div class="head">
@@ -77,7 +81,6 @@
 								<div class="datecreat">
 									{{ ticketsassigne.dateCreation|date('d/m/Y') }}
 								</div>
-
 								<div class="actions">
 									<a href="{{ path('app_ticket_show', {'id': ticketsassigne.id}) }}" class="card-link">Voir</a>
 									<a href="{{ path('app_ticket_edit', {'id': ticketsassigne.id}) }}" class="card-link">Éditer</a>
@@ -93,50 +96,48 @@
 					{% endfor %}
 				</div>
 			</div>
+
+			{# ── Charge de l'équipe ── #}
 			<div class="BlocEquipe">
 				<h2>Charge de l'Équipe</h2>
 				<div id="equipe-container">
-					{% if tickets is empty %}
-						<p class="text-gray-400">Aucun ticket trouvé</p>
-					{% endif %}
-					{% for ticket in tickets %}
-						<div class="card" data-ticket-id="{{ ticket.id }}">
-							<div class="head">
-								<div class="clientId">#{{ ticket.id }}</div>
-								<p class="priority">{{ ticket.libellePriorite }}</p>
-							</div>
 
-							<div class="ticket-body">
-								<h3>{{ ticket.titre }}</h3>
-								<p class="descripTicket">{{ ticket.description }}</p>
-							</div>
-
-							<div class="foot">
-								<div class="datecreat">
-									{{ ticket.dateCreation|date('d/m/Y') }}
-								</div>
-
-								<div class="actions">
-									<a href="{{ path('app_ticket_show', {'id': ticket.id}) }}" class="card-link">Voir</a>
-									<a href="{{ path('app_ticket_edit', {'id': ticket.id}) }}" class="card-link">Éditer</a>
+					{% for developpeur in developpeurs %}
+						<div class="personnel">
+							<div class="idpersonnel">
+								<div class="imgUtilisateur"></div>
+								<div class="infoMessage">
+									<strong>{{ developpeur.prenom }}
+										{{ developpeur.nom }}</strong>
 								</div>
 							</div>
 
-							<div id="statut-{{ ticket.id }}" class="status">
-								<span class="libstatus {{ ticket.statut.color() }}">
-									{{ ticket.statut.label() }}
-								</span>
+							<div class="donnéesCharge">
+								<p>Interventions en cours...</p>
+								<div
+									class="listeTickets">
+									{# CORRECTION : suppression de l'espace parasite dans "ti cketsEnCours" #}
+									{% set ticketsEnCours = developpeur.ticketsAssignes|filter(t => t.statut.value == 'en_cours') %}
 
-								{% if ticket.statut.value == 'nouveau' %}
-									<button data-action="prendre-en-charge" data-id="{{ ticket.id }}" class="takeit">
-										Prendre en charge
-									</button>
-								{% endif %}
+									{% for ticket in ticketsEnCours %}
+										<div>#{{ ticket.id }}
+											-
+											{{ ticket.titre }}</div>
+									{% endfor %}
+									{# Duplication pour le défilement infini #}
+									{% for ticket in ticketsEnCours %}
+										<div>#{{ ticket.id }}
+											-
+											{{ ticket.titre }}</div>
+									{% endfor %}
+								</div>
 							</div>
 						</div>
 					{% endfor %}
+
 				</div>
 			</div>
+
 		</div>
 	</div>
 
@@ -168,7 +169,7 @@ es.onmessage = (e) => {
 const data = JSON.parse(e.data);
 console.log('Mercure reçu:', data);
 
-if (data.statut === 'en_cours') { // 1. Supprimer du bloc "Nouveaux tickets"
+if (data.statut === 'en_cours') { // 1. Supprimer la carte du bloc "Nouveaux tickets"
 const cardNouveau = document.querySelector (`#tickets-container [data-ticket-id="${
 data.id
 }"]`);
@@ -184,6 +185,7 @@ const colonneMesTickets = document.getElementById('mestickets-container');
 const emptyMsg = colonneMesTickets.querySelector('.empty-message');
 if (emptyMsg) 
 emptyMsg.remove();
+
 
 
 const nouvelleCard = document.createElement('div');
@@ -247,6 +249,8 @@ const btn = cardEquipe.querySelector('[data-action="prendre-en-charge"]');
 if (btn) 
 btn.remove();
 
+
+
 }
 }
 };
@@ -255,6 +259,7 @@ document.addEventListener('click', async (e) => {
 const btn = e.target.closest('[data-action="prendre-en-charge"]');
 if (! btn) 
 return;
+
 
 
 btn.disabled = true;

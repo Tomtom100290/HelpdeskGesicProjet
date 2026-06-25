@@ -41,7 +41,17 @@ class UtilisateurRepository extends ServiceEntityRepository
     {
         return $this->findByRole(Role::DEVELOPPEUR);
     }
-
+    /*Récupère la liste du personnel Gésic*/
+    public function findEquipeSupport(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.role IN (:roles)')
+            ->setParameter('roles', [Role::DEVELOPPEUR, Role::ADMIN])
+            ->andWhere('u.topActif = true')
+            ->orderBy('u.nom', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
     public function findByClient(int $idClient): array
     {
         return $this->createQueryBuilder('u')

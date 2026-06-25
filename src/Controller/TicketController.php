@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Message;
 use App\Entity\Ticket;
 use App\Entity\Utilisateur;
 use App\Form\NvxTicketType;
 use App\Form\TicketType;
+use App\Form\MessageType;
 use App\Repository\TicketRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,12 +18,13 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use App\Enum\StatutTicket;
+use App\Repository\UtilisateurRepository;
 
 #[Route('/ticket')]
 final class TicketController extends AbstractController
 {
     #[Route(name: 'app_ticket_index', methods: ['GET'])] // 👈 Renommé en app_ticket_index (ton point d'entrée global)
-    public function index(TicketRepository $ticketRepository): Response
+    public function index(TicketRepository $ticketRepository, UtilisateurRepository $utilisateurRepository): Response
     {
         /** @var \App\Entity\Utilisateur $user */
         $user = $this->getUser();
@@ -34,6 +37,7 @@ final class TicketController extends AbstractController
                 'statuts' => StatutTicket::cases(),
                 'nouveauxtickets' => $ticketRepository->findNonAssignes(),
                 'ticketsassignes' => $ticketRepository->findByAssigne($user),
+                'developpeurs'     => $utilisateurRepository->findEquipeSupport(),
             ]);
         }
 
@@ -151,11 +155,44 @@ final class TicketController extends AbstractController
         return $this->json(['success' => true]);
     }
 
-    #[Route('/{id}', name: 'app_ticket_show', methods: ['GET'])]
-    public function show(Ticket $ticket): Response
-    {
+    #[Route('/{id}', name: 'app_ticket_show', methods: ['GET', 'POST'])]
+    public function show(
+        Request $request,
+        Ticket $ticket,
+        EntityManagerInterface $entityManager
+    ): Response {
+        // Nouveau message
+        $message = new Message();
+        $form = $this->createForm(MessageType::class, $message);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $message->setTicket($ticket);
+            $message->setUtilisateur($this->getUser());
+
+            // Si c'est une réponse à un message existant
+            $parentId = $request->request->get('parent_id');
+            if ($parentId) {
+                $parent = $entityManager->getRepository(Message::class)->find($parentId);
+                $message->setMessageParent($parent);
+            }
+
+            $entityManager->persist($message);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_ticket_show', ['id' => $ticket->getId()]);
+        }
+
+        // Récupère uniquement les messages racines (sans parent)
+        $messages = $entityManager->getRepository(Message::class)->findBy(
+            ['ticket' => $ticket, 'messageParent' => null, 'topActif' => true],
+            ['dateEnvoi' => 'ASC']
+        );
+
         return $this->render('ticket/show.html.twig', [
-            'ticket' => $ticket,
+            'ticket'   => $ticket,
+            'messages' => $messages,
+            'form'     => $form,
         ]);
     }
 
