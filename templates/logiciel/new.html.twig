@@ -1,11 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Logiciel{% endblock %}
+{% block title %}Nouveau Logiciel
+{% endblock %}
 
 {% block body %}
-    <h1>Create new Logiciel</h1>
+	<h1>Ajouter un nouveau Logiciel</h1>
 
-    {{ include('logiciel/_form.html.twig') }}
+	{{ include('logiciel/_form.html.twig') }}
 
-    <a href="{{ path('app_logiciel_index') }}">back to list</a>
+	<a href="{{ path('app_logiciel_index') }}">Retour</a>
 {% endblock %}

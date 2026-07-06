@@ -8,6 +8,9 @@
 		<div class="max-w-3xl mx-auto">
 
 			<div class="flex items-center justify-between mb-6">
+				<a href="{{ path('app_ticket_index') }}" class="btnretour inline-flex items-center gap-2 text-sm text-gray-500 border border-gray-500 bg-white hover:bg-gray-50 px-4 py-2 rounded-lg transition-colors">
+					← Retour à la liste
+				</a>
 				<div>
 					<h1 class="text-2xl font-semibold text-gray-900">Éditer le ticket #{{ ticket.id }}</h1>
 					<p class="text-sm text-gray-500 mt-1">{{ ticket.titre }}</p>

@@ -1,41 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}LogicielClient index{% endblock %}
+{% block title %}Logiciels par client
+{% endblock %}
 
 {% block body %}
-    <h1>LogicielClient index</h1>
+	<div class="navbar">
+		<a href="{{ path('app_ticket_index') }}" class="group inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200" style="color: #7c5cbf; background-color: #7c5cbf1a;" onmouseover="this.style.backgroundColor='#7c5cbf2e'" onmouseout="this.style.backgroundColor='#7c5cbf1a'">
+			<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+			</svg>
+			Retour
+		</a>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>DateInstallation</th>
-                <th>VersionLogiciel</th>
-                <th>Notes</th>
-                <th>DateCreation</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for logiciel_client in logiciel_clients %}
-            <tr>
-                <td>{{ logiciel_client.id }}</td>
-                <td>{{ logiciel_client.dateInstallation ? logiciel_client.dateInstallation|date('Y-m-d') : '' }}</td>
-                <td>{{ logiciel_client.versionLogiciel }}</td>
-                <td>{{ logiciel_client.notes }}</td>
-                <td>{{ logiciel_client.dateCreation ? logiciel_client.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_logiciel_client_show', {'id': logiciel_client.id}) }}">show</a>
-                    <a href="{{ path('app_logiciel_client_edit', {'id': logiciel_client.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+		<h1>Déploiements des Logiciels client</h1>
+	</div>
+	<a class="takeit" href="{{ path('app_logiciel_client_new') }}" style="display: flex; align-items: center; gap: 6px; color: white; text-decoration: none; margin-left:8px; margin-top:8px;">
+		<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 640 640" width="24" height="24" fill="white">
+			<path d="M352 128C352 110.3 337.7 96 320 96C302.3 96 288 110.3 288 128L288 288L128 288C110.3 288 96 302.3 96 320C96 337.7 110.3 352 128 352L288 352L288 512C288 529.7 302.3 544 320 544C337.7 544 352 529.7 352 512L352 352L512 352C529.7 352 544 337.7 544 320C544 302.3 529.7 288 512 288L352 288L352 128z"/>
+		</svg>
+		Nouveau déploiement
+	</a>
 
-    <a href="{{ path('app_logiciel_client_new') }}">Create new</a>
+	<div class="clientsLogiciel">
+		{% for data in clients_data %}
+			<div class="cardLogiciels">
+				<h2>{{ data.client.raisonSocial }}</h2>
+
+				<ul class="logiciels-list">
+					{% for item in data.logiciels %}
+						<li>
+							<strong>{{ item.logiciel.libelle }}</strong>
+							<span class="versions">
+								({{ item.versions|join(', ') }})
+							</span>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% else %}
+			<p>Aucun client trouvé</p>
+		{% endfor %}
+	</div>
 {% endblock %}

@@ -13,6 +13,7 @@
     --vert-dark: #1a6e4a;
     --bg-page: #f2eff9;
     --surface: rgba(255, 255, 255, 0.55);
+    --surface2: rgba(255, 255, 255, 0.144);
     --glass: rgba(255, 255, 255, 0.28);
     --glassequipe: rgba(108, 133, 179, 0.966);
     --text: #1e1a2e;
@@ -40,6 +41,26 @@ body {
     color: var(--text);
     margin: 0;
     overflow-x: hidden;
+    height: 90vh;
+}
+
+.navbar {
+    width: 90%;
+    display: flex;
+    padding: 8px;
+    margin: 4px auto;
+
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    background-color: #F8FAFC;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: var(--radius-card);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-card);
+    transition: transform .3s ease, box-shadow .3s ease;
 }
 
 h1,
@@ -57,7 +78,7 @@ h6 {
 h1 {
     font-size: 2.027rem;
     font-weight: 700;
-    color: rgb(42, 42, 42);
+    color: rgb(210, 208, 208);
     width: 100%;
     text-align: center;
 }
@@ -73,6 +94,7 @@ h3 {
     font-weight: 600;
     color: var(--text);
     margin-bottom: 4px;
+    color: #a17bc5;
 }
 
 p,
@@ -86,11 +108,19 @@ li {
 
 /* ---Base.html.twig---- */
 .UtilisateurID {
-    width: 100%;
-    margin: 0 4px;
+    width: 95%;
+    margin: 0px 2px 8px 2px;
     background-color: rgba(67, 67, 75, 0);
-    height: 140px;
-    padding: 2px;
+    height: 160px;
+    padding: 8px 0px 8px 16px;
+    background: var(--surface2);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: var(--radius-card);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-card);
+    transition: transform .3s ease, box-shadow .3s ease;
+
 }
 
 .imgUtilisateur {
@@ -309,7 +339,36 @@ li {
     white-space: nowrap;
     text-decoration: none;
     line-height: 1.4;
+    width: 200px;
 }
+
+.btn {
+    margin-top: 24px;
+}
+
+/* ─── BOUTON RETOUR ──────────────────────────── */
+.btnretour {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: #3e0e82ca;
+    border: 1px solid lin ear-gradient(195deg, rgba(62, 14, 130, 1) 0%, rgba(124, 92, 191, 1) 50%, rgba(74, 52, 128, 1) 100%);
+    background: #3e0e8229;
+
+    padding: 8px 16px;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-btn);
+    cursor: pointer;
+    transition: transform .25s ease, box-shadow .25s ease;
+    white-space: nowrap;
+    text-decoration: none;
+    line-height: 1.4;
+    -webkit-border-radius: var(--radius-pill);
+    -moz-border-radius: var(--radius-pill);
+    -ms-border-radius: var(--radius-pill);
+    -o-border-radius: var(--radius-pill);
+}
+
 
 .takeit:hover {
     transform: scale(1.04);
@@ -458,7 +517,7 @@ li {
 
 .BlocEquipe {
     width: 48%;
-    min-width: 320px;
+    min-width: 0;
     border-radius: 12px;
     max-height: 90vh;
     display: flex;
@@ -579,6 +638,28 @@ label {
     color: var(--text);
 }
 
+.liens a {
+    background-color: rgba(255, 255, 255, 0);
+    height: 30px;
+    width: 80%;
+    padding-left: 8px;
+    border-radius: 6px;
+    transition: background-color 0.5s ease, border 0.3s ease;
+    border: 1px solid #9975d800;
+    -webkit-transition: background-color 0.5s ease, border 0.3s ease;
+    -moz-transition: background-color 0.5s ease, border 0.3s ease;
+    -ms-transition: background-color 0.5s ease, border 0.3s ease;
+    -o-transition: background-color 0.5s ease, border 0.3s ease;
+}
+
+.liens a:hover {
+    background-color: #9975d85d;
+    transition: background-color 0.3s ease;
+    border: 1px solid #9975d8;
+    scale: 1.02;
+    box-shadow: inset;
+}
+
 /* ─── HORLOGE ───────────────────────────────────────────── */
 .horloge {
     font-size: large;
@@ -644,13 +725,19 @@ label {
     min-width: 0;
     /* CORRECTION : permet la troncature dans un contexte flex */
     width: 100%;
+    overflow: hidden;
 }
 
 /* CORRECTION PRINCIPALE : le conteneur clip le ruban défilant */
 .listeTickets {
     width: 100%;
+    min-width: 0;
     overflow: hidden;
-    max-width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 4px 0;
 }
 
 /* CORRECTION PRINCIPALE : max-content au lieu de 100% */
@@ -661,7 +748,7 @@ label {
     /* ← clé du fix : prend la taille réelle du contenu */
     animation: scroll-right 16s linear infinite;
     -webkit-animation: scroll-right 16s linear infinite;
-    overflow: hidden;
+
 }
 
 .listeTickets-inner:hover {
@@ -692,6 +779,8 @@ label {
 }
 
 .listeTickets div {
+    flex-shrink: 0;
+    white-space: nowrap;
     margin: 0 3px;
     background-color: #2e9e6e;
     padding: 4px;
@@ -701,7 +790,7 @@ label {
 }
 
 .personnel {
-    width: 50%;
+    width: 95%;
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -710,16 +799,315 @@ label {
     padding: 16px;
     border-radius: 10px;
     margin: 6px auto;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
     overflow: hidden;
-    /* CORRECTION : contient le ruban qui déborderait sinon */
+    position: relative;
+    transition: transform 0.6s ease, box-shadow 0.6s ease;
+    -webkit-transition: transform 0.6s ease, box-shadow 0.6s ease;
+    -moz-transition: transform 0.6s ease, box-shadow 0.6s ease;
+    -ms-transition: transform 0.6s ease, box-shadow 0.6s ease;
+    -o-transition: transform 0.6s ease, box-shadow 0.6s ease;
 }
 
 .personnel:hover {
     transform: scale(1.01);
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
     cursor: pointer;
+    /* Pas de transition ici ! */
 }
 
-/* NOTE : l'effet rotatex(180deg) d'origine retournait la carte à l'envers,
-   ce qui cachait le contenu. Remplacé par un hover plus lisible. */
+/*Détais de charges de travail par développeur */
+.détailsCharge {
+    position: absolute;
+    margin: 0 auto;
+    border-radius: 10px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    font-size: 18px;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    scale: 0;
+    transition: 0.4s;
+    -webkit-transition: 0.4s;
+    -moz-transition: 0.4s;
+    -ms-transition: 0.4s;
+    -o-transition: 0.4s;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.personnel:hover .détailsCharge {
+    display: block;
+    color: white;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    background-color: rgba(124, 40, 227, 0.709);
+    text-align: center;
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(14px);
+
+
+    box-shadow: var(--shadow-card);
+
+    scale: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.TicketsUtilisateur {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding: 8px;
+}
+
+.ticketId {
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    width: 100%;
+    background-color: #1a6e4a;
+    color: white;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+
+/*---------GESTION LOGICIELS----------*/
+.BlocLogiciel {
+    width: 95%;
+    min-width: 320px;
+    border-radius: 12px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: 8px;
+
+}
+
+#logiciels-container {
+    width: 100%;
+    background: var(--mauve-light);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    margin: 8px 0 32px;
+    padding: 8px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+
+}
+
+.cardLogiciels {
+    width: 280px;
+    min-height: 230px;
+    padding: 16px;
+    background: var(--surface);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: var(--radius-card);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-card);
+    transition: transform .3s ease, box-shadow .3s ease;
+    position: relative;
+    overflow: hidden;
+    margin: 16px 16px;
+}
+
+.clientsLogiciel {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    flex-wrap: wrap;
+}
+
+/**Page de connexion**/
+#Seconnecter {
+    margin-bottom: 32px;
+}
+
+.PageLight {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('../images/fondPageConnection2.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.ConnexionContainter {
+    width: 25%;
+    padding: 16px;
+    height: 500px;
+    background: rgba(96, 96, 147, 0.454);
+    margin: 0 auto;
+
+    border-radius: 10px;
+    background: var(--surface2);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: var(--radius-card);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-card);
+    transition: transform .3s ease, box-shadow .3s ease;
+    -webkit-border-radius: var(--radius-card);
+    -moz-border-radius: var(--radius-card);
+    -ms-border-radius: var(--radius-card);
+    -o-border-radius: var(--radius-card);
+    display: flex;
+    flex-direction: column;
+}
+
+.ConnexionContainter form {
+    width: 90%;
+    margin: 50px auto 0px;
+
+}
+
+.logo {
+    width: 70%;
+    margin: 8px auto;
+}
+
+.ConnexionContainter form button {
+    width: 100%;
+    margin-top: 16px;
+    height: 40px;
+}
+
+.ConnexionContainter form label {
+    color: white;
+    font-size: 12px;
+    font-weight: 100;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-style: inherit;
+}
+
+#bygesic {
+    font-size: 12px;
+    font-style: italic;
+}
+
+aside {
+    background: linear-gradient(180deg, #4a3480 0%, #32215c 100%);
+}
+
+/** Page de formulaire (logiciel client, etc.) **/
+
+.FormPageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+    min-height: 100vh;
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    background-color: #2e9e6e;
+}
+
+.FormContainter {
+    background-color: #7b8fca;
+    width: 45%;
+    min-width: 320px;
+    padding: 24px;
+    background: var(--surface2);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: var(--radius-card);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-card);
+    transition: transform .3s ease, box-shadow .3s ease;
+}
+
+#TitreForm {
+    color: white;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.GlassForm {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.GlassForm .form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.GlassForm label {
+    color: white;
+    font-size: 12px;
+    font-weight: 100;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin-bottom: 4px;
+}
+
+.GlassForm input,
+.GlassForm textarea,
+.GlassForm select {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    padding: 8px 10px;
+    color: white;
+    font-family: inherit;
+}
+
+.GlassForm input::placeholder,
+.GlassForm textarea::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.GlassForm input:focus,
+.GlassForm textarea:focus,
+.GlassForm select:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.22);
+}
+
+/* Les <option> d'un <select> restent souvent noir/blanc natif du navigateur, difficile à styliser en glass */
+.GlassForm select option {
+    color: black;
+}
+
+.GlassForm .takeit {
+    margin-top: 8px;
+    width: 100%;
+    height: 40px;
+}
+
+.retourLink {
+    display: inline-block;
+    margin-top: 20px;
+    color: white;
+    font-size: 13px;
+    text-decoration: none;
+    opacity: 0.8;
+}
+
+.retourLink:hover {
+    opacity: 1;
+    text-decoration: underline;
+}

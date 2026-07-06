@@ -4,10 +4,12 @@
 {% endblock %}
 
 {% block body %}
-	<div class="bg-gray-50 py-8 px-4" style="box-sizing: border-box; height: 100vh; overflow: hidden;">
-		<div class="flex items-center justify-between mb-6">
-			<h1>Espace Support</h1>
-		</div>
+	<div class="navbar">
+
+		<h1>Espace Support</h1>
+	</div>
+	<div class="bg-gray-50 py-8 px-4" style="box-sizing: border-box; overflow: hidden;">
+
 
 		<div
 			class="indexSupport">
@@ -15,6 +17,12 @@
 			{# ── Nouveaux tickets ── #}
 			<div class="BlocTickets">
 				<h2>Nouveaux tickets</h2>
+				<a class="takeit" href="{{ path('app_ticket_new') }}" style="display: flex; align-items: center; gap: 6px; color: white; text-decoration: none;">
+					<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 640 640" width="24" height="24" fill="white">
+						<path d="M352 128C352 110.3 337.7 96 320 96C302.3 96 288 110.3 288 128L288 288L128 288C110.3 288 96 302.3 96 320C96 337.7 110.3 352 128 352L288 352L288 512C288 529.7 302.3 544 320 544C337.7 544 352 529.7 352 512L352 352L512 352C529.7 352 544 337.7 544 320C544 302.3 529.7 288 512 288L352 288L352 128z"/>
+					</svg>
+					Nouveau ticket
+				</a>
 				<div id="tickets-container">
 					{% if nouveauxtickets is empty %}
 						<p class="text-gray-400 empty-message">Aucun ticket trouvé</p>
@@ -103,34 +111,48 @@
 				<div id="equipe-container">
 
 					{% for developpeur in developpeurs %}
+						{% set ticketsEnCours = developpeur.ticketsAssignes|filter(t => t.statut.value == 'en_cours') %}
+						{% set nbTickets = ticketsEnCours|length %}
+						{% set pourcentage = nbTickets >= 10 ? 100 : (nbTickets * 10) %}
+
 						<div class="personnel">
+							<a href="{{ path('details_ticket_utilisateur', { id: developpeur.id }) }}">
+								<div class="détailsCharge">
+									<wa-icon name="eye" variant="regular" style="color: rgb(61, 51, 51);"></wa-icon>Voir détails
+								</div>
+							</a>
 							<div class="idpersonnel">
+
 								<div class="imgUtilisateur"></div>
 								<div class="infoMessage">
 									<strong>{{ developpeur.prenom }}
 										{{ developpeur.nom }}</strong>
 								</div>
+								{# ── Barre de charge ── #}
+								<div class="flex items-center justify-between mb-1 mt-2">
+									<span class="text-xs text-white w-30">Charge de travail</span>
+									<span class="text-xs font-bold text-white mr-2">{{ pourcentage }}%</span>
+								</div>
+								<div class="w-full  bg-gray-300 border border-gray-300 rounded-full h-2 mb-2 ">
+									<div class="h-2 rounded-full transition-all duration-500" style="width: {{ pourcentage }}%; background: {% if pourcentage < 50 %}var(--vert){% elseif pourcentage < 80 %}orange{% else %}#ef4444{% endif %};"></div>
+								</div>
+								<p class="text-xs text-white mb-1 ml-4">{{ nbTickets }}
+									tickets</p>
 							</div>
 
-							<div class="donnéesCharge">
-								<p>Interventions en cours...</p>
-								<div
-									class="listeTickets">
-									{# CORRECTION : suppression de l'espace parasite dans "ti cketsEnCours" #}
-									{% set ticketsEnCours = developpeur.ticketsAssignes|filter(t => t.statut.value == 'en_cours') %}
+							<div
+								class="donnéesCharge">
 
-									{% for ticket in ticketsEnCours %}
-										<div>#{{ ticket.id }}
-											-
-											{{ ticket.titre }}</div>
-									{% endfor %}
-									{# Duplication pour le défilement infini #}
+
+								{# ── Liste des tickets ── #}
+								<div class="listeTickets">
 									{% for ticket in ticketsEnCours %}
 										<div>#{{ ticket.id }}
 											-
 											{{ ticket.titre }}</div>
 									{% endfor %}
 								</div>
+
 							</div>
 						</div>
 					{% endfor %}

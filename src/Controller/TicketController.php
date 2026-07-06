@@ -51,6 +51,22 @@ final class TicketController extends AbstractController
             'statuts' => StatutTicket::cases(),
         ]);
     }
+    #[Route('/details-ticket-utilisateur/{id}', name: 'details_ticket_utilisateur')]
+    public function detailsTicketUtilisateur(int $id, UtilisateurRepository $utilisateurRepository, TicketRepository $ticketRepo): Response
+    {
+        $developpeur = $utilisateurRepository->find($id);
+        $tickets = $ticketRepo->findBy(['assigne' => $developpeur]);
+        $nbTickets = count($tickets);
+        $maxTickets = 10; // à adapter selon ta logique
+        $pourcentage = $maxTickets > 0 ? min(100, round(($nbTickets / $maxTickets) * 100)) : 0;
+
+        return $this->render('ticket/detailsTicketParUtilisateur.html.twig', [
+            'developpeur' => $developpeur,
+            'tickets'     => $tickets,
+            'nbTickets'   => $nbTickets,
+            'pourcentage' => $pourcentage,
+        ]);
+    }
 
     /*#[Route('/espacetickets', name: 'app_espace_ticket', methods: ['GET', 'POST'])]
     public function espaceticket(Request $request, EntityManagerInterface $em): Response {}

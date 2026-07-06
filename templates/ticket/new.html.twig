@@ -4,6 +4,15 @@
 {% endblock %}
 
 {% block body %}
+	<div class="navbar">
+		<a href="{{ path('app_ticket_index') }}" class="group inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200" style="color: #7c5cbf; background-color: #7c5cbf1a;" onmouseover="this.style.backgroundColor='#7c5cbf2e'" onmouseout="this.style.backgroundColor='#7c5cbf1a'">
+			<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+			</svg>
+			Retour
+		</a>
+		<h1>Créer un ticket</h1>
+	</div>
 	<div class="min-h-screen bg-gray-50 py-8 px-4">
 		<div class="max-w-3xl mx-auto">
 
@@ -13,7 +22,7 @@
 					<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
 					Nouveau ticket
 				</span>
-				<h1 class="text-2xl font-semibold text-gray-900">Créer un ticket</h1>
+
 				<p class="text-sm text-gray-800 mt-1">Renseignez les informations pour ouvrir une nouvelle demande de support.</p>
 			</div>
 
@@ -56,7 +65,7 @@
 				<a href="{{ path('app_ticket_index') }}" class="inline-flex items-center gap-2 text-sm text-gray-500 border border-gray-200 bg-white hover:bg-gray-50 px-4 py-2 rounded-lg transition-colors">
 					← Retour à la liste
 				</a>
-				<button type="submit" class="inline-flex items-center gap-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 px-5 py-2.5 rounded-lg transition-colors shadow-sm">
+				<button type="submit" class="takeit">
 					✓ Créer le ticket
 				</button>
 			</div>

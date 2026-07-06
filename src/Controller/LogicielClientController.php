@@ -17,8 +17,34 @@ final class LogicielClientController extends AbstractController
     #[Route(name: 'app_logiciel_client_index', methods: ['GET'])]
     public function index(LogicielClientRepository $logicielClientRepository): Response
     {
+        $logicielClients = $logicielClientRepository->findAll();
+
+        // Regroupement par client, puis par logiciel
+        $parClient = [];
+        foreach ($logicielClients as $lc) {
+            $clientId = $lc->getClient()->getId();
+
+            if (!isset($parClient[$clientId])) {
+                $parClient[$clientId] = [
+                    'client' => $lc->getClient(),
+                    'logiciels' => [],
+                ];
+            }
+
+            $logicielId = $lc->getLogiciel()->getId();
+
+            if (!isset($parClient[$clientId]['logiciels'][$logicielId])) {
+                $parClient[$clientId]['logiciels'][$logicielId] = [
+                    'logiciel' => $lc->getLogiciel(),
+                    'versions' => [],
+                ];
+            }
+
+            $parClient[$clientId]['logiciels'][$logicielId]['versions'][] = $lc->getVersionLogiciel();
+        }
+
         return $this->render('logiciel_client/index.html.twig', [
-            'logiciel_clients' => $logicielClientRepository->findAll(),
+            'clients_data' => $parClient,
         ]);
     }
 

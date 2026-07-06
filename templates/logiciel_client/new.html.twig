@@ -1,11 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New LogicielClient{% endblock %}
+{% block title %}New LogicielClient
+{% endblock %}
 
 {% block body %}
-    <h1>Create new LogicielClient</h1>
+	<div class="navbar">
+		<a href="{{ path('app_logiciel_client_index') }}" class="group inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200" style="color: #7c5cbf; background-color: #7c5cbf1a;" onmouseover="this.style.backgroundColor='#7c5cbf2e'" onmouseout="this.style.backgroundColor='#7c5cbf1a'">
+			<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+			</svg>
+			Retour
+		</a>
+		<h1 class="text-xl font-semibold text-gray-800">
+			Ajouter un Déploiement Logiciel Client
+		</h1>
+	</div>
+	<div class="FormPageContainer">
+		<div class="FormContainter">
+			<h2 id="TitreForm">Nouveau</h2>
 
-    {{ include('logiciel_client/_form.html.twig') }}
+			{{ include('logiciel_client/_form.html.twig') }}
 
-    <a href="{{ path('app_logiciel_client_index') }}">back to list</a>
+			<a href="{{ path('app_logiciel_client_index') }}" class="retourLink">← Retour à la liste</a>
+
+		</div>
+	</div>
 {% endblock %}

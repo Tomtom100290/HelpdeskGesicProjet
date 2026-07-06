@@ -20,8 +20,8 @@ class Tache
     private ?Ticket $ticket = null;
 
     #[ORM\ManyToOne(targetEntity: Utilisateur::class, inversedBy: 'tachesAssignees')]
-    #[ORM\JoinColumn(name: 'id_utilisateur_assign', referencedColumnName: 'id_user', nullable: false)]
-    private Utilisateur $utilisateurAssigne;
+    #[ORM\JoinColumn(name: 'id_utilisateur_assign', referencedColumnName: 'id_user', nullable: true)]
+    private ?Utilisateur $utilisateurAssigne = null;
 
     #[ORM\ManyToOne(targetEntity: Utilisateur::class, inversedBy: 'tachesCrees')]
     #[ORM\JoinColumn(name: 'id_utilisateur_creat', referencedColumnName: 'id_user', nullable: false)]
@@ -47,28 +47,83 @@ class Tache
         $this->dateCreation = new \DateTimeImmutable();
     }
 
-    public function getId(): ?int { return $this->id; }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-    public function getTicket(): ?Ticket { return $this->ticket; }
-    public function setTicket(?Ticket $ticket): static { $this->ticket = $ticket; return $this; }
+    public function getTicket(): ?Ticket
+    {
+        return $this->ticket;
+    }
+    public function setTicket(?Ticket $ticket): static
+    {
+        $this->ticket = $ticket;
+        return $this;
+    }
 
-    public function getUtilisateurAssigne(): Utilisateur { return $this->utilisateurAssigne; }
-    public function setUtilisateurAssigne(Utilisateur $utilisateur): static { $this->utilisateurAssigne = $utilisateur; return $this; }
+    public function getUtilisateurAssigne(): ?Utilisateur
+    {
+        return $this->utilisateurAssigne;
+    }
+    public function setUtilisateurAssigne(?Utilisateur $utilisateur): static
+    {
+        $this->utilisateurAssigne = $utilisateur;
+        return $this;
+    }
 
-    public function getUtilisateurCreateur(): Utilisateur { return $this->utilisateurCreateur; }
-    public function setUtilisateurCreateur(Utilisateur $utilisateur): static { $this->utilisateurCreateur = $utilisateur; return $this; }
+    public function getUtilisateurCreateur(): Utilisateur
+    {
+        return $this->utilisateurCreateur;
+    }
+    public function setUtilisateurCreateur(Utilisateur $utilisateur): static
+    {
+        $this->utilisateurCreateur = $utilisateur;
+        return $this;
+    }
 
-    public function getDateCreation(): \DateTimeImmutable { return $this->dateCreation; }
+    public function getDateCreation(): \DateTimeImmutable
+    {
+        return $this->dateCreation;
+    }
 
-    public function getLibelle(): string { return $this->libelle; }
-    public function setLibelle(string $libelle): static { $this->libelle = $libelle; return $this; }
+    public function getLibelle(): string
+    {
+        return $this->libelle;
+    }
+    public function setLibelle(string $libelle): static
+    {
+        $this->libelle = $libelle;
+        return $this;
+    }
 
-    public function getDescription(): ?string { return $this->description; }
-    public function setDescription(?string $description): static { $this->description = $description; return $this; }
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
+        return $this;
+    }
 
-    public function getDateRealisation(): ?\DateTimeInterface { return $this->dateRealisation; }
-    public function setDateRealisation(?\DateTimeInterface $date): static { $this->dateRealisation = $date; return $this; }
+    public function getDateRealisation(): ?\DateTimeInterface
+    {
+        return $this->dateRealisation;
+    }
+    public function setDateRealisation(?\DateTimeInterface $date): static
+    {
+        $this->dateRealisation = $date;
+        return $this;
+    }
 
-    public function getStatut(): StatutTache { return $this->statut; }
-    public function setStatut(StatutTache $statut): static { $this->statut = $statut; return $this; }
+    public function getStatut(): StatutTache
+    {
+        return $this->statut;
+    }
+    public function setStatut(StatutTache $statut): static
+    {
+        $this->statut = $statut;
+        return $this;
+    }
 }

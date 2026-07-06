@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des tickets
+{% endblock %}
+
+{% block body %}
+	<div class="navbar">
+		<a href="{{ path('app_ticket_index') }}" class="group inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200" style="color: #7c5cbf; background-color: #7c5cbf1a;" onmouseover="this.style.backgroundColor='#7c5cbf2e'" onmouseout="this.style.backgroundColor='#7c5cbf1a'">
+			<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+			</svg>
+			Retour
+		</a>
+		<h1>Tickets pris en charge par
+			{{ developpeur.prenom }}
+			{{ developpeur.nom }}</h1>
+	</div>
+	<div class="personnel">
+
+		<div class="idpersonnel">
+
+			<div class="imgUtilisateur"></div>
+			<div class="infoMessage">
+
+				<strong>{{ developpeur.prenom }}
+					{{ developpeur.nom }}</strong>
+			</div>
+			{# ── Barre de charge ── #}
+			<div class="flex items-center justify-between mb-1 mt-2">
+				<span class="text-xs text-gray-800 w-30">Charge de travail</span>
+				<span class="text-xs font-bold text-gray-800 mr-2">{{ pourcentage }}%</span>
+			</div>
+			<div class="w-full bg-gray-300 border border-gray-300 rounded-full h-4 mb-2 ">
+				<div class="h-4 rounded-full transition-all duration-500" style="width: {{ pourcentage }}%; background: {% if pourcentage < 50 %}var(--vert){% elseif pourcentage < 80 %}orange{% else %}#ef4444{% endif %};"></div>
+			</div>
+			<p class="text-xs text-gray-800  mb-1 ml-4">{{ nbTickets }}
+				tickets</p>
+		</div>
+
+		<div
+			class="donnéesCharge">
+
+
+			{# ── Liste des tickets ── #}
+
+			<div class="donnéesCharge">
+				<div class="TicketsUtilisateur">
+					{% if tickets is empty %}
+						<p class="text-gray-400 empty-message">Aucun ticket trouvé</p>
+					{% endif %}
+					{% for ticket in tickets %}
+
+						<div class="card" data-ticket-id="{{ ticket.id }}">
+							<div class="head">
+								<div class="clientId">#{{ ticket.id }}</div>
+								<p class="priority">{{ ticket.libellePriorite }}</p>
+							</div>
+
+							<div class="ticket-body">
+								<h3>{{ ticket.titre }}</h3>
+								<p class="descripTicket">{{ ticket.description }}</p>
+							</div>
+
+							<div class="foot">
+								<div class="datecreat">
+									{{ ticket.dateCreation|date('d/m/Y') }}
+								</div>
+								<div class="actions">
+									<a href="{{ path('app_ticket_show', {'id': ticket.id}) }}" class="card-link">Voir</a>
+									<a href="{{ path('app_ticket_edit', {'id': ticket.id}) }}" class="card-link">Éditer</a>
+								</div>
+							</div>
+
+							<div id="statut-{{ ticket.id }}" class="status">
+								<span class="libstatus {{ ticket.statut.color() }}">
+									{{ ticket.statut.label() }}
+								</span>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
