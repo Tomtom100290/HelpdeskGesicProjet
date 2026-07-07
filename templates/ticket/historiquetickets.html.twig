@@ -1,0 +1,144 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Historique des Tickets
+{% endblock %}
+
+{% block body %}
+
+	<div class="navbar">
+		<a href="{{ path('app_ticket_index') }}" class="group inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200" style="color: #7c5cbf; background-color: #7c5cbf1a;" onmouseover="this.style.backgroundColor='#7c5cbf2e'" onmouseout="this.style.backgroundColor='#7c5cbf1a'">
+			<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+			</svg>
+			Retour
+		</a>
+		<h1 class="historique-header">Historique Global des Tickets</h1>
+	</div>
+	<div class="historique-container">
+
+
+		<div
+			class="filter-bar">
+			{# Filtre Client #}
+			<div class="filter-group">
+				<label for="filter-client">Filtrer par Client</label>
+				<select id="filter-client">
+					<option value="">Tous les clients</option>
+					{% set clients_ajoutes = [] %}
+					{% for ticket in tickets %}
+						{% set client_nom = ticket.logicielClient and ticket.logicielClient.client ? ticket.logicielClient.client.raisonSocial : 'Sans Client' %}
+						{% if client_nom not in clients_ajoutes %}
+							<option value="{{ client_nom }}">{{ client_nom }}</option>
+							{% set clients_ajoutes = clients_ajoutes|merge([client_nom]) %}
+						{% endif %}
+					{% endfor %}
+				</select>
+			</div>
+
+			{# Filtre Développeur #}
+			<div class="filter-group">
+				<label for="filter-dev">Filtrer par Développeur</label>
+				<select id="filter-dev">
+					<option value="">Tous les développeurs</option>
+					{% for dev in developpeurs %}
+						<option value="{{ dev.prenom }} {{ dev.nom }}">{{ dev.prenom }}
+							{{ dev.nom }}</option>
+					{% endfor %}
+					<option value="Non assigné">Non assigné</option>
+				</select>
+			</div>
+
+			{# Filtre Statut #}
+			<div class="filter-group">
+				<label for="filter-status">Filtrer par Statut</label>
+				<select id="filter-status">
+					<option value="">Tous les statuts</option>
+					{% for statut in statuts %}
+						<option value="{{ statut.value }}">{{ statut.value }}</option>
+					{% endfor %}
+				</select>
+			</div>
+		</div>
+
+		<div class="table-responsive">
+			<table class="ticket-table" id="tickets-table">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Titre</th>
+						<th>Client</th>
+						<th>Développeur Assigné</th>
+						<th>Statut</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for ticket in tickets %}
+						{% set client_nom = ticket.logicielClient and ticket.logicielClient.client ? ticket.logicielClient.client.raisonSocial : 'Sans Client' %}
+						{% set dev_nom = ticket.assigne ? (ticket.assigne.prenom ~ ' ' ~ ticket.assigne.nom) : 'Non assigné' %}
+
+						<tr class="ticket-row" data-client="{{ client_nom }}" data-dev="{{ dev_nom }}" data-status="{{ ticket.statut.value }}">
+							<td>
+								<strong>#{{ ticket.id }}</strong>
+							</td>
+							<td>{{ ticket.titre }}</td>
+							<td>{{ client_nom }}</td>
+							<td>
+								{% if ticket.assigne %}
+									{{ dev_nom }}
+								{% else %}
+									<span style="color: #999; font-style: italic;">Non assigné</span>
+								{% endif %}
+							</td>
+							<td>
+								<span class="badge">{{ ticket.statut.value }}</span>
+							</td>
+							<td>
+								<a href="{{ path('app_ticket_show', {'id': ticket.id}) }}" class="takeitlight">Voir</a>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="6" class="no-tickets">Aucun ticket trouvé.</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+const filterClient = document.getElementById('filter-client');
+const filterDev = document.getElementById('filter-dev');
+const filterStatus = document.getElementById('filter-status');
+const rows = document.querySelectorAll('.ticket-row');
+
+function filterTable() {
+const clientValue = filterClient.value.toLowerCase();
+const devValue = filterDev.value.toLowerCase();
+const statusValue = filterStatus.value.toLowerCase();
+
+rows.forEach(row => {
+const rowClient = row.getAttribute('data-client').toLowerCase();
+const rowDev = row.getAttribute('data-dev').toLowerCase();
+const rowStatus = row.getAttribute('data-status').toLowerCase();
+
+const matchesClient = ! clientValue || rowClient === clientValue;
+const matchesDev = ! devValue || rowDev === devValue;
+const matchesStatus = ! statusValue || rowStatus === statusValue;
+
+if (matchesClient && matchesDev && matchesStatus) {
+row.style.display = '';
+} else {
+row.style.display = 'none';
+}
+});
+}
+
+filterClient.addEventListener('change', filterTable);
+filterDev.addEventListener('change', filterTable);
+filterStatus.addEventListener('change', filterTable);
+});
+	</script>
+{% endblock %}

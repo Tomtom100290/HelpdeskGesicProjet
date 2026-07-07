@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des tâches
+{% endblock %}
+
+{% block body %}
+	<div class="navbar">
+		<h1>Liste des tâches</h1>
+	</div>
+
+	<div class="bg-gray-50 py-4 px-4">
+		<div class="flex flex-wrap gap-4 justify-start">
+			{% for tache in taches %}
+				<div class="card">
+					<div class="headCardtache">
+						<div class="tache-body">
+							<h5>{{ tache.libelle }}</h5>
+						</div>
+					</div>
+					<div class="foot-card-tache">
+						<a href="{{ path('app_tache_show', {'id': tache.id}) }}" class="btn btn-primary">
+							Effectuer
+						</a>
+						<span class="badge bg-purple-100 text-purple-800">
+							{{ tache.statut.label }}
+						</span>
+					</div>
+				</div>
+			{% else %}
+				<p class="text-gray-400">Aucune tâche trouvée</p>
+			{% endfor %}
+		</div>
+	</div>
+
+	<div style="text-align: center; margin-top: 20px;">
+		<a href="{{ path('app_tache_new') }}" class="btn-primary">
+			+ Nouvelle tâche
+		</a>
+	</div>
+{% endblock %}

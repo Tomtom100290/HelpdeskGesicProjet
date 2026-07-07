@@ -22,15 +22,15 @@ class TicketRepository extends ServiceEntityRepository
     public function findAllAvecRelations(): array
     {
         return $this->createQueryBuilder('t')
-            ->join('t.statut', 's')
-            ->join('t.priorite', 'p')
-            ->join('t.categorie', 'c')
-            ->join('t.logicielClient', 'lc')
-            ->join('lc.client', 'cl')
-            ->join('lc.logiciel', 'l')
-            ->join('t.createur', 'u')
+            // On retire ->leftJoin('t.statut') et ->leftJoin('t.priorite') car ce sont des Enums !
+            ->leftJoin('t.logicielClient', 'lc')
+            ->leftJoin('lc.client', 'cl')
+            ->leftJoin('lc.logiciel', 'l')
+            ->leftJoin('t.createur', 'u')
             ->leftJoin('t.assigne', 'a')
-            ->addSelect('s', 'p', 'c', 'lc', 'cl', 'l', 'u', 'a')
+            // On injecte ces entités dans le select pour optimiser la requête (0 requêtes N+1)
+            ->addSelect('lc', 'cl', 'l', 'u', 'a')
+            // Tri par date de création décroissante (du plus récent au plus ancien)
             ->orderBy('t.dateCreation', 'DESC')
             ->getQuery()
             ->getResult();

@@ -30,8 +30,9 @@
 		{% endif %}
 	</head>
 	<body>
-		<main class="flex w-full ">
-			<aside class="min-w-[180px] w-[20%] top-0 left-0 text-white p-4 rounded-tr-xl rounded-br-xl shadow-lg shadow-black/20">
+		<main class="flex w-full h-screen overflow-hidden">
+			<aside class=" min-w-[180px] w-[20%] overflow-y-auto top-0 left-0 text-white p-4 rounded-tr-xl rounded-br-xl shadow-lg shadow-black/20">
+				<div class=""><img src="{{ asset('images/logo-version-white.png') }}" alt="Logo Gesic" class="w-[235px]  mx-auto my-4"></div>
 				<nav
 					class="space-y-2">
 					<!--Récupération de l'utilisateur-->
@@ -118,7 +119,7 @@
 							Utilisateur
 						</a>
 
-						<a href="" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition text-sm text-purple-100 hover:text-white decoration-none">
+						<a href="{{ path('app_ticket_historique') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition text-sm text-purple-100 hover:text-white decoration-none">
 							<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-300/80">
 								<polyline points="12 8 12 12 14 14"/>
 								<path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"/>
@@ -130,21 +131,20 @@
 					<!--Séparateur-->
 					<div class="w-[90%] h-[2px] bg-gray-400 my-[16px]"></div>
 
-					<!--stats-->
-					<div class="stats mx-auto">
-						<div class="start-1 h-[150px] w-[150px] rounded-xl bg-amber-200 mt-[16px] flex flex-col justify-center items-center mx-auto">
-							<h3 class="text-black text-center text-2xl">Tickets<br>ouvert</h3>
-							<p class="text-black text-center text-4xl font-bold mt-2">10</p>
-						</div>
-						<div class="start-2 h-[150px] w-[150px] rounded-xl bg-green-100 mt-[16px] flex flex-col justify-center items-center mx-auto">
-							<h3 class="text-black text-center text-2xl">Tickets<br>en cours</h3>
-							<p class="text-black text-center text-4xl font-bold mt-2">4</p>
-						</div>
-					</div>
+					<!--taches-->
+					<h3>Liste des tâches</h3>
+					<a href="{{ path('app_tache_index') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition text-sm text-purple-100 hover:text-white decoration-none">
+						<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-300/80">
+							<polyline points="12 8 12 12 14 14"/>
+							<path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"/>
+						</svg>
+						Les Tâches
+					</a>
+
 				</nav>
 			</aside>
 
-			<div class="flex-1"> {% block body %}{% endblock %}
+			<div class="monBody"> {% block body %}{% endblock %}
 				</div>
 			</main>
 		</body>

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Message;
 use App\Entity\Ticket;
 use App\Entity\Utilisateur;
+use App\Enum\StatutTache;
 use App\Form\NvxTicketType;
 use App\Form\TicketType;
 use App\Form\MessageType;
@@ -19,29 +20,33 @@ use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use App\Enum\StatutTicket;
 use App\Repository\UtilisateurRepository;
+use App\Repository\TacheRepository;
 
 #[Route('/ticket')]
 final class TicketController extends AbstractController
 {
     #[Route(name: 'app_ticket_index', methods: ['GET'])] // 👈 Renommé en app_ticket_index (ton point d'entrée global)
-    public function index(TicketRepository $ticketRepository, UtilisateurRepository $utilisateurRepository): Response
-    {
+    public function index(
+        TicketRepository $ticketRepository,
+        UtilisateurRepository $utilisateurRepository,
+        TacheRepository $tacheRepository // ← injecte le bon repository
+    ): Response {
         /** @var \App\Entity\Utilisateur $user */
         $user = $this->getUser();
         $roles = $user->getRoles();
 
-        // 1. Si c'est le support (ADMIN ou DEVELOPPEUR) -> On affiche tout
         if (in_array('ROLE_ADMIN', $roles) || in_array('ROLE_DEVELOPPEUR', $roles)) {
             return $this->render('ticket/vuesupport.html.twig', [
                 'tickets' => $ticketRepository->findAll(),
                 'statuts' => StatutTicket::cases(),
                 'nouveauxtickets' => $ticketRepository->findNonAssignes(),
                 'ticketsassignes' => $ticketRepository->findByAssigne($user),
-                'developpeurs'     => $utilisateurRepository->findEquipeSupport(),
+                'developpeurs' => $utilisateurRepository->findEquipeSupport(),
+                'taches' => $tacheRepository->findAll(),
+                'nbTachesAFaire' => $tacheRepository->countByStatut(StatutTache::A_FAIRE),
             ]);
         }
 
-        // 2. Si c'est un CLIENT -> On filtre pour n'afficher que SES tickets
         return $this->render('ticket/vueclient.html.twig', [
             'nouveauxtickets' => $ticketRepository->findBy([
                 'createur' => $user,
@@ -49,6 +54,20 @@ final class TicketController extends AbstractController
             ]),
             'tickets' => $ticketRepository->findByClientSansNouveau($user),
             'statuts' => StatutTicket::cases(),
+            'taches' => $tacheRepository->findAll(),
+        ]);
+    }
+    /*Affichage de l'historique des tickets*/
+    #[Route('/historique', name: 'app_ticket_historique', methods: ['GET'])]
+    public function historique(
+        TicketRepository $ticketRepository,
+        UtilisateurRepository $utilisateurRepository
+    ): Response {
+        return $this->render('ticket/historiquetickets.html.twig', [
+            // Utilisation de ta méthode optimisée
+            'tickets' => $ticketRepository->findAllAvecRelations(),
+            'statuts' => StatutTicket::cases(),
+            'developpeurs' => $utilisateurRepository->findEquipeSupport(),
         ]);
     }
     #[Route('/details-ticket-utilisateur/{id}', name: 'details_ticket_utilisateur')]

@@ -8,6 +8,7 @@ use App\Enum\StatutTache;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+
 class TacheRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -29,7 +30,7 @@ class TacheRepository extends ServiceEntityRepository
 
         if ($statut !== null) {
             $qb->andWhere('t.statut = :statut')
-               ->setParameter('statut', $statut);
+                ->setParameter('statut', $statut);
         }
 
         return $qb->getQuery()->getResult();
@@ -94,5 +95,15 @@ class TacheRepository extends ServiceEntityRepository
             ->orderBy('t.dateCreation', 'ASC')
             ->getQuery()
             ->getResult();
+    }
+
+    public function countByStatut(StatutTache $statut): int
+    {
+        return $this->createQueryBuilder('t')
+            ->select('COUNT(t.id)')
+            ->andWhere('t.statut = :statut')
+            ->setParameter('statut', $statut)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }

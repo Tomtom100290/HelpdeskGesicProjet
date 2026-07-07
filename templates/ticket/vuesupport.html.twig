@@ -4,11 +4,68 @@
 {% endblock %}
 
 {% block body %}
+
 	<div class="navbar">
 
 		<h1>Espace Support</h1>
 	</div>
-	<div class="bg-gray-50 py-8 px-4" style="box-sizing: border-box; overflow: hidden;">
+
+	<!---->
+	<div class="StatetTaches">
+		<div
+			class="statsTickets">
+			<!--stats-->
+
+			<div class="statscard">
+				<h5>Tickets<br>ouvert</h5>
+				<p class="text-white text-center text-[24px] font-bold">10</p>
+			</div>
+			<div class="statscard">
+				<h5>Tickets<br>en cours</h5>
+				<p class="text-white text-center text-[24px] font-bold">4</p>
+			</div>
+
+
+		</div>
+		<!--TACHES-->
+		<div class="bloctaches">
+			<div id="notif" alt="Nombre de tâches à faire">{{ nbTachesAFaire }}</div>
+			<div class="scroll-container">
+				<div class="ssbloctaches scroll-track">
+					{% if taches is empty %}
+						<p class="text-gray-400">Aucune tâche trouvée</p>
+					{% else %}
+						{% for i in 1..2 %}
+							{% for tache in taches %}
+								<div class="cardtache item">
+									<div class="headCardtache">
+										<div class="tache-body">
+											<h5>{{ tache.libelle }}</h5>
+										</div>
+									</div>
+									<div class="foot-card">
+										{% if tache.statut.value != 'realisee' %}
+											<form method="post" class="form-effectuer" action="{{ path('app_tache_effectuer', {'id': tache.id}) }}">
+												<input type="hidden" name="_token" value="{{ csrf_token('effectuer' ~ tache.id) }}">
+												<button type="submit" class="lien-effectuer">
+													Effectuer
+												</button>
+											</form>
+										{% endif %}
+										<p class="badge bg-purple-100 text-purple-800">
+											{{ tache.statut.label }}
+										</p>
+									</div>
+								</div>
+							{% endfor %}
+						{% endfor %}
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+	<!---->
+	<div class="bg-gray-50 py-4 px-4" style="box-sizing: border-box; overflow: hidden;">
 
 
 		<div
@@ -55,7 +112,7 @@
 									{{ nouveauxticket.statut.label() }}
 								</span>
 								{% if nouveauxticket.statut.value == 'nouveau' %}
-									<button data-action="prendre-en-charge" data-id="{{ nouveauxticket.id }}" class="takeit">
+									<button data-action="prendre-en-charge" data-id="{{ nouveauxticket.id }}" class="takeitsmall">
 										Prendre en charge
 									</button>
 								{% endif %}
@@ -164,7 +221,7 @@
 	</div>
 
 	<script>
-		(function () { // Ferme l'ancienne connexion si elle existe
+		(function () { // Ferme l'ancienne connexion si elle existe (évite les doublons lors d'une navigation SPA/Turbo)
 if (window._mercureEs) {
 window._mercureEs.close();
 }
@@ -185,19 +242,30 @@ hubUrl.searchParams.append('topic', 'ticket/liste');
 window._mercureEs = new EventSource(hubUrl);
 const es = window._mercureEs;
 
-es.onerror = () => console.error("Mercure erreur", es.readyState);
+es.onerror = () => console.error('Mercure erreur', es.readyState);
 
 es.onmessage = (e) => {
-const data = JSON.parse(e.data);
+let data;
+try {
+data = JSON.parse(e.data);
+} catch (err) {
+console.error('Mercure: message JSON invalide', err, e.data);
+return;
+}
+
 console.log('Mercure reçu:', data);
 
-if (data.statut === 'en_cours') { // 1. Supprimer la carte du bloc "Nouveaux tickets"
+if (data.statut !== 'en_cours') {
+return;
+}
+
+// 1. Supprimer la carte du bloc "Nouveaux tickets"
 const cardNouveau = document.querySelector (`#tickets-container [data-ticket-id="${
 data.id
 }"]`);
 if (cardNouveau) {
-cardNouveau.style.opacity = "0";
-cardNouveau.style.transition = "all 0.4s ease";
+cardNouveau.style.transition = 'all 0.4s ease';
+cardNouveau.style.opacity = '0';
 setTimeout(() => cardNouveau.remove(), 400);
 }
 
@@ -205,40 +273,42 @@ setTimeout(() => cardNouveau.remove(), 400);
 if (parseInt(data.assigneId) === parseInt(currentUserId)) {
 const colonneMesTickets = document.getElementById('mestickets-container');
 const emptyMsg = colonneMesTickets.querySelector('.empty-message');
-if (emptyMsg) 
+if (emptyMsg) {
 emptyMsg.remove();
-
-
+}
 
 const nouvelleCard = document.createElement('div');
 nouvelleCard.className = 'card';
 nouvelleCard.dataset.ticketId = data.id;
-nouvelleCard.style.opacity = "0";
-nouvelleCard.style.transition = "all 0.4s ease";
+nouvelleCard.style.transition = 'all 0.4s ease';
+nouvelleCard.style.opacity = '0';
 nouvelleCard.innerHTML = `
-                    <div class="head">
-                        <div class="clientId">#${
+                <div class="head">
+                    <div class="clientId">#${
 data.id
 }</div>
-                    </div>
-                    <div id="statut-${
+                </div>
+                <div id="statut-${
 data.id
 }" class="status">
-                        <span class="libstatus ${
+                    <span class="libstatus ${
 STATUTS['en_cours'] ?. css ?? ''
 }">
-                            ${
+                        ${
 STATUTS['en_cours'] ?. label ?? 'En cours'
 }
-                        </span>
-                    </div>
-                `;
+                    </span>
+                </div>
+            `;
 
 colonneMesTickets.prepend(nouvelleCard);
+
 setTimeout(() => {
-nouvelleCard.style.opacity = "1";
-nouvelleCard.style.transform = "scale(1.03)";
-setTimeout(() => nouvelleCard.style.transform = "", 300);
+nouvelleCard.style.opacity = '1';
+nouvelleCard.style.transform = 'scale(1.03)';
+setTimeout(() => {
+nouvelleCard.style.transform = '';
+}, 300);
 }, 50);
 }
 
@@ -256,42 +326,81 @@ label: data.statut,
 css: 'bg-gray-100 text-gray-600'
 };
 statutDiv.innerHTML = `
-                        <span class="libstatus ${
+                    <span class="libstatus ${
 info.css
 }">
-                            ${
+                        ${
 info.label
 }${
 data.assigne ? ' — ' + data.assigne : ''
 }
-                        </span>
-                    `;
+                    </span>
+                `;
 }
+
 const btn = cardEquipe.querySelector('[data-action="prendre-en-charge"]');
-if (btn) 
+if (btn) {
 btn.remove();
-
-
-
 }
 }
 };
 
 document.addEventListener('click', async (e) => {
 const btn = e.target.closest('[data-action="prendre-en-charge"]');
-if (! btn) 
+if (! btn) {
+return;
+}
+
+const texteOriginal = btn.textContent;
+btn.disabled = true;
+btn.textContent = 'En cours...';
+
+try {
+const response = await fetch (`/ticket/${
+btn.dataset.id
+}/prendre-en-charge`, {method: 'POST'});
+
+if (! response.ok) {
+throw new Error (`Réponse HTTP ${
+response.status
+}`);
+}
+} catch (err) {
+console.error('Erreur lors de la prise en charge du ticket', err);
+// On réactive le bouton pour permettre un nouvel essai
+btn.disabled = false;
+btn.textContent = texteOriginal;
+}
+});
+})();
+	</script>
+	<!--Pour le scroll des taches-->
+	<script>
+		(function () {
+const track = document.querySelector('.scroll-track');
+if (! track) 
 return;
 
 
 
-btn.disabled = true;
-btn.textContent = "En cours...";
+// Vitesse souhaitée en pixels par seconde (ajuste selon le rendu voulu)
+const VITESSE_PX_PAR_SEC = 144;
 
-await fetch (`/ticket/${
-btn.dataset.id
-}/prendre-en-charge`, {method: 'POST'});
-});
+function ajusterVitesse() {
+// La largeur totale du track contient le contenu dupliqué (x2)
+// donc la distance réelle parcourue par le cycle est la moitié de scrollWidth
+const distance = track.scrollWidth / 2;
+const duree = distance / VITESSE_PX_PAR_SEC;
 
+track.style.animationDuration = duree + 's';
+}
+
+// Calcul initial (après que les images/fonts soient chargées pour un scrollWidth fiable)
+window.addEventListener('load', ajusterVitesse);
+
+// Recalcul si la fenêtre est redimensionnée (le nombre de cartes visibles changeant,
+// la largeur du contenu ne change pas en soi, mais on sécurise le calcul)
+window.addEventListener('resize', ajusterVitesse);
 })();
 	</script>
 {% endblock %}
