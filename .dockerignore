@@ -3,7 +3,8 @@
 .gitignore
 
 # Environnements et secrets - JAMAIS dans l'image
-.env
+# (le .env de base est volontairement CONSERVE : il est commité sur Git,
+# ne contient aucun secret, et Symfony en a besoin pour booter le kernel)
 .env.local
 .env.*.local
 .env.prod
@@ -15,7 +16,7 @@ var/log/*
 !var/cache/.gitkeep
 !var/log/.gitkeep
 
-# Fichiers Docker eux-memes (inutiles dans l'image)
+# Fichiers Docker Compose (inutiles dans l'image, pas necessaires au build)
 docker-compose*.yml
 
 # Dependances locales (reinstallees par composer install dans le build)
