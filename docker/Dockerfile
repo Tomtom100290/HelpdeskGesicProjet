@@ -51,8 +51,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 # --- Configuration PHP recommandee pour Symfony en prod ---
-# NB: www.conf (pool PHP-FPM) volontairement omis, la config par defaut
-# de l'image suffit pour une appli interne de type helpdesk.
 COPY docker/php.ini /usr/local/etc/php/conf.d/symfony.ini
 COPY docker/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
@@ -72,6 +70,14 @@ RUN composer install \
 RUN mkdir -p var/cache var/log \
     && chown -R www-data:www-data var \
     && chmod -R 775 var
+
+# --- Valeurs FACTICES, utilisees UNIQUEMENT pour permettre au kernel Symfony
+#     de booter pendant la compilation des assets. Jamais utilisees en
+#     runtime : ecrasees par les vraies variables d'environnement du conteneur
+#     (voir docker-compose.prod.yml). Evite qu'un secret de prod ne soit
+#     grave dans les layers de l'image (principe 12-factor app).
+ENV APP_SECRET=build_time_dummy_secret \
+    DATABASE_URL="mysql://user:pass@127.0.0.1:3306/db?serverVersion=mariadb-11.0.0&charset=utf8mb4"
 
 # --- Compilation du CSS Tailwind ---
 RUN php bin/console tailwind:build --minify
