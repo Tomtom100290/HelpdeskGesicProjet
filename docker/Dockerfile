@@ -73,9 +73,11 @@ RUN mkdir -p var/cache var/log \
     && chown -R www-data:www-data var \
     && chmod -R 775 var
 
-# --- Compilation des assets si tu utilises AssetMapper / Webpack Encore ---
-# RUN php bin/console asset-map:compile --env=prod
-# RUN php bin/console importmap:install
+# --- Compilation du CSS Tailwind ---
+RUN php bin/console tailwind:build --minify
+
+# --- Compilation des assets AssetMapper (si utilisé) ---
+RUN php bin/console asset-map:compile --env=prod
 
 USER www-data
 
