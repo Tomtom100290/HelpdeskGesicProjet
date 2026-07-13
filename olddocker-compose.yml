@@ -1,0 +1,26 @@
+services:
+  web:
+    image: shinsenter/symfony:latest
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/var/www/html
+      ##- ./my_domain.crt:/etc/ssl/site/server.crt
+      ##- ./my_domain.key:/etc/ssl/site/server.key
+    environment:
+      - DATABASE_URL=mysql://root:${mariadb}@bdd:3306/HelpdeskGesicBDD?serverVersion=mariadb-10.11.0&charset=utf8mb4
+    depends_on:
+      - bdd
+
+  bdd:
+    image: mariadb:latest
+    ports:
+      - "3306:3306"
+    environment:
+      MARIADB_ROOT_PASSWORD: helpdesk2026
+      MARIADB_DATABASE: HelpdeskGesicBDD
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:

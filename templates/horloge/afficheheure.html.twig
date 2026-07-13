@@ -1,10 +1,61 @@
 <!--HORLOGE pour menu-->
-<span id="clock"></span>
+<!--HEURE LOCAL REUNION--><h4 style="color:white"> Fuseaux horaire
+</h4>
+<div class="blocHeure">
+	<div class="heure">
+		<span class="fuseauHoraire" id="clock-reunion"></span>
+		<p>Réunion</p>
+
+	</div>
+	<div class="heure">
+		<span class="fuseauHoraire" id="clock-mayotte"></span>
+		<p>Mayotte</p>
+
+	</div>
+	<div class="heure">
+		<span class="fuseauHoraire" id="clock-paris"></span>
+		<p>Paris</p>
+
+	</div>
+</div>
+<script>
+	function updateClock() {
+const now = new Date();
+document.getElementById('clock-reunion').textContent = now.toLocaleTimeString('fr-FR', {
+hour: '2-digit',
+minute: '2-digit'
+});
+}
+
+updateClock(); // affichage immédiat
+setInterval(updateClock, 1000); // mise à jour chaque seconde
+</script>
+
+<!--HEURE MAYOTTE-->
 
 <script>
 	function updateClock() {
 const now = new Date();
-document.getElementById('clock').textContent = now.toLocaleTimeString('fr-FR');
+document.getElementById('clock-mayotte').textContent = now.toLocaleTimeString('fr-FR', {
+timeZone: 'Indian/Mayotte',
+hour: '2-digit',
+minute: '2-digit'
+});
+}
+
+updateClock(); // affichage immédiat
+setInterval(updateClock, 1000); // mise à jour chaque seconde
+</script>
+<!--HEURE METROLPOLE PARIS-->
+
+<script>
+	function updateClock() {
+const now = new Date();
+document.getElementById('clock-paris').textContent = now.toLocaleTimeString('fr-FR', {
+timeZone: 'Europe/Paris',
+hour: '2-digit',
+minute: '2-digit'
+});
 }
 
 updateClock(); // affichage immédiat

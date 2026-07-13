@@ -6,13 +6,13 @@
 {% block body %}
 
 	<div class="navbar">
-		<a href="{{ path('app_ticket_index') }}" class="group inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200" style="color: #7c5cbf; background-color: #7c5cbf1a;" onmouseover="this.style.backgroundColor='#7c5cbf2e'" onmouseout="this.style.backgroundColor='#7c5cbf1a'">
+		<a href="#" onclick="history.back(); return false;" class="group inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200" style="color: #7c5cbf; background-color: #7c5cbf1a;" onmouseover="this.style.backgroundColor='#7c5cbf2e'" onmouseout="this.style.backgroundColor='#7c5cbf1a'">
 			<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
 				<path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
 			</svg>
 			Retour
 		</a>
-		<h1 class="historique-header">Historique Global des Tickets</h1>
+		<h1>Historique Global des Tickets</h1>
 	</div>
 	<div class="historique-container">
 
@@ -61,10 +61,10 @@
 		</div>
 
 		<div class="table-responsive">
-			<table class="ticket-table" id="tickets-table">
+			<table class="ticket-table border-separate border-spacing-8 border border-gray-400 dark:border-gray-500" id="tickets-table">
 				<thead>
 					<tr>
-						<th>ID</th>
+						<th class="border border-gray-300 dark:border-gray-600">ID</th>
 						<th>Titre</th>
 						<th>Client</th>
 						<th>Développeur Assigné</th>
@@ -79,7 +79,7 @@
 
 						<tr class="ticket-row" data-client="{{ client_nom }}" data-dev="{{ dev_nom }}" data-status="{{ ticket.statut.value }}">
 							<td>
-								<strong>#{{ ticket.id }}</strong>
+								<p class="text-yellow-600 font-semibold">#{{ ticket.id }}</p>
 							</td>
 							<td>{{ ticket.titre }}</td>
 							<td>{{ client_nom }}</td>
@@ -108,7 +108,8 @@
 	</div>
 
 	<script>
-		document.addEventListener('DOMContentLoaded', function () {
+		// 🎯 Modification : On utilise 'pageshow' au lieu de 'DOMContentLoaded'
+window.addEventListener('pageshow', function (event) {
 const filterClient = document.getElementById('filter-client');
 const filterDev = document.getElementById('filter-dev');
 const filterStatus = document.getElementById('filter-status');
@@ -136,6 +137,11 @@ row.style.display = 'none';
 });
 }
 
+// Si l'utilisateur revient en arrière, on ré-applique immédiatement le filtre existant
+// au cas où le navigateur aurait mémorisé la valeur des selects du formulaire.
+filterTable();
+
+// On ré-attache proprement les écouteurs sur les listes déroulantes
 filterClient.addEventListener('change', filterTable);
 filterDev.addEventListener('change', filterTable);
 filterStatus.addEventListener('change', filterTable);

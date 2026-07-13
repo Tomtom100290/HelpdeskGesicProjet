@@ -7,10 +7,9 @@
 			{% endblock %}
 		</title>
 		<!-- Dans ton <head> -->
-		<link rel="stylesheet" href="path/to/web-awesome.css"/>
-		<script type="module" src="path/to/web-awesome.js"></script>
-		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-		<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+		<!--link rel="stylesheet" href="path/to/web-awesome.css"/-->
+		<!--script type="module" src="path/to/web-awesome.js"></script-->
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>"> <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 		{% block stylesheets %}
 			<link rel="stylesheet" href="{{ asset('styles/app.css') }}">
 		{% endblock %}
@@ -31,7 +30,7 @@
 	</head>
 	<body>
 		<main class="flex w-full h-screen overflow-hidden">
-			<aside class=" min-w-[180px] w-[20%] overflow-y-auto top-0 left-0 text-white p-4 rounded-tr-xl rounded-br-xl shadow-lg shadow-black/20">
+			<aside class="asideNav min-w-[180px] w-[20%] overflow-y-auto top-0 left-0 text-white p-4 rounded-tr-xl rounded-br-xl shadow-lg shadow-black/20">
 				<div class=""><img src="{{ asset('images/logo-version-white.png') }}" alt="Logo Gesic" class="w-[235px]  mx-auto my-4"></div>
 				<nav
 					class="space-y-2">
@@ -79,7 +78,7 @@
 							Nouveau ticket
 						</a>
 
-						<div class="h-[1px] bg-white/10 my-3 mx-3"></div>
+						<div class="h-[1px] bg-white/10 my-1 mx-3"></div>
 
 						<h3>Paramètres avancés</h3>
 
@@ -129,7 +128,7 @@
 					</div>
 
 					<!--Séparateur-->
-					<div class="w-[90%] h-[2px] bg-gray-400 my-[16px]"></div>
+					<div class="h-[1px] bg-white/10 my-1 mx-3"></div>
 
 					<!--taches-->
 					<h3>Liste des tâches</h3>

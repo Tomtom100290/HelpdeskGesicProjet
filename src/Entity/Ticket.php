@@ -191,6 +191,10 @@ class Ticket
     public function setStatut(StatutTicket $s): static
     {
         $this->statut = $s;
+        // Si le ticket repasse à "nouveau", on retire l'assignation pour qu'il disparait du BLOC "MES TICKETS" du dev
+        if ($s === StatutTicket::NOUVEAU) {
+            $this->assigne = null;
+        }
         return $this;
     }
 

@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap');
 
+
 /* ─── VARIABLES ─────────────────────────────────────────── */
 :root {
     --mauve: #7c5cbf;
@@ -11,7 +12,7 @@
     --vert-mid: #5dc9a0;
     --vert-light: #d8f5eb81;
     --vert-dark: #1a6e4a;
-    --bg-page: #f2eff9;
+    --bg-page: #1c2663;
     --surface: rgba(255, 255, 255, 0.55);
     --surface2: rgba(255, 255, 255, 0.144);
     --glass: rgba(255, 255, 255, 0.28);
@@ -37,12 +38,12 @@
 /* CORRECTION : empêche le débordement horizontal sur toute la page */
 html,
 body {
-    background: var(--bg-page);
+
     font-family: 'DM Sans', sans-serif;
     color: var(--text);
     margin: 0;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0);
+    background-color: #d3e2f1;
     overflow-y: hidden;
     width: 100%;
 }
@@ -163,6 +164,10 @@ li {
     flex-shrink: 0;
 }
 
+#MessageTicket {
+    background-color: rgba(234, 225, 225, 0.454);
+}
+
 .imgUtilisateurMessagerie {
     width: 24px;
     height: 24px;
@@ -196,6 +201,26 @@ li {
     border: 1px solid var(--border);
     box-shadow: var(--shadow-card);
     transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.cardPrincipale {
+    padding: 16px;
+    background: var(--surface);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: var(--radius-card);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-card);
+    transition: transform .3s ease, box-shadow .3s ease;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    -webkit-transition: transform .3s ease, box-shadow .3s ease;
+    -moz-transition: transform .3s ease, box-shadow .3s ease;
+    -ms-transition: transform .3s ease, box-shadow .3s ease;
+    -o-transition: transform .3s ease, box-shadow .3s ease;
 }
 
 .card {
@@ -799,7 +824,7 @@ label {
 .Messagerie {
     padding: 16px;
     margin: 16px;
-    background-color: #a485b7;
+    background-color: #D9C9FF;
     height: 90%;
     border-radius: 10px;
 }
@@ -807,6 +832,7 @@ label {
 #MessageTicket h2 {
     margin-top: 8px;
     margin-bottom: 8px;
+    color: #1e1a2e;
 }
 
 .infoMessage {
@@ -1129,9 +1155,10 @@ label {
     font-style: italic;
 }
 
-aside {
+.asideNav {
     background: linear-gradient(180deg, #4a3480 0%, #32215c 100%);
     height: 100vh;
+    min-width: 280px;
 
 }
 
@@ -1283,7 +1310,7 @@ aside {
     -moz-border-radius: 10px;
     -ms-border-radius: 10px;
     -o-border-radius: 10px;
-    background-color: #6a7282;
+    background-color: #2dd4bf;
     display: flex;
     justify-content: start;
     align-items: center;
@@ -1450,7 +1477,7 @@ aside {
 }
 
 .ticket-table th {
-    background-color: var(--mauve);
+    background-color: #302A40;
     color: #fff;
     padding: 1rem;
     font-weight: 600;
@@ -1506,4 +1533,87 @@ aside {
     padding: 2rem;
     color: #777;
     font-style: italic;
+}
+
+/***Fuseau horaire**/
+.blocHeure {
+    display: flex;
+    justify-content: space-around;
+
+    width: 98%;
+    margin: 8px auto;
+    padding: 2px;
+}
+
+.fuseauHoraire {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.heure p {
+    font-size: 14px;
+    font-weight: 400;
+
+}
+
+.heure {
+    display: flex;
+    flex-direction: column;
+    margin: 4px;
+    text-align: center;
+}
+
+.horloge2 {
+    border: 1px solid rgba(255, 255, 255, 0.38);
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    padding: 4px;
+    width: 95%;
+    margin: 0 auto;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('../images/cartedumonde.jpg');
+
+}
+
+.horloge {
+    position: relative;
+    background-image: url('../images/cartedumonde.jpg');
+    background-size: cover;
+    background-position: center;
+    border: 0px solid rgba(178, 3, 242, 0);
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    padding: 8px 0px 8px 16px;
+    width: 95%;
+    margin: 0px 2px 8px 2px;
+    overflow: hidden;
+    -webkit-mask-image: radial-gradient(ellipse at center,
+            black 40%,
+            transparent 88%);
+    mask-image: radial-gradient(ellipse at center,
+            black 40%,
+            transparent 88%);
+}
+
+.horloge::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(22, 2, 28, 0.475);
+    /* voile blanc à 50% */
+    /* ou rgba(0, 0, 0, 0.5) pour assombrir */
+}
+
+.horloge>* {
+    position: relative;
+    z-index: 1;
+    /* pour que le contenu reste au-dessus du voile */
 }

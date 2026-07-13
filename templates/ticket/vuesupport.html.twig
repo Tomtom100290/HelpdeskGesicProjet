@@ -18,11 +18,11 @@
 
 			<div class="statscard">
 				<h5>Tickets<br>ouvert</h5>
-				<p class="text-white text-center text-[24px] font-bold">10</p>
+				<p class="text-yellow-600 text-center text-[24px] font-bold">10</p>
 			</div>
 			<div class="statscard">
 				<h5>Tickets<br>en cours</h5>
-				<p class="text-white text-center text-[24px] font-bold">4</p>
+				<p class="text-yellow-600 text-center text-[24px] font-bold">4</p>
 			</div>
 
 
@@ -221,7 +221,12 @@
 	</div>
 
 	<script>
-		(function () { // Ferme l'ancienne connexion si elle existe (évite les doublons lors d'une navigation SPA/Turbo)
+		(function () {
+if (window._mercureInitialized) {
+return;
+}
+window._mercureInitialized = true;
+
 if (window._mercureEs) {
 window._mercureEs.close();
 }
@@ -236,10 +241,8 @@ css: '{{ statut.color() }}'
 },{% endfor %}
 };
 
-const hubUrl = new URL('http://127.0.0.1:3000/.well-known/mercure');
-hubUrl.searchParams.append('topic', 'ticket/liste');
-
-window._mercureEs = new EventSource(hubUrl);
+const hubUrl = new URL('http://localhost:8443/.well-known/mercure');
+hubUrl.searchParams.append('topic', 'ticket/liste');{% if mercure_token is defined and mercure_token %}hubUrl.searchParams.append('authorization', '{{ mercure_token }}');{% endif %}window._mercureEs = new EventSource(hubUrl, {withCredentials: true});
 const es = window._mercureEs;
 
 es.onerror = () => console.error('Mercure erreur', es.readyState);
@@ -255,27 +258,21 @@ return;
 
 console.log('Mercure reçu:', data);
 
-if (data.statut !== 'en_cours') {
-return;
-}
-
-// 1. Supprimer la carte du bloc "Nouveaux tickets"
-const cardNouveau = document.querySelector (`#tickets-container [data-ticket-id="${
+// Cas 1 : le ticket passe "en_cours"
+if (data.statut === 'en_cours') {
+document.querySelectorAll(`#tickets-container [data-ticket-id="${
 data.id
-}"]`);
-if (cardNouveau) {
-cardNouveau.style.transition = 'all 0.4s ease';
-cardNouveau.style.opacity = '0';
-setTimeout(() => cardNouveau.remove(), 400);
-}
+}"], #mestickets-container [data-ticket-id="${
+data.id
+}"]`).forEach(card => card.remove());
 
-// 2. Si c'est MOI → ajouter dans "Mes tickets"
 if (parseInt(data.assigneId) === parseInt(currentUserId)) {
 const colonneMesTickets = document.getElementById('mestickets-container');
 const emptyMsg = colonneMesTickets.querySelector('.empty-message');
-if (emptyMsg) {
+if (emptyMsg) 
 emptyMsg.remove();
-}
+
+
 
 const nouvelleCard = document.createElement('div');
 nouvelleCard.className = 'card';
@@ -283,36 +280,60 @@ nouvelleCard.dataset.ticketId = data.id;
 nouvelleCard.style.transition = 'all 0.4s ease';
 nouvelleCard.style.opacity = '0';
 nouvelleCard.innerHTML = `
-                <div class="head">
-                    <div class="clientId">#${
+							<div class="head">
+								<div class="clientId">#${
 data.id
 }</div>
-                </div>
-                <div id="statut-${
+								<p class="priority">${
+data.libellePriorite ?? ''
+}</p>
+							</div>
+							<div class="ticket-body">
+								<h3>${
+data.titre ?? ''
+}</h3>
+								<p class="descripTicket">${
+data.description ?? ''
+}</p>
+							</div>
+							<div class="foot">
+								<div class="datecreat">${
+data.dateCreation ?? ''
+}</div>
+								<div class="actions">
+									<a href="/ticket/${
+data.id
+}" class="card-link">Voir</a>
+									<a href="/ticket/${
+data.id
+}/edit" class="card-link">Éditer</a>
+								</div>
+							</div>
+							<div id="statut-${
 data.id
 }" class="status">
-                    <span class="libstatus ${
+								<span class="libstatus ${
 STATUTS['en_cours'] ?. css ?? ''
 }">
-                        ${
+									${
 STATUTS['en_cours'] ?. label ?? 'En cours'
 }
-                    </span>
-                </div>
-            `;
-
+								</span>
+							</div>
+						`;
 colonneMesTickets.prepend(nouvelleCard);
 
-setTimeout(() => {
+requestAnimationFrame(() => {
+requestAnimationFrame(() => {
 nouvelleCard.style.opacity = '1';
 nouvelleCard.style.transform = 'scale(1.03)';
 setTimeout(() => {
 nouvelleCard.style.transform = '';
 }, 300);
-}, 50);
+});
+});
 }
 
-// 3. Mettre à jour la carte dans "Charge de l'équipe"
 const cardEquipe = document.querySelector (`#equipe-container [data-ticket-id="${
 data.id
 }"]`);
@@ -326,30 +347,126 @@ label: data.statut,
 css: 'bg-gray-100 text-gray-600'
 };
 statutDiv.innerHTML = `
-                    <span class="libstatus ${
+								<span class="libstatus ${
 info.css
 }">
-                        ${
+									${
 info.label
 }${
 data.assigne ? ' — ' + data.assigne : ''
 }
-                    </span>
-                `;
+								</span>
+							`;
+}
+const btn = cardEquipe.querySelector('[data-action="prendre-en-charge"]');
+if (btn) 
+btn.remove();
+
+
+
 }
 
-const btn = cardEquipe.querySelector('[data-action="prendre-en-charge"]');
-if (btn) {
-btn.remove();
+return;
 }
+
+// Cas 2 : le ticket repasse "nouveau"
+if (data.statut === 'nouveau') {
+document.querySelectorAll (`#mestickets-container [data-ticket-id="${
+data.id
+}"]`).forEach(card => card.remove());
+
+document.querySelectorAll (`#tickets-container [data-ticket-id="${
+data.id
+}"]`).forEach(card => card.remove());
+
+const colonneNouveaux = document.getElementById('tickets-container');
+const emptyMsg = colonneNouveaux.querySelector('.empty-message');
+if (emptyMsg) 
+emptyMsg.remove();
+
+
+
+const nouvelleCard = document.createElement('div');
+nouvelleCard.className = 'card';
+nouvelleCard.dataset.ticketId = data.id;
+nouvelleCard.style.transition = 'all 0.4s ease';
+nouvelleCard.style.opacity = '0';
+nouvelleCard.innerHTML = `
+						<div class="head">
+							<div class="clientId">#${
+data.id
+}</div>
+							<p class="priority">${
+data.libellePriorite ?? ''
+}</p>
+						</div>
+						<div class="ticket-body">
+							<h3>${
+data.titre ?? ''
+}</h3>
+							<p class="descripTicket">${
+data.description ?? ''
+}</p>
+						</div>
+						<div class="foot">
+							<div class="datecreat">${
+data.dateCreation ?? ''
+}</div>
+							<div class="actions">
+								<a href="/ticket/${
+data.id
+}" class="card-link">Voir</a>
+								<a href="/ticket/${
+data.id
+}/edit" class="card-link">Éditer</a>
+							</div>
+						</div>
+						<div id="statut-${
+data.id
+}" class="status">
+							<span class="libstatus ${
+STATUTS['nouveau'] ?. css ?? ''
+}">
+								${
+STATUTS['nouveau'] ?. label ?? 'Nouveau'
+}
+							</span>
+							<button data-action="prendre-en-charge" data-id="${
+data.id
+}" class="takeitsmall">
+								Prendre en charge
+							</button>
+						</div>
+					`;
+colonneNouveaux.prepend(nouvelleCard);
+
+requestAnimationFrame(() => {
+requestAnimationFrame(() => {
+nouvelleCard.style.opacity = '1';
+nouvelleCard.style.transform = 'scale(1.03)';
+setTimeout(() => {
+nouvelleCard.style.transform = '';
+}, 300);
+});
+});
+
+const cardEquipe = document.querySelector (`#equipe-container [data-ticket-id="${
+data.id
+}"]`);
+if (cardEquipe) {
+cardEquipe.remove();
+}
+
+return;
 }
 };
 
 document.addEventListener('click', async (e) => {
 const btn = e.target.closest('[data-action="prendre-en-charge"]');
-if (! btn) {
+if (! btn) 
 return;
-}
+
+
 
 const texteOriginal = btn.textContent;
 btn.disabled = true;
@@ -359,7 +476,6 @@ try {
 const response = await fetch (`/ticket/${
 btn.dataset.id
 }/prendre-en-charge`, {method: 'POST'});
-
 if (! response.ok) {
 throw new Error (`Réponse HTTP ${
 response.status
@@ -367,10 +483,17 @@ response.status
 }
 } catch (err) {
 console.error('Erreur lors de la prise en charge du ticket', err);
-// On réactive le bouton pour permettre un nouvel essai
 btn.disabled = false;
 btn.textContent = texteOriginal;
 }
+});
+
+window.addEventListener('pagehide', () => {
+if (window._mercureEs) {
+window._mercureEs.close();
+window._mercureEs = null;
+}
+window._mercureInitialized = false;
 });
 })();
 	</script>

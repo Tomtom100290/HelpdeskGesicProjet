@@ -25,12 +25,12 @@ enum StatutTicket: string
     public function color(): string
     {
         return match ($this) {
-            StatutTicket::NOUVEAU    => 'bg-yellow-50 text-yellow-700',
-            StatutTicket::EN_COURS   => 'bg-purple-50 text-purple-700',
-            StatutTicket::EN_ATTENTE => 'bg-amber-50 text-amber-700',
-            StatutTicket::RESOLU     => 'bg-green-50 text-green-700',
+            StatutTicket::NOUVEAU    => 'bg-yellow-50 text-yellow-600',
+            StatutTicket::EN_COURS   => 'bg-purple-50 text-purple-600',
+            StatutTicket::EN_ATTENTE => 'bg-amber-50 text-amber-600',
+            StatutTicket::RESOLU     => 'bg-green-50 text-green-600',
             StatutTicket::FERMER     => 'bg-gray-100 text-gray-600',
-            StatutTicket::REJETER    => 'bg-red-50 text-red-700',
+            StatutTicket::REJETER    => 'bg-red-50 text-red-600',
         };
     }
 }

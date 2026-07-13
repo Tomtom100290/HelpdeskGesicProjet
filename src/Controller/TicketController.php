@@ -21,19 +21,25 @@ use Symfony\Component\Mercure\Update;
 use App\Enum\StatutTicket;
 use App\Repository\UtilisateurRepository;
 use App\Repository\TacheRepository;
+use Symfony\Component\Mercure\Authorization;
 
 #[Route('/ticket')]
 final class TicketController extends AbstractController
 {
-    #[Route(name: 'app_ticket_index', methods: ['GET'])] // 👈 Renommé en app_ticket_index (ton point d'entrée global)
+    #[Route(name: 'app_ticket_index', methods: ['GET'])]
     public function index(
         TicketRepository $ticketRepository,
         UtilisateurRepository $utilisateurRepository,
-        TacheRepository $tacheRepository // ← injecte le bon repository
+        TacheRepository $tacheRepository,
+        Authorization $authorization,
+        Request $request
     ): Response {
         /** @var \App\Entity\Utilisateur $user */
         $user = $this->getUser();
         $roles = $user->getRoles();
+
+        // Génère un cookie d'autorisation Mercure pour le topic voulu
+        $authorization->setCookie($request, ['ticket/liste']);
 
         if (in_array('ROLE_ADMIN', $roles) || in_array('ROLE_DEVELOPPEUR', $roles)) {
             return $this->render('ticket/vuesupport.html.twig', [
@@ -138,15 +144,25 @@ final class TicketController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Enlève l'assignement si le ticket repasse à "NOUVEAU"
+            if ($ticket->getStatut() === StatutTicket::NOUVEAU) {
+                $ticket->setAssigne(null);
+            }
+
             $entityManager->flush();
 
             // Publie la mise à jour à tous les abonnés
             $hub->publish(new Update(
                 'ticket/liste',
                 json_encode([
-                    'id'      => $ticket->getId(),
-                    'statut'  => $ticket->getStatut()->value,
-                    'assigne' => $ticket->getAssigne()?->getPrenom() . ' ' . $ticket->getAssigne()?->getNom(),
+                    'id'              => $ticket->getId(),
+                    'statut'          => $ticket->getStatut()->value,
+                    'assigne'         => $ticket->getAssigne()?->getPrenom() . ' ' . $ticket->getAssigne()?->getNom(),
+                    'assigneId'       => $ticket->getAssigne()?->getId(),
+                    'titre'           => $ticket->getTitre(),
+                    'description'     => $ticket->getDescription(),
+                    'dateCreation'    => $ticket->getDateCreation()->format('d/m/Y'),
+                    'libellePriorite' => $ticket->getLibellePriorite(),
                 ])
             ));
 
@@ -167,10 +183,15 @@ final class TicketController extends AbstractController
         HubInterface $hub
     ): JsonResponse {
         /** @var \App\Entity\Utilisateur $user */
-        $user = $this->getUser(); // 👈 On prend l'utilisateur connecté réel
+        $user = $this->getUser();
 
         if (!$user) {
             return $this->json(['success' => false, 'error' => 'Utilisateur introuvable'], 404);
+        }
+
+        // Sécurité anti double-soumission : si déjà assigné et en cours, ne republie pas
+        if ($ticket->getStatut() === StatutTicket::EN_COURS && $ticket->getAssigne() !== null) {
+            return $this->json(['success' => true, 'alreadyProcessed' => true]);
         }
 
         $ticket->setStatut(StatutTicket::EN_COURS);
@@ -180,16 +201,19 @@ final class TicketController extends AbstractController
         $hub->publish(new Update(
             'ticket/liste',
             json_encode([
-                'id'      => $ticket->getId(),
-                'statut'  => $ticket->getStatut()->value,
-                'assigne' => $user->getPrenom() . ' ' . $user->getNom(),
-                'assigneId'   => $ticket->getAssigne()?->getId(),
+                'id'              => $ticket->getId(),
+                'statut'          => $ticket->getStatut()->value,
+                'assigne'         => $user->getPrenom() . ' ' . $user->getNom(),
+                'assigneId'       => $ticket->getAssigne()?->getId(),
+                'titre'           => $ticket->getTitre(),
+                'description'     => $ticket->getDescription(),
+                'dateCreation'    => $ticket->getDateCreation()->format('d/m/Y'),
+                'libellePriorite' => $ticket->getLibellePriorite(),
             ])
         ));
 
         return $this->json(['success' => true]);
     }
-
     #[Route('/{id}', name: 'app_ticket_show', methods: ['GET', 'POST'])]
     public function show(
         Request $request,

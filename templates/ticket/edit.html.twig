@@ -45,7 +45,7 @@ css: '{{ statut.color() }}'
 
 const ticketId = parseInt('{{ ticket.id }}');
 
-const hubUrl = new URL('http://127.0.0.1:3000/.well-known/mercure');
+const hubUrl = new URL('http://127.0.0.1:8443/.well-known/mercure');
 hubUrl.searchParams.append('topic', 'ticket/liste');
 const es = new EventSource(hubUrl);
 
