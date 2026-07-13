@@ -1,11 +1,6 @@
 services:
   app:
-    build:
-      context: .
-      dockerfile: docker/Dockerfile
-      args:
-        APP_ENV: prod
-    image: helpdesk-app:latest
+    image: ghcr.io/tomtom100290/helpdesk-app:latest
     container_name: symfony_app
     depends_on:
       database:
