@@ -23,7 +23,7 @@ use App\Repository\UtilisateurRepository;
 use App\Repository\TacheRepository;
 use Symfony\Component\Mercure\Authorization;
 
-#[Route('/ticket')]
+#[Route('/')]
 final class TicketController extends AbstractController
 {
     #[Route(name: 'app_ticket_index', methods: ['GET'])]
