@@ -60,6 +60,9 @@ jobs:
             set -e
             cd ~/helpdesk-app
 
+            echo "Chargement des variables d'environnement..."
+            export $(grep -v '^#' .env.prod | xargs)
+
             echo "Récupération de la nouvelle image..."
             docker compose -f docker-compose.prod.yml pull app
 
