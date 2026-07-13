@@ -32,7 +32,7 @@ services:
       - "80:80"
     volumes:
       - ./docker/default.conf:/etc/nginx/conf.d/default.conf:ro
-      - static_public:/app/public:ro
+      - static_public:/var/www/html/public:ro
       - logs:/var/log/nginx
     depends_on:
       - app
