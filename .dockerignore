@@ -16,9 +16,7 @@ var/log/*
 !var/log/.gitkeep
 
 # Fichiers Docker eux-memes (inutiles dans l'image)
-docker/
 docker-compose*.yml
-Dockerfile
 
 # Dependances locales (reinstallees par composer install dans le build)
 vendor/
