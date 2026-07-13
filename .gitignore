@@ -1,7 +1,4 @@
-
 ###> symfony/framework-bundle ###
-.env
-/node_modules/
 /.env.local
 /.env.local.php
 /.env.*.local
@@ -10,6 +7,10 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+
+###> Déploiement prod ###
+/.env.prod
+###< Déploiement prod ###
 
 ###> phpunit/phpunit ###
 /phpunit.xml
