@@ -1,16 +1,21 @@
 name: Déploiement production
 
-# Se déclenche à chaque push sur la branche main
+# Se déclenche automatiquement après la réussite du workflow de tests sur main
 on:
-  push:
+  workflow_run:
+    workflows: ["Symfony CI"]
     branches:
       - main
-  # Permet aussi de le lancer manuellement depuis l'onglet Actions de GitHub
+    types:
+      - completed
+  # Permet toujours le déclenchement manuel si besoin
   workflow_dispatch:
 
 jobs:
   build-and-push:
     name: Build et push de l'image Docker
+    # S'exécute si lancé manuellement OU si la CI a réussi
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
