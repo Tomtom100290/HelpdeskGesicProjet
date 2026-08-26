@@ -1,6 +1,5 @@
 name: Déploiement production
 
-# Se déclenche automatiquement après la réussite du workflow de tests sur main
 on:
   workflow_run:
     workflows: ["Symfony CI"]
@@ -8,13 +7,11 @@ on:
       - main
     types:
       - completed
-  # Permet toujours le déclenchement manuel si besoin
   workflow_dispatch:
 
 jobs:
   build-and-push:
     name: Build et push de l'image Docker
-    # S'exécute si lancé manuellement OU si la CI a réussi
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     permissions:
@@ -56,17 +53,24 @@ jobs:
     steps:
       - name: Connexion SSH et déploiement
         uses: appleboy/ssh-action@v1.0.3
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GHCR_ACTOR: ${{ github.actor }}
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
+          envs: GHCR_TOKEN,GHCR_ACTOR
           script: |
             set -e
             cd ~/helpdesk-app
 
             echo "Chargement des variables d'environnement..."
             export $(grep -v '^#' .env.prod | xargs)
+
+            echo "Connexion à GitHub Container Registry..."
+            echo "${GHCR_TOKEN}" | docker login ghcr.io -u "${GHCR_ACTOR}" --password-stdin
 
             echo "Récupération de la nouvelle image..."
             docker compose -f docker-compose.prod.yml pull app
