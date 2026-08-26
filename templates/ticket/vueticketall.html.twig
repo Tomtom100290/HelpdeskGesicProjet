@@ -1,0 +1,462 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des tickets
+{% endblock %}
+
+{% block body %}
+
+	<div class="navbar">
+		<a href="#" onclick="history.back(); return false;" class="group inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200" style="color: #7c5cbf; background-color: #7c5cbf1a;" onmouseover="this.style.backgroundColor='#7c5cbf2e'" onmouseout="this.style.backgroundColor='#7c5cbf1a'">
+			<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+			</svg>
+			Retour
+		</a>
+
+		<h1>Espace Support</h1>
+	</div>
+
+	<!---->
+	<div class="StatetTaches">
+		<div
+			class="statsTickets" style="background-color: #Ffffff !important;">
+			<!--stats-->
+
+			<div class="statscard" style="background-color: #2F9D90 !important; width:90px; height:90px; padding-top:10px;">
+				<h5>Tickets<br>ouvert</h5>
+				<p class="text-white text-center text-[24px] font-bold">{{ nbTicketsOuverts }}</p>
+			</div>
+			<div class="statscard" style="background-color: #4D74DC !important; width:90px; height:90px; padding-top:10px;">
+				<h5>Tickets<br>en cours</h5>
+				<p class=" text-white text-center text-[24px] font-bold">{{ nbTicketsEnCours }}</p>
+			</div>
+			<div class="statscard" style="background-color: #FF2B5C !important; width:90px; height:90px; padding-top:10px;">
+				<h5>Tickets<br>urgent</h5>
+				<p class="text-white text-center text-[24px] font-bold">{{ nbTicketsUrgents }}</p>
+			</div>
+
+
+		</div>
+		<!--TACHES-->
+		<div class="bloctaches" style=" background-color: #ffffff !important; border:1px #BDA6D6 solid !important;">
+			<div id="notif" alt="Nombre de tâches à faire">{{ nbTachesAFaire }}</div>
+			<div class="scroll-container">
+				<div class="ssbloctaches scroll-track">
+					{% if taches is empty %}
+						<p class="text-gray-400">Aucune tâche trouvée</p>
+					{% else %}
+						{% for i in 1..2 %}
+							{% for tache in taches %}
+								<div class="cardtache item" style="background-color: #7940B3 !important;">
+									<div class="headCardtache">
+										<div class="tache-body">
+											<h5>{{ tache.libelle }}</h5>
+										</div>
+									</div>
+									<div class="foot-card">
+										{% if tache.statut.value != 'realisee' %}
+											<form method="post" class="form-effectuer" action="{{ path('app_tache_effectuer', {'id': tache.id}) }}">
+												<input type="hidden" name="_token" value="{{ csrf_token('effectuer' ~ tache.id) }}">
+												<button type="submit" class="lien-effectuer">
+													Effectuer
+												</button>
+											</form>
+										{% endif %}
+										<p class="badge bg-purple-100 text-purple-800">
+											{{ tache.statut.label }}
+										</p>
+									</div>
+								</div>
+							{% endfor %}
+						{% endfor %}
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+	<!---->
+
+	<!--fin du bloc qui affiche tous les tickets-->
+	<div class="tw-bg-gray-50 tw-py-4 tw-px-4 tw-box-border tw-overflow-hidden">
+
+		<div
+			class="indexSupport">
+
+			{# ── Section Nouveaux tickets en vue Tableau ── #}
+			<div class="BlocAllTickets tw-w-full tw-min-w-[320px] tw-rounded-xl tw-max-h-[90vh] tw-flex tw-flex-col tw-m-2 tw-h-[90%] tw-overflow-y-auto tw-bg-[#0861d6] tw-p-4">
+
+				<div class="enteteNvxtickets tw-flex tw-items-center tw-justify-between tw-mb-8 tw-w-full">
+					<h2 class="tw-m-0 tw-text-white">Nouveaux tickets</h2>
+					<a class="takeit" href="{{ path('app_ticket_new') }}" style="display: flex; align-items: center; gap: 6px; color: white; text-decoration: none;">
+						<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 640 640" width="24" height="24" fill="white">
+							<path d="M352 128C352 110.3 337.7 96 320 96C302.3 96 288 110.3 288 128L288 288L128 288C110.3 288 96 302.3 96 320C96 337.7 110.3 352 128 352L288 352L288 512C288 529.7 302.3 544 320 544C337.7 544 352 529.7 352 512L352 352L512 352C529.7 352 544 337.7 544 320C544 302.3 529.7 288 512 288L352 288L352 128z"/>
+						</svg>
+						Nouveau ticket
+					</a>
+				</div>
+
+				<div class="table-responsive tw-w-full tw-bg-white tw-rounded-lg tw-shadow-sm tw-overflow-x-auto">
+					<table class="ticket-table tw-w-full tw-border-collapse tw-text-left tw-text-sm" id="tickets-table">
+						<thead class="tw-bg-slate-800 tw-text-white tw-uppercase tw-text-xs">
+							<tr>
+								<th class="tw-p-3 tw-w-16">ID</th>
+								<th class="tw-p-3 tw-w-28">Priorité</th>
+								<th class="tw-p-3">Titre</th>
+								<th class="tw-p-3 tw-w-32">Date</th>
+								<th class="tw-p-3 tw-w-28">Statut</th>
+								<th class="tw-p-3 tw-w-64 tw-text-right">Actions</th>
+							</tr>
+						</thead>
+						<tbody id="all-tickets-container" class="tw-divide-y tw-divide-gray-200">
+							{% if nouveauxtickets is empty %}
+								<tr>
+									<td colspan="6" class="no-tickets empty-message tw-p-4 tw-text-center tw-text-gray-400">
+										Aucun ticket trouvé
+									</td>
+								</tr>
+							{% endif %}
+
+							{% for nouveauxticket in nouveauxtickets %}
+								<tr class="ticket-row tw-hover:bg-gray-50" data-ticket-id="{{ nouveauxticket.id }}">
+									<td class="tw-p-3 tw-font-bold tw-text-gray-900 tw-align-middle">
+										#{{ nouveauxticket.id }}
+									</td>
+									<td class="tw-p-3 tw-align-middle">
+										<span class="priority tw-text-xs tw-font-semibold tw-px-2.5 tw-py-1 tw-rounded-full tw-bg-red-100 tw-text-red-700 tw-border tw-border-red-200">
+											{{ nouveauxticket.libellePriorite }}
+										</span>
+									</td>
+									<td class="tw-p-3 tw-align-middle">
+										<div class="tw-font-semibold tw-text-gray-900">{{ nouveauxticket.titre }}</div>
+										<div class="descripTicket tw-text-xs tw-text-gray-500 tw-truncate tw-max-w-xs">
+											{{ nouveauxticket.description }}
+										</div>
+									</td>
+									<td class="tw-p-3 tw-text-gray-600 tw-whitespace-nowrap tw-align-middle">
+										{{ nouveauxticket.dateCreation|date('d/m/Y') }}
+									</td>
+									<td class="tw-p-3 tw-align-middle" id="statut-{{ nouveauxticket.id }}">
+										<span class="libstatus {{ nouveauxticket.statut.color() }}">
+											{{ nouveauxticket.statut.label() }}
+										</span>
+									</td>
+									<td class="tw-p-3 tw-text-right tw-whitespace-nowrap tw-align-middle">
+										<div class="tw-inline-flex tw-items-center tw-gap-2">
+											{% if nouveauxticket.statut.value == 'nouveau' %}
+												<button data-action="prendre-en-charge" data-id="{{ nouveauxticket.id }}" class="takeitsmall">
+													Prendre en charge
+												</button>
+											{% endif %}
+											<a href="{{ path('app_ticket_show', {'id': nouveauxticket.id}) }}" class="takeitlight tw-text-xs">Voir</a>
+											<a href="{{ path('app_ticket_edit', {'id': nouveauxticket.id}) }}" class="takeitlight tw-text-xs">Éditer</a>
+										</div>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+	<script>
+		(function () {
+if (window._mercureInitialized) {
+return;
+}
+window._mercureInitialized = true;
+
+if (window._mercureEs) {
+window._mercureEs.close();
+}
+
+const currentUserId = {{ app.user.id }};
+
+const STATUTS = {
+{% for statut in statuts %}
+'{{ statut.value }}' : {
+label: '{{ statut.label() }}',
+css: '{{ statut.color() }}'
+},{% endfor %}
+};
+
+const hubUrl = new URL('http://localhost:8443/.well-known/mercure');
+hubUrl.searchParams.append('topic', 'ticket/liste');{% if mercure_token is defined and mercure_token %}hubUrl.searchParams.append('authorization', '{{ mercure_token }}');{% endif %}window._mercureEs = new EventSource(hubUrl, {withCredentials: true});
+const es = window._mercureEs;
+
+es.onerror = () => console.error('Mercure erreur', es.readyState);
+
+es.onmessage = (e) => {
+let data;
+try {
+data = JSON.parse(e.data);
+} catch (err) {
+console.error('Mercure: message JSON invalide', err, e.data);
+return;
+}
+
+console.log('Mercure reçu:', data);
+
+// Cas 1 : le ticket passe "en_cours"
+if (data.statut === 'en_cours') {
+document.querySelectorAll(`#all-tickets-container [data-ticket-id="${
+data.id
+}"], #mestickets-container [data-ticket-id="${
+data.id
+}"]`).forEach(card => card.remove());
+
+if (parseInt(data.assigneId) === parseInt(currentUserId)) {
+const colonneMesTickets = document.getElementById('mestickets-container');
+if (colonneMesTickets) {
+const emptyMsg = colonneMesTickets.querySelector('.empty-message');
+if (emptyMsg) 
+emptyMsg.remove();
+
+
+
+const nouvelleLigne = document.createElement('tr');
+nouvelleLigne.className = 'ticket-row tw-hover:bg-gray-50';
+nouvelleLigne.dataset.ticketId = data.id;
+nouvelleLigne.style.transition = 'all 0.4s ease';
+nouvelleLigne.style.opacity = '0';
+nouvelleLigne.innerHTML = `
+                            <td class="tw-p-3 tw-font-bold tw-text-yellow-600">#${
+data.id
+}</td>
+                            <td class="tw-p-3">
+                                <span class="priority tw-text-xs tw-font-semibold tw-px-2 tw-py-1 tw-rounded tw-bg-gray-100 tw-text-gray-800">
+                                    ${
+data.libellePriorite ?? ''
+}
+                                </span>
+                            </td>
+                            <td class="tw-p-3">
+                                <div class="tw-font-semibold tw-text-gray-900">${
+data.titre ?? ''
+}</div>
+                                <div class="descripTicket tw-text-xs tw-text-gray-500 tw-truncate tw-max-w-xs">${
+data.description ?? ''
+}</div>
+                            </td>
+                            <td class="tw-p-3 tw-text-gray-600 tw-whitespace-nowrap">${
+data.dateCreation ?? ''
+}</td>
+                            <td class="tw-p-3" id="statut-${
+data.id
+}">
+                                <span class="libstatus ${
+STATUTS['en_cours'] ?. css ?? ''
+}">
+                                    ${
+STATUTS['en_cours'] ?. label ?? 'En cours'
+}
+                                </span>
+                            </td>
+                            <td class="tw-p-3 tw-text-right tw-whitespace-nowrap">
+                                <div class="tw-flex tw-items-center tw-justify-end tw-gap-2">
+                                    <a href="/ticket/${
+data.id
+}" class="takeitlight tw-text-xs">Voir</a>
+                                    <a href="/ticket/${
+data.id
+}/edit" class="takeitlight tw-text-xs">Éditer</a>
+                                </div>
+                            </td>
+                        `;
+colonneMesTickets.prepend(nouvelleLigne);
+
+requestAnimationFrame(() => {
+requestAnimationFrame(() => {
+nouvelleLigne.style.opacity = '1';
+});
+});
+}
+}
+
+const cardEquipe = document.querySelector (`#equipe-container [data-ticket-id="${
+data.id
+}"]`);
+if (cardEquipe) {
+const statutDiv = document.getElementById (`statut-${
+data.id
+}`);
+if (statutDiv) {
+const info = STATUTS[data.statut] ?? {
+label: data.statut,
+css: 'bg-gray-100 text-gray-600'
+};
+statutDiv.innerHTML = `
+                                <span class="libstatus ${
+info.css
+}">
+                                    ${
+info.label
+}${
+data.assigne ? ' — ' + data.assigne : ''
+}
+                                </span>
+                            `;
+}
+const btn = cardEquipe.querySelector('[data-action="prendre-en-charge"]');
+if (btn) 
+btn.remove();
+
+
+
+}
+
+return;
+}
+
+// Cas 2 : le ticket repasse "nouveau"
+if (data.statut === 'nouveau') {
+document.querySelectorAll(`#mestickets-container [data-ticket-id="${
+data.id
+}"], #all-tickets-container [data-ticket-id="${
+data.id
+}"]`).forEach(card => card.remove());
+
+const colonneNouveaux = document.getElementById('all-tickets-container');
+if (colonneNouveaux) {
+const emptyMsg = colonneNouveaux.querySelector('.empty-message');
+if (emptyMsg) 
+emptyMsg.remove();
+
+
+
+const nouvelleLigne = document.createElement('tr');
+nouvelleLigne.className = 'ticket-row card';
+nouvelleLigne.dataset.ticketId = data.id;
+nouvelleLigne.style.transition = 'all 0.4s ease';
+nouvelleLigne.style.opacity = '0';
+nouvelleLigne.innerHTML = `
+                        <td class="tw-p-3 tw-font-bold tw-text-yellow-600">#${
+data.id
+}</td>
+                        <td class="tw-p-3">
+                            <span class="priority tw-text-xs tw-font-semibold tw-px-2 tw-py-1 tw-rounded tw-bg-gray-100 tw-text-gray-800">
+                                ${
+data.libellePriorite ?? ''
+}
+                            </span>
+                        </td>
+                        <td class="tw-p-3">
+                            <div class="tw-font-semibold tw-text-gray-900">${
+data.titre ?? ''
+}</div>
+                            <div class="descripTicket tw-text-xs tw-text-gray-500 tw-truncate tw-max-w-xs">${
+data.description ?? ''
+}</div>
+                        </td>
+                        <td class="tw-p-3 tw-text-gray-600 tw-whitespace-nowrap">${
+data.dateCreation ?? ''
+}</td>
+                        <td class="tw-p-3" id="statut-${
+data.id
+}">
+                            <span class="libstatus ${
+STATUTS['nouveau'] ?. css ?? ''
+}">
+                                ${
+STATUTS['nouveau'] ?. label ?? 'Nouveau'
+}
+                            </span>
+                        </td>
+                        <td class="tw-p-3 tw-text-right tw-whitespace-nowrap">
+                            <div class="tw-flex tw-items-center tw-justify-end tw-gap-2">
+                                <button data-action="prendre-en-charge" data-id="${
+data.id
+}" class="takeitsmall">
+                                    Prendre en charge
+                                </button>
+                                <a href="/ticket/${
+data.id
+}" class="takeitlight tw-text-xs">Voir</a>
+                                <a href="/ticket/${
+data.id
+}/edit" class="takeitlight tw-text-xs">Éditer</a>
+                            </div>
+                        </td>
+                    `;
+colonneNouveaux.prepend(nouvelleLigne);
+
+requestAnimationFrame(() => {
+requestAnimationFrame(() => {
+nouvelleLigne.style.opacity = '1';
+});
+});
+}
+
+const cardEquipe = document.querySelector (`#equipe-container [data-ticket-id="${
+data.id
+}"]`);
+if (cardEquipe) {
+cardEquipe.remove();
+}
+
+return;
+}
+};
+
+document.addEventListener('click', async (e) => {
+const btn = e.target.closest('[data-action="prendre-en-charge"]');
+if (! btn) 
+return;
+
+
+
+const texteOriginal = btn.textContent;
+btn.disabled = true;
+btn.textContent = 'En cours...';
+
+try {
+const response = await fetch (`/ticket/${
+btn.dataset.id
+}/prendre-en-charge`, {method: 'POST'});
+if (! response.ok) {
+throw new Error (`Réponse HTTP ${
+response.status
+}`);
+}
+} catch (err) {
+console.error('Erreur lors de la prise en charge du ticket', err);
+btn.disabled = false;
+btn.textContent = texteOriginal;
+}
+});
+
+window.addEventListener('pagehide', () => {
+if (window._mercureEs) {
+window._mercureEs.close();
+window._mercureEs = null;
+}
+window._mercureInitialized = false;
+});
+})();
+	</script>
+	<!--Pour le scroll des taches-->
+	<script>
+		(function () {
+const track = document.querySelector('.scroll-track');
+if (! track) 
+return;
+
+
+
+const VITESSE_PX_PAR_SEC = 144;
+
+function ajusterVitesse() {
+const distance = track.scrollWidth / 2;
+const duree = distance / VITESSE_PX_PAR_SEC;
+
+track.style.animationDuration = duree + 's';
+}
+
+window.addEventListener('load', ajusterVitesse);
+window.addEventListener('resize', ajusterVitesse);
+})();
+	</script>
+{% endblock %}

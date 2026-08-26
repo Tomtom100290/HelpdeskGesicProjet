@@ -1,40 +1,136 @@
+{# 
+  Vue : Liste des tâches
+  Rôle : Affiche l'ensemble des tâches à effectuer sous forme de cartes avec leur statut courant,
+         et fournit un lien de création vers une nouvelle tâche.
+  Variables attendues :
+    - taches (array|Collection) : Liste des objets Tache transmis par le contrôleur (app_tache_index).
+#}
+
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des tâches
+{% block title %}
+	Liste des tâches
 {% endblock %}
 
 {% block body %}
+	{# Titre principal de la page #}
 	<div class="navbar">
-		<h1>Liste des tâches</h1>
+		<a href="#" onclick="history.back(); return false;" class="group inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200" style="color: #7c5cbf; background-color: #7c5cbf1a;" onmouseover="this.style.backgroundColor='#7c5cbf2e'" onmouseout="this.style.backgroundColor='#7c5cbf1a'">
+			<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+			</svg>
+			Retour
+		</a>
+
+		<h1>Liste des Tâches</h1>
 	</div>
 
+	{# Grille d'affichage des tâches #}
 	<div class="bg-gray-50 py-4 px-4">
-		<div class="flex flex-wrap gap-4 justify-start">
+		<div
+			class="flex flex-wrap gap-4 justify-start">
+
+			{# Itération sur la liste des tâches (ou affichage du message vide si aucun résultat) #}
 			{% for tache in taches %}
-				<div class="card">
-					<div class="headCardtache">
+				<div
+					class="card" style="min-width: 280px; max-width: 340px;">
+
+					{# En-tête de la carte : Libellé/Titre de la tâche + badge statut #}
+					<div class="headCardtache" style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
 						<div class="tache-body">
 							<h5>{{ tache.libelle }}</h5>
 						</div>
-					</div>
-					<div class="foot-card-tache">
-						<a href="{{ path('app_tache_show', {'id': tache.id}) }}" class="btn btn-primary">
-							Effectuer
-						</a>
-						<span class="badge bg-purple-100 text-purple-800">
+						<span class="badge bg-purple-100 text-purple-800" style="white-space: nowrap;">
 							{{ tache.statut.label }}
 						</span>
 					</div>
-				</div>
-			{% else %}
-				<p class="text-gray-400">Aucune tâche trouvée</p>
-			{% endfor %}
-		</div>
-	</div>
 
-	<div style="text-align: center; margin-top: 20px;">
-		<a href="{{ path('app_tache_new') }}" class="btn-primary">
-			+ Nouvelle tâche
-		</a>
-	</div>
-{% endblock %}
+					{# Description de la tâche #}
+					{% if tache.description %}
+						<p class="text-gray-600" style="font-size: 0.85rem; margin: 8px 0;">
+							{{ tache.description }}
+						</p>
+					{% else %}
+						<p class="text-gray-400" style="font-size: 0.85rem; margin: 8px 0; font-style: italic;">
+							Aucune description
+						</p>
+					{% endif %}
+
+					{# Ticket lié, si présent #}
+					{% if tache.ticket %}
+						<p style="font-size: 0.8rem; margin: 4px 0;">
+							<strong>Ticket lié :</strong>
+							<a href="{{ path('app_ticket_show', {'id': tache.ticket.id}) }}" class="card-link">
+								#{{ tache.ticket.id }}
+								—
+								{{ tache.ticket.titre }}
+							</a>
+						</p>
+					{% endif %}
+
+					{# Créateur de la tâche #}
+					<p style="font-size: 0.8rem; margin: 4px 0;">
+						<strong>Créée par :</strong>
+						{{ tache.utilisateurCreateur.prenom }}
+						{{ tache.utilisateurCreateur.nom }}
+					</p>
+
+					{# Utilisateur assigné, si présent #}
+					<p style="font-size: 0.8rem; margin: 4px 0;">
+						<strong>Assignée à :</strong>
+						{% if tache.utilisateurAssigne %}
+							{{ tache.utilisateurAssigne.prenom }}
+							{{ tache.utilisateurAssigne.nom }}
+						{% else %}
+							<span class="text-gray-400" style="font-style: italic;">Non assignée</span>
+						{% endif %}
+					</p>
+
+					{# Date de création #}
+					<p style="font-size: 0.8rem; margin: 4px 0;">
+						<strong>Créée le :</strong>
+						{{ tache.dateCreation|date('d/m/Y H:i') }}
+					</p>
+
+					{# Date de réalisation, si présente #}
+					{% if tache.dateRealisation %}
+						<p style="font-size: 0.8rem; margin: 4px 0;">
+							<strong>Réalisée le :</strong>
+							{{ tache.dateRealisation|date('d/m/Y H:i') }}
+						</p>
+					{% endif %}
+
+					{# Pied de la carte : Bouton d'action #}
+					<div class="foot-card-tache" style="margin-top: 10px;">
+						<div class="flex items-center justify-between gap-3 mt-4 pt-4" style="border-top: 1px solid rgba(166, 141, 218, 0.15);">
+							<a href="{{ path('app_tache_show', {'id': tache.id}) }}" class="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-xl text-white shadow-md transition-all duration-200 hover:opacity-90" style="background: linear-gradient(135deg, #7c5cbf, #4a3480);">
+								<svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+									<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+								</svg>
+								Effectuer
+							</a>
+
+							<a href="{{ path('app_tache_edit', {'id': tache.id}) }}" class="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-xl transition-all duration-200 border" style="background: rgba(249, 115, 22, 0.12); color: #fb923c; border-color: rgba(249, 115, 22, 0.3);">
+								<svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="2">
+									<path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 210.3H3v-3.572L16.732 3.732z"/>
+								</svg>
+								Modifier
+							</a>
+						</div>
+
+					</div>
+				{% else %}
+					{# Gestion du cas où la collection est vide #}
+					<p class="text-gray-400">Aucune tâche trouvée</p>
+				{% endfor %}
+
+			</div>
+		</div>
+
+		{# Action principale : Bouton de création d'une nouvelle tâche #}
+		<div style="text-align: center; margin-top: 20px;">
+			<a href="{{ path('app_tache_new') }}" class="btn-primary">
+				+ Nouvelle tâche
+			</a>
+		</div>
+	{% endblock %}

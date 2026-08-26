@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for /app/src/Entity</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../_css/bootstrap.min.css?v=12.5.7" rel="stylesheet" type="text/css">
+  <link href="../_css/billboard.min.css?v=12.5.7" rel="stylesheet" type="text/css">
+  <link href="../_css/style.css?v=12.5.7" rel="stylesheet" type="text/css">
+  <link href="../_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="../index.html">/app/src</a></li>
+         <li class="breadcrumb-item"><a href="index.html">Entity</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classesCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="CategorieTicket.php.html#10">App\Entity\CategorieTicket</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CompteRendu.php.html#8">App\Entity\CompteRendu</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueStatutTicket.php.html#8">App\Entity\HistoriqueStatutTicket</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Message.php.html#10">App\Entity\Message</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Priorite.php.html#10">App\Entity\Priorite</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="StatutTicket.php.html#10">App\Entity\StatutTicket</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tache.php.html#9">App\Entity\Tache</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Logiciel.php.html#10">App\Entity\Logiciel</a></td><td class="text-right">23%</td></tr>
+       <tr><td><a href="Client.php.html#10">App\Entity\Client</a></td><td class="text-right">24%</td></tr>
+       <tr><td><a href="LogicielClient.php.html#10">App\Entity\LogicielClient</a></td><td class="text-right">45%</td></tr>
+       <tr><td><a href="Utilisateur.php.html#15">App\Entity\Utilisateur</a></td><td class="text-right">57%</td></tr>
+       <tr><td><a href="Ticket.php.html#11">App\Entity\Ticket</a></td><td class="text-right">78%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+         <th class="text-right">Complexity</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Utilisateur.php.html#15">App\Entity\Utilisateur</a></td><td class="text-right">57.4%</td><td class="text-right">40</td><td class="text-right">163</td></tr>
+       <tr><td><a href="Ticket.php.html#11">App\Entity\Ticket</a></td><td class="text-right">78.8%</td><td class="text-right">37</td><td class="text-right">49</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2 style="margin-top: 3rem;">Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodsCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="CategorieTicket.php.html#29"><abbr title="App\Entity\CategorieTicket::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CategorieTicket.php.html#34"><abbr title="App\Entity\CategorieTicket::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CategorieTicket.php.html#39"><abbr title="App\Entity\CategorieTicket::getLibelle">getLibelle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CategorieTicket.php.html#43"><abbr title="App\Entity\CategorieTicket::setLibelle">setLibelle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CategorieTicket.php.html#49"><abbr title="App\Entity\CategorieTicket::getValeurBloquant">getValeurBloquant</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CategorieTicket.php.html#53"><abbr title="App\Entity\CategorieTicket::setValeurBloquant">setValeurBloquant</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CategorieTicket.php.html#59"><abbr title="App\Entity\CategorieTicket::getTickets">getTickets</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Client.php.html#67"><abbr title="App\Entity\Client::getAdresse">getAdresse</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Client.php.html#68"><abbr title="App\Entity\Client::setAdresse">setAdresse</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Client.php.html#70"><abbr title="App\Entity\Client::getVille">getVille</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Client.php.html#71"><abbr title="App\Entity\Client::setVille">setVille</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Client.php.html#73"><abbr title="App\Entity\Client::getCodePostal">getCodePostal</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Client.php.html#74"><abbr title="App\Entity\Client::setCodePostal">setCodePostal</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Client.php.html#76"><abbr title="App\Entity\Client::getNumTel">getNumTel</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Client.php.html#77"><abbr title="App\Entity\Client::setNumTel">setNumTel</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Client.php.html#79"><abbr title="App\Entity\Client::getEmail">getEmail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Client.php.html#80"><abbr title="App\Entity\Client::setEmail">setEmail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Client.php.html#82"><abbr title="App\Entity\Client::getPositionX">getPositionX</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Client.php.html#83"><abbr title="App\Entity\Client::setPositionX">setPositionX</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Client.php.html#85"><abbr title="App\Entity\Client::getPositionY">getPositionY</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Client.php.html#86"><abbr title="App\Entity\Client::setPositionY">setPositionY</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Client.php.html#88"><abbr title="App\Entity\Client::getDateCreation">getDateCreation</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Client.php.html#90"><abbr title="App\Entity\Client::isTopActif">isTopActif</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Client.php.html#91"><abbr title="App\Entity\Client::setTopActif">setTopActif</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Client.php.html#93"><abbr title="App\Entity\Client::getUtilisateurs">getUtilisateurs</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Client.php.html#94"><abbr title="App\Entity\Client::getLogicielsClient">getLogicielsClient</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CompteRendu.php.html#34"><abbr title="App\Entity\CompteRendu::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CompteRendu.php.html#39"><abbr title="App\Entity\CompteRendu::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CompteRendu.php.html#41"><abbr title="App\Entity\CompteRendu::getTicket">getTicket</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CompteRendu.php.html#42"><abbr title="App\Entity\CompteRendu::setTicket">setTicket</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CompteRendu.php.html#44"><abbr title="App\Entity\CompteRendu::getUtilisateur">getUtilisateur</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CompteRendu.php.html#45"><abbr title="App\Entity\CompteRendu::setUtilisateur">setUtilisateur</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CompteRendu.php.html#47"><abbr title="App\Entity\CompteRendu::getContenu">getContenu</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CompteRendu.php.html#48"><abbr title="App\Entity\CompteRendu::setContenu">setContenu</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CompteRendu.php.html#50"><abbr title="App\Entity\CompteRendu::getTempsTraitementMinutes">getTempsTraitementMinutes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CompteRendu.php.html#51"><abbr title="App\Entity\CompteRendu::setTempsTraitementMinutes">setTempsTraitementMinutes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CompteRendu.php.html#53"><abbr title="App\Entity\CompteRendu::getDateRedaction">getDateRedaction</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueStatutTicket.php.html#39"><abbr title="App\Entity\HistoriqueStatutTicket::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueStatutTicket.php.html#44"><abbr title="App\Entity\HistoriqueStatutTicket::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueStatutTicket.php.html#46"><abbr title="App\Entity\HistoriqueStatutTicket::getTicket">getTicket</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueStatutTicket.php.html#47"><abbr title="App\Entity\HistoriqueStatutTicket::setTicket">setTicket</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueStatutTicket.php.html#49"><abbr title="App\Entity\HistoriqueStatutTicket::getStatutAvant">getStatutAvant</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueStatutTicket.php.html#50"><abbr title="App\Entity\HistoriqueStatutTicket::setStatutAvant">setStatutAvant</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueStatutTicket.php.html#52"><abbr title="App\Entity\HistoriqueStatutTicket::getStatutApres">getStatutApres</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueStatutTicket.php.html#53"><abbr title="App\Entity\HistoriqueStatutTicket::setStatutApres">setStatutApres</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueStatutTicket.php.html#55"><abbr title="App\Entity\HistoriqueStatutTicket::getUtilisateur">getUtilisateur</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueStatutTicket.php.html#56"><abbr title="App\Entity\HistoriqueStatutTicket::setUtilisateur">setUtilisateur</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueStatutTicket.php.html#58"><abbr title="App\Entity\HistoriqueStatutTicket::getDateChangement">getDateChangement</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueStatutTicket.php.html#60"><abbr title="App\Entity\HistoriqueStatutTicket::getCommentaire">getCommentaire</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="HistoriqueStatutTicket.php.html#61"><abbr title="App\Entity\HistoriqueStatutTicket::setCommentaire">setCommentaire</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Impact.php.html#92"><abbr title="App\Entity\Impact::getTickets">getTickets</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Logiciel.php.html#42"><abbr title="App\Entity\Logiciel::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Logiciel.php.html#47"><abbr title="App\Entity\Logiciel::getDescription">getDescription</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Logiciel.php.html#48"><abbr title="App\Entity\Logiciel::setDescription">setDescription</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Logiciel.php.html#50"><abbr title="App\Entity\Logiciel::getTypeLogiciel">getTypeLogiciel</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Logiciel.php.html#51"><abbr title="App\Entity\Logiciel::setTypeLogiciel">setTypeLogiciel</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Logiciel.php.html#53"><abbr title="App\Entity\Logiciel::getCoeffCriticite">getCoeffCriticite</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Logiciel.php.html#54"><abbr title="App\Entity\Logiciel::setCoeffCriticite">setCoeffCriticite</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Logiciel.php.html#56"><abbr title="App\Entity\Logiciel::isTopActif">isTopActif</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Logiciel.php.html#57"><abbr title="App\Entity\Logiciel::setTopActif">setTopActif</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Logiciel.php.html#59"><abbr title="App\Entity\Logiciel::getLogicielsClient">getLogicielsClient</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="LogicielClient.php.html#73"><abbr title="App\Entity\LogicielClient::getDateInstallation">getDateInstallation</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="LogicielClient.php.html#77"><abbr title="App\Entity\LogicielClient::setDateInstallation">setDateInstallation</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="LogicielClient.php.html#83"><abbr title="App\Entity\LogicielClient::getVersionLogiciel">getVersionLogiciel</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="LogicielClient.php.html#87"><abbr title="App\Entity\LogicielClient::setVersionLogiciel">setVersionLogiciel</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="LogicielClient.php.html#93"><abbr title="App\Entity\LogicielClient::getNotes">getNotes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="LogicielClient.php.html#97"><abbr title="App\Entity\LogicielClient::setNotes">setNotes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="LogicielClient.php.html#103"><abbr title="App\Entity\LogicielClient::getDateCreation">getDateCreation</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="LogicielClient.php.html#108"><abbr title="App\Entity\LogicielClient::getTickets">getTickets</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Message.php.html#43"><abbr title="App\Entity\Message::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Message.php.html#49"><abbr title="App\Entity\Message::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Message.php.html#51"><abbr title="App\Entity\Message::getTicket">getTicket</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Message.php.html#52"><abbr title="App\Entity\Message::setTicket">setTicket</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Message.php.html#54"><abbr title="App\Entity\Message::getUtilisateur">getUtilisateur</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Message.php.html#55"><abbr title="App\Entity\Message::setUtilisateur">setUtilisateur</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Message.php.html#57"><abbr title="App\Entity\Message::getMessageParent">getMessageParent</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Message.php.html#58"><abbr title="App\Entity\Message::setMessageParent">setMessageParent</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Message.php.html#60"><abbr title="App\Entity\Message::getReponses">getReponses</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Message.php.html#62"><abbr title="App\Entity\Message::getContenu">getContenu</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Message.php.html#63"><abbr title="App\Entity\Message::setContenu">setContenu</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Message.php.html#65"><abbr title="App\Entity\Message::isTopActif">isTopActif</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Message.php.html#66"><abbr title="App\Entity\Message::setTopActif">setTopActif</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Message.php.html#68"><abbr title="App\Entity\Message::getDateEnvoi">getDateEnvoi</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Priorite.php.html#31"><abbr title="App\Entity\Priorite::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Priorite.php.html#36"><abbr title="App\Entity\Priorite::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Priorite.php.html#38"><abbr title="App\Entity\Priorite::getLibelle">getLibelle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Priorite.php.html#39"><abbr title="App\Entity\Priorite::setLibelle">setLibelle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Priorite.php.html#41"><abbr title="App\Entity\Priorite::getNiveauCriticite">getNiveauCriticite</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Priorite.php.html#42"><abbr title="App\Entity\Priorite::setNiveauCriticite">setNiveauCriticite</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Priorite.php.html#44"><abbr title="App\Entity\Priorite::getDescription">getDescription</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Priorite.php.html#45"><abbr title="App\Entity\Priorite::setDescription">setDescription</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Priorite.php.html#47"><abbr title="App\Entity\Priorite::getTickets">getTickets</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="StatutTicket.php.html#37"><abbr title="App\Entity\StatutTicket::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="StatutTicket.php.html#44"><abbr title="App\Entity\StatutTicket::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="StatutTicket.php.html#46"><abbr title="App\Entity\StatutTicket::getLibelle">getLibelle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="StatutTicket.php.html#47"><abbr title="App\Entity\StatutTicket::setLibelle">setLibelle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="StatutTicket.php.html#49"><abbr title="App\Entity\StatutTicket::getCouleurLib">getCouleurLib</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="StatutTicket.php.html#50"><abbr title="App\Entity\StatutTicket::setCouleurLib">setCouleurLib</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="StatutTicket.php.html#52"><abbr title="App\Entity\StatutTicket::isTopActif">isTopActif</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="StatutTicket.php.html#53"><abbr title="App\Entity\StatutTicket::setTopActif">setTopActif</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="StatutTicket.php.html#55"><abbr title="App\Entity\StatutTicket::getTickets">getTickets</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="StatutTicket.php.html#56"><abbr title="App\Entity\StatutTicket::getHistoriquesAvant">getHistoriquesAvant</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="StatutTicket.php.html#57"><abbr title="App\Entity\StatutTicket::getHistoriquesApres">getHistoriquesApres</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tache.php.html#45"><abbr title="App\Entity\Tache::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tache.php.html#50"><abbr title="App\Entity\Tache::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tache.php.html#55"><abbr title="App\Entity\Tache::getTicket">getTicket</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tache.php.html#59"><abbr title="App\Entity\Tache::setTicket">setTicket</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tache.php.html#65"><abbr title="App\Entity\Tache::getUtilisateurAssigne">getUtilisateurAssigne</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tache.php.html#69"><abbr title="App\Entity\Tache::setUtilisateurAssigne">setUtilisateurAssigne</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tache.php.html#75"><abbr title="App\Entity\Tache::getUtilisateurCreateur">getUtilisateurCreateur</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tache.php.html#79"><abbr title="App\Entity\Tache::setUtilisateurCreateur">setUtilisateurCreateur</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tache.php.html#85"><abbr title="App\Entity\Tache::getDateCreation">getDateCreation</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tache.php.html#90"><abbr title="App\Entity\Tache::getLibelle">getLibelle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tache.php.html#94"><abbr title="App\Entity\Tache::setLibelle">setLibelle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tache.php.html#100"><abbr title="App\Entity\Tache::getDescription">getDescription</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tache.php.html#104"><abbr title="App\Entity\Tache::setDescription">setDescription</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tache.php.html#110"><abbr title="App\Entity\Tache::getDateRealisation">getDateRealisation</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tache.php.html#114"><abbr title="App\Entity\Tache::setDateRealisation">setDateRealisation</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tache.php.html#120"><abbr title="App\Entity\Tache::getStatut">getStatut</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Tache.php.html#124"><abbr title="App\Entity\Tache::setStatut">setStatut</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ticket.php.html#112"><abbr title="App\Entity\Ticket::getCreateur">getCreateur</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ticket.php.html#136"><abbr title="App\Entity\Ticket::setDestinataire">setDestinataire</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ticket.php.html#226"><abbr title="App\Entity\Ticket::getDateCloture">getDateCloture</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ticket.php.html#230"><abbr title="App\Entity\Ticket::setDateCloture">setDateCloture</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ticket.php.html#236"><abbr title="App\Entity\Ticket::getMessages">getMessages</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ticket.php.html#240"><abbr title="App\Entity\Ticket::getHistoriques">getHistoriques</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ticket.php.html#244"><abbr title="App\Entity\Ticket::getCompteRendu">getCompteRendu</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ticket.php.html#248"><abbr title="App\Entity\Ticket::getTaches">getTaches</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Urgence.php.html#91"><abbr title="App\Entity\Urgence::getTickets">getTickets</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Utilisateur.php.html#120"><abbr title="App\Entity\Utilisateur::eraseCredentials">eraseCredentials</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Utilisateur.php.html#144"><abbr title="App\Entity\Utilisateur::getImageProfil">getImageProfil</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Utilisateur.php.html#148"><abbr title="App\Entity\Utilisateur::setImageProfil">setImageProfil</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Utilisateur.php.html#154"><abbr title="App\Entity\Utilisateur::getImageProfilSize">getImageProfilSize</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Utilisateur.php.html#158"><abbr title="App\Entity\Utilisateur::setImageProfilSize">setImageProfilSize</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Utilisateur.php.html#164"><abbr title="App\Entity\Utilisateur::getImageProfilFile">getImageProfilFile</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Utilisateur.php.html#172"><abbr title="App\Entity\Utilisateur::setImageProfilFile">setImageProfilFile</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Utilisateur.php.html#184"><abbr title="App\Entity\Utilisateur::getUpdatedAt">getUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Utilisateur.php.html#188"><abbr title="App\Entity\Utilisateur::setUpdatedAt">setUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Utilisateur.php.html#234"><abbr title="App\Entity\Utilisateur::getMotDePasse">getMotDePasse</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Utilisateur.php.html#253"><abbr title="App\Entity\Utilisateur::setTopActif">setTopActif</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Utilisateur.php.html#269"><abbr title="App\Entity\Utilisateur::getTicketsCrees">getTicketsCrees</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Utilisateur.php.html#273"><abbr title="App\Entity\Utilisateur::getTicketsAssignes">getTicketsAssignes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Utilisateur.php.html#277"><abbr title="App\Entity\Utilisateur::getTicketsDestines">getTicketsDestines</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Utilisateur.php.html#281"><abbr title="App\Entity\Utilisateur::getMessages">getMessages</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Utilisateur.php.html#285"><abbr title="App\Entity\Utilisateur::getHistoriques">getHistoriques</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Utilisateur.php.html#289"><abbr title="App\Entity\Utilisateur::getComptesRendus">getComptesRendus</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Utilisateur.php.html#293"><abbr title="App\Entity\Utilisateur::getTachesAssignees">getTachesAssignees</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Utilisateur.php.html#297"><abbr title="App\Entity\Utilisateur::getTachesCrees">getTachesCrees</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ticket.php.html#172"><abbr title="App\Entity\Ticket::getLibellePriorite">getLibellePriorite</abbr></a></td><td class="text-right">85%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+         <th class="text-right">Complexity</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Ticket.php.html#172"><abbr title="App\Entity\Ticket::getLibellePriorite">getLibellePriorite</abbr></a></td><td class="text-right">85.7%</td><td class="text-right">7</td><td class="text-right">7</td></tr>
+       <tr><td><a href="Utilisateur.php.html#172"><abbr title="App\Entity\Utilisateur::setImageProfilFile">setImageProfilFile</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 12.5.7</a> using <a href="https://www.php.net/" target="_top">PHP 8.3.33</a> and <a href="https://phpunit.de/">PHPUnit 12.5.33</a> at Mon Aug 10 10:10:41 CEST 2026.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="../_js/billboard.pkgd.min.js?v=12.5.7" type="text/javascript"></script>
+  <script type="application/json" id="complexity_class">[[0,7,"CategorieTicket.php.html#10","App\\Entity\\CategorieTicket","56"],[0,11,"CompteRendu.php.html#8","App\\Entity\\CompteRendu","132"],[0,13,"HistoriqueStatutTicket.php.html#8","App\\Entity\\HistoriqueStatutTicket","182"],[0,14,"Message.php.html#10","App\\Entity\\Message","210"],[0,9,"Priorite.php.html#10","App\\Entity\\Priorite","90"],[0,11,"StatutTicket.php.html#10","App\\Entity\\StatutTicket","132"],[0,17,"Tache.php.html#9","App\\Entity\\Tache","306"],[23.076923076923077,13,"Logiciel.php.html#10","App\\Entity\\Logiciel","89.92"],[24,23,"Client.php.html#10","App\\Entity\\Client","255.22"],[45,14,"LogicielClient.php.html#10","App\\Entity\\LogicielClient","46.61"],[57.377049180327866,40,"Utilisateur.php.html#15","App\\Entity\\Utilisateur","163.89"],[78.84615384615384,37,"Ticket.php.html#11","App\\Entity\\Ticket","49.96"],[93.75,12,"Urgence.php.html#10","App\\Entity\\Urgence","12.04"],[94.44444444444444,14,"Impact.php.html#10","App\\Entity\\Impact","14.03"]]</script>
+  <script type="application/json" id="complexity_method">[[0,1,"CategorieTicket.php.html#29","App\\Entity\\CategorieTicket::__construct","2"],[0,1,"CategorieTicket.php.html#34","App\\Entity\\CategorieTicket::getId","2"],[0,1,"CategorieTicket.php.html#39","App\\Entity\\CategorieTicket::getLibelle","2"],[0,1,"CategorieTicket.php.html#43","App\\Entity\\CategorieTicket::setLibelle","2"],[0,1,"CategorieTicket.php.html#49","App\\Entity\\CategorieTicket::getValeurBloquant","2"],[0,1,"CategorieTicket.php.html#53","App\\Entity\\CategorieTicket::setValeurBloquant","2"],[0,1,"CategorieTicket.php.html#59","App\\Entity\\CategorieTicket::getTickets","2"],[0,1,"Client.php.html#67","App\\Entity\\Client::getAdresse","2"],[0,1,"Client.php.html#68","App\\Entity\\Client::setAdresse","2"],[0,1,"Client.php.html#70","App\\Entity\\Client::getVille","2"],[0,1,"Client.php.html#71","App\\Entity\\Client::setVille","2"],[0,1,"Client.php.html#73","App\\Entity\\Client::getCodePostal","2"],[0,1,"Client.php.html#74","App\\Entity\\Client::setCodePostal","2"],[0,1,"Client.php.html#76","App\\Entity\\Client::getNumTel","2"],[0,1,"Client.php.html#77","App\\Entity\\Client::setNumTel","2"],[0,1,"Client.php.html#79","App\\Entity\\Client::getEmail","2"],[0,1,"Client.php.html#80","App\\Entity\\Client::setEmail","2"],[0,1,"Client.php.html#82","App\\Entity\\Client::getPositionX","2"],[0,1,"Client.php.html#83","App\\Entity\\Client::setPositionX","2"],[0,1,"Client.php.html#85","App\\Entity\\Client::getPositionY","2"],[0,1,"Client.php.html#86","App\\Entity\\Client::setPositionY","2"],[0,1,"Client.php.html#88","App\\Entity\\Client::getDateCreation","2"],[0,1,"Client.php.html#90","App\\Entity\\Client::isTopActif","2"],[0,1,"Client.php.html#91","App\\Entity\\Client::setTopActif","2"],[0,1,"Client.php.html#93","App\\Entity\\Client::getUtilisateurs","2"],[0,1,"Client.php.html#94","App\\Entity\\Client::getLogicielsClient","2"],[0,1,"CompteRendu.php.html#34","App\\Entity\\CompteRendu::__construct","2"],[0,1,"CompteRendu.php.html#39","App\\Entity\\CompteRendu::getId","2"],[0,1,"CompteRendu.php.html#41","App\\Entity\\CompteRendu::getTicket","2"],[0,1,"CompteRendu.php.html#42","App\\Entity\\CompteRendu::setTicket","2"],[0,1,"CompteRendu.php.html#44","App\\Entity\\CompteRendu::getUtilisateur","2"],[0,1,"CompteRendu.php.html#45","App\\Entity\\CompteRendu::setUtilisateur","2"],[0,1,"CompteRendu.php.html#47","App\\Entity\\CompteRendu::getContenu","2"],[0,1,"CompteRendu.php.html#48","App\\Entity\\CompteRendu::setContenu","2"],[0,1,"CompteRendu.php.html#50","App\\Entity\\CompteRendu::getTempsTraitementMinutes","2"],[0,1,"CompteRendu.php.html#51","App\\Entity\\CompteRendu::setTempsTraitementMinutes","2"],[0,1,"CompteRendu.php.html#53","App\\Entity\\CompteRendu::getDateRedaction","2"],[0,1,"HistoriqueStatutTicket.php.html#39","App\\Entity\\HistoriqueStatutTicket::__construct","2"],[0,1,"HistoriqueStatutTicket.php.html#44","App\\Entity\\HistoriqueStatutTicket::getId","2"],[0,1,"HistoriqueStatutTicket.php.html#46","App\\Entity\\HistoriqueStatutTicket::getTicket","2"],[0,1,"HistoriqueStatutTicket.php.html#47","App\\Entity\\HistoriqueStatutTicket::setTicket","2"],[0,1,"HistoriqueStatutTicket.php.html#49","App\\Entity\\HistoriqueStatutTicket::getStatutAvant","2"],[0,1,"HistoriqueStatutTicket.php.html#50","App\\Entity\\HistoriqueStatutTicket::setStatutAvant","2"],[0,1,"HistoriqueStatutTicket.php.html#52","App\\Entity\\HistoriqueStatutTicket::getStatutApres","2"],[0,1,"HistoriqueStatutTicket.php.html#53","App\\Entity\\HistoriqueStatutTicket::setStatutApres","2"],[0,1,"HistoriqueStatutTicket.php.html#55","App\\Entity\\HistoriqueStatutTicket::getUtilisateur","2"],[0,1,"HistoriqueStatutTicket.php.html#56","App\\Entity\\HistoriqueStatutTicket::setUtilisateur","2"],[0,1,"HistoriqueStatutTicket.php.html#58","App\\Entity\\HistoriqueStatutTicket::getDateChangement","2"],[0,1,"HistoriqueStatutTicket.php.html#60","App\\Entity\\HistoriqueStatutTicket::getCommentaire","2"],[0,1,"HistoriqueStatutTicket.php.html#61","App\\Entity\\HistoriqueStatutTicket::setCommentaire","2"],[0,1,"Impact.php.html#92","App\\Entity\\Impact::getTickets","2"],[0,1,"Logiciel.php.html#42","App\\Entity\\Logiciel::getId","2"],[0,1,"Logiciel.php.html#47","App\\Entity\\Logiciel::getDescription","2"],[0,1,"Logiciel.php.html#48","App\\Entity\\Logiciel::setDescription","2"],[0,1,"Logiciel.php.html#50","App\\Entity\\Logiciel::getTypeLogiciel","2"],[0,1,"Logiciel.php.html#51","App\\Entity\\Logiciel::setTypeLogiciel","2"],[0,1,"Logiciel.php.html#53","App\\Entity\\Logiciel::getCoeffCriticite","2"],[0,1,"Logiciel.php.html#54","App\\Entity\\Logiciel::setCoeffCriticite","2"],[0,1,"Logiciel.php.html#56","App\\Entity\\Logiciel::isTopActif","2"],[0,1,"Logiciel.php.html#57","App\\Entity\\Logiciel::setTopActif","2"],[0,1,"Logiciel.php.html#59","App\\Entity\\Logiciel::getLogicielsClient","2"],[0,1,"LogicielClient.php.html#73","App\\Entity\\LogicielClient::getDateInstallation","2"],[0,1,"LogicielClient.php.html#77","App\\Entity\\LogicielClient::setDateInstallation","2"],[0,1,"LogicielClient.php.html#83","App\\Entity\\LogicielClient::getVersionLogiciel","2"],[0,1,"LogicielClient.php.html#87","App\\Entity\\LogicielClient::setVersionLogiciel","2"],[0,1,"LogicielClient.php.html#93","App\\Entity\\LogicielClient::getNotes","2"],[0,1,"LogicielClient.php.html#97","App\\Entity\\LogicielClient::setNotes","2"],[0,1,"LogicielClient.php.html#103","App\\Entity\\LogicielClient::getDateCreation","2"],[0,1,"LogicielClient.php.html#108","App\\Entity\\LogicielClient::getTickets","2"],[0,1,"Message.php.html#43","App\\Entity\\Message::__construct","2"],[0,1,"Message.php.html#49","App\\Entity\\Message::getId","2"],[0,1,"Message.php.html#51","App\\Entity\\Message::getTicket","2"],[0,1,"Message.php.html#52","App\\Entity\\Message::setTicket","2"],[0,1,"Message.php.html#54","App\\Entity\\Message::getUtilisateur","2"],[0,1,"Message.php.html#55","App\\Entity\\Message::setUtilisateur","2"],[0,1,"Message.php.html#57","App\\Entity\\Message::getMessageParent","2"],[0,1,"Message.php.html#58","App\\Entity\\Message::setMessageParent","2"],[0,1,"Message.php.html#60","App\\Entity\\Message::getReponses","2"],[0,1,"Message.php.html#62","App\\Entity\\Message::getContenu","2"],[0,1,"Message.php.html#63","App\\Entity\\Message::setContenu","2"],[0,1,"Message.php.html#65","App\\Entity\\Message::isTopActif","2"],[0,1,"Message.php.html#66","App\\Entity\\Message::setTopActif","2"],[0,1,"Message.php.html#68","App\\Entity\\Message::getDateEnvoi","2"],[0,1,"Priorite.php.html#31","App\\Entity\\Priorite::__construct","2"],[0,1,"Priorite.php.html#36","App\\Entity\\Priorite::getId","2"],[0,1,"Priorite.php.html#38","App\\Entity\\Priorite::getLibelle","2"],[0,1,"Priorite.php.html#39","App\\Entity\\Priorite::setLibelle","2"],[0,1,"Priorite.php.html#41","App\\Entity\\Priorite::getNiveauCriticite","2"],[0,1,"Priorite.php.html#42","App\\Entity\\Priorite::setNiveauCriticite","2"],[0,1,"Priorite.php.html#44","App\\Entity\\Priorite::getDescription","2"],[0,1,"Priorite.php.html#45","App\\Entity\\Priorite::setDescription","2"],[0,1,"Priorite.php.html#47","App\\Entity\\Priorite::getTickets","2"],[0,1,"StatutTicket.php.html#37","App\\Entity\\StatutTicket::__construct","2"],[0,1,"StatutTicket.php.html#44","App\\Entity\\StatutTicket::getId","2"],[0,1,"StatutTicket.php.html#46","App\\Entity\\StatutTicket::getLibelle","2"],[0,1,"StatutTicket.php.html#47","App\\Entity\\StatutTicket::setLibelle","2"],[0,1,"StatutTicket.php.html#49","App\\Entity\\StatutTicket::getCouleurLib","2"],[0,1,"StatutTicket.php.html#50","App\\Entity\\StatutTicket::setCouleurLib","2"],[0,1,"StatutTicket.php.html#52","App\\Entity\\StatutTicket::isTopActif","2"],[0,1,"StatutTicket.php.html#53","App\\Entity\\StatutTicket::setTopActif","2"],[0,1,"StatutTicket.php.html#55","App\\Entity\\StatutTicket::getTickets","2"],[0,1,"StatutTicket.php.html#56","App\\Entity\\StatutTicket::getHistoriquesAvant","2"],[0,1,"StatutTicket.php.html#57","App\\Entity\\StatutTicket::getHistoriquesApres","2"],[0,1,"Tache.php.html#45","App\\Entity\\Tache::__construct","2"],[0,1,"Tache.php.html#50","App\\Entity\\Tache::getId","2"],[0,1,"Tache.php.html#55","App\\Entity\\Tache::getTicket","2"],[0,1,"Tache.php.html#59","App\\Entity\\Tache::setTicket","2"],[0,1,"Tache.php.html#65","App\\Entity\\Tache::getUtilisateurAssigne","2"],[0,1,"Tache.php.html#69","App\\Entity\\Tache::setUtilisateurAssigne","2"],[0,1,"Tache.php.html#75","App\\Entity\\Tache::getUtilisateurCreateur","2"],[0,1,"Tache.php.html#79","App\\Entity\\Tache::setUtilisateurCreateur","2"],[0,1,"Tache.php.html#85","App\\Entity\\Tache::getDateCreation","2"],[0,1,"Tache.php.html#90","App\\Entity\\Tache::getLibelle","2"],[0,1,"Tache.php.html#94","App\\Entity\\Tache::setLibelle","2"],[0,1,"Tache.php.html#100","App\\Entity\\Tache::getDescription","2"],[0,1,"Tache.php.html#104","App\\Entity\\Tache::setDescription","2"],[0,1,"Tache.php.html#110","App\\Entity\\Tache::getDateRealisation","2"],[0,1,"Tache.php.html#114","App\\Entity\\Tache::setDateRealisation","2"],[0,1,"Tache.php.html#120","App\\Entity\\Tache::getStatut","2"],[0,1,"Tache.php.html#124","App\\Entity\\Tache::setStatut","2"],[0,1,"Ticket.php.html#112","App\\Entity\\Ticket::getCreateur","2"],[0,1,"Ticket.php.html#136","App\\Entity\\Ticket::setDestinataire","2"],[0,1,"Ticket.php.html#226","App\\Entity\\Ticket::getDateCloture","2"],[0,1,"Ticket.php.html#230","App\\Entity\\Ticket::setDateCloture","2"],[0,1,"Ticket.php.html#236","App\\Entity\\Ticket::getMessages","2"],[0,1,"Ticket.php.html#240","App\\Entity\\Ticket::getHistoriques","2"],[0,1,"Ticket.php.html#244","App\\Entity\\Ticket::getCompteRendu","2"],[0,1,"Ticket.php.html#248","App\\Entity\\Ticket::getTaches","2"],[0,1,"Urgence.php.html#91","App\\Entity\\Urgence::getTickets","2"],[0,1,"Utilisateur.php.html#120","App\\Entity\\Utilisateur::eraseCredentials","2"],[0,1,"Utilisateur.php.html#144","App\\Entity\\Utilisateur::getImageProfil","2"],[0,1,"Utilisateur.php.html#148","App\\Entity\\Utilisateur::setImageProfil","2"],[0,1,"Utilisateur.php.html#154","App\\Entity\\Utilisateur::getImageProfilSize","2"],[0,1,"Utilisateur.php.html#158","App\\Entity\\Utilisateur::setImageProfilSize","2"],[0,1,"Utilisateur.php.html#164","App\\Entity\\Utilisateur::getImageProfilFile","2"],[0,2,"Utilisateur.php.html#172","App\\Entity\\Utilisateur::setImageProfilFile","6"],[0,1,"Utilisateur.php.html#184","App\\Entity\\Utilisateur::getUpdatedAt","2"],[0,1,"Utilisateur.php.html#188","App\\Entity\\Utilisateur::setUpdatedAt","2"],[0,1,"Utilisateur.php.html#234","App\\Entity\\Utilisateur::getMotDePasse","2"],[0,1,"Utilisateur.php.html#253","App\\Entity\\Utilisateur::setTopActif","2"],[0,1,"Utilisateur.php.html#269","App\\Entity\\Utilisateur::getTicketsCrees","2"],[0,1,"Utilisateur.php.html#273","App\\Entity\\Utilisateur::getTicketsAssignes","2"],[0,1,"Utilisateur.php.html#277","App\\Entity\\Utilisateur::getTicketsDestines","2"],[0,1,"Utilisateur.php.html#281","App\\Entity\\Utilisateur::getMessages","2"],[0,1,"Utilisateur.php.html#285","App\\Entity\\Utilisateur::getHistoriques","2"],[0,1,"Utilisateur.php.html#289","App\\Entity\\Utilisateur::getComptesRendus","2"],[0,1,"Utilisateur.php.html#293","App\\Entity\\Utilisateur::getTachesAssignees","2"],[0,1,"Utilisateur.php.html#297","App\\Entity\\Utilisateur::getTachesCrees","2"],[85.71428571428571,7,"Ticket.php.html#172","App\\Entity\\Ticket::getLibellePriorite","7.14"],[100,1,"Client.php.html#55","App\\Entity\\Client::__construct","1"],[100,1,"Client.php.html#62","App\\Entity\\Client::getId","1"],[100,1,"Client.php.html#64","App\\Entity\\Client::getRaisonSocial","1"],[100,1,"Client.php.html#65","App\\Entity\\Client::setRaisonSocial","1"],[100,1,"Impact.php.html#35","App\\Entity\\Impact::__construct","1"],[100,1,"Impact.php.html#40","App\\Entity\\Impact::getId","1"],[100,1,"Impact.php.html#45","App\\Entity\\Impact::getNiveau","1"],[100,1,"Impact.php.html#50","App\\Entity\\Impact::setNiveau","1"],[100,1,"Impact.php.html#56","App\\Entity\\Impact::getLibelle","1"],[100,1,"Impact.php.html#61","App\\Entity\\Impact::setLibelle","1"],[100,1,"Impact.php.html#67","App\\Entity\\Impact::getPrompt","1"],[100,1,"Impact.php.html#72","App\\Entity\\Impact::setPrompt","1"],[100,1,"Impact.php.html#78","App\\Entity\\Impact::getNote","1"],[100,3,"Impact.php.html#83","App\\Entity\\Impact::setNote","3"],[100,1,"Impact.php.html#97","App\\Entity\\Impact::__toString","1"],[100,1,"Logiciel.php.html#37","App\\Entity\\Logiciel::__construct","1"],[100,1,"Logiciel.php.html#44","App\\Entity\\Logiciel::getLibelle","1"],[100,1,"Logiciel.php.html#45","App\\Entity\\Logiciel::setLibelle","1"],[100,1,"LogicielClient.php.html#42","App\\Entity\\LogicielClient::__construct","1"],[100,1,"LogicielClient.php.html#48","App\\Entity\\LogicielClient::getId","1"],[100,1,"LogicielClient.php.html#53","App\\Entity\\LogicielClient::getClient","1"],[100,1,"LogicielClient.php.html#57","App\\Entity\\LogicielClient::setClient","1"],[100,1,"LogicielClient.php.html#63","App\\Entity\\LogicielClient::getLogiciel","1"],[100,1,"LogicielClient.php.html#67","App\\Entity\\LogicielClient::setLogiciel","1"],[100,1,"Ticket.php.html#79","App\\Entity\\Ticket::__construct","1"],[100,1,"Ticket.php.html#87","App\\Entity\\Ticket::getId","1"],[100,1,"Ticket.php.html#92","App\\Entity\\Ticket::getTitre","1"],[100,1,"Ticket.php.html#96","App\\Entity\\Ticket::setTitre","1"],[100,1,"Ticket.php.html#102","App\\Entity\\Ticket::getDescription","1"],[100,1,"Ticket.php.html#106","App\\Entity\\Ticket::setDescription","1"],[100,1,"Ticket.php.html#116","App\\Entity\\Ticket::setCreateur","1"],[100,1,"Ticket.php.html#122","App\\Entity\\Ticket::getAssigne","1"],[100,1,"Ticket.php.html#126","App\\Entity\\Ticket::setAssigne","1"],[100,1,"Ticket.php.html#132","App\\Entity\\Ticket::getDestinataire","1"],[100,1,"Ticket.php.html#142","App\\Entity\\Ticket::getImpact","1"],[100,1,"Ticket.php.html#146","App\\Entity\\Ticket::setImpact","1"],[100,1,"Ticket.php.html#152","App\\Entity\\Ticket::getUrgence","1"],[100,1,"Ticket.php.html#156","App\\Entity\\Ticket::setUrgence","1"],[100,1,"Ticket.php.html#162","App\\Entity\\Ticket::getPrioriteCalculee","1"],[100,1,"Ticket.php.html#166","App\\Entity\\Ticket::setPrioriteCalculee","1"],[100,1,"Ticket.php.html#187","App\\Entity\\Ticket::getStatut","1"],[100,2,"Ticket.php.html#191","App\\Entity\\Ticket::setStatut","2"],[100,1,"Ticket.php.html#201","App\\Entity\\Ticket::getLogicielClient","1"],[100,1,"Ticket.php.html#205","App\\Entity\\Ticket::setLogicielClient","1"],[100,1,"Ticket.php.html#221","App\\Entity\\Ticket::getDateCreation","1"],[100,1,"Urgence.php.html#37","App\\Entity\\Urgence::__construct","1"],[100,1,"Urgence.php.html#42","App\\Entity\\Urgence::getId","1"],[100,1,"Urgence.php.html#47","App\\Entity\\Urgence::getNiveau","1"],[100,1,"Urgence.php.html#52","App\\Entity\\Urgence::setNiveau","1"],[100,1,"Urgence.php.html#58","App\\Entity\\Urgence::getLibelle","1"],[100,1,"Urgence.php.html#63","App\\Entity\\Urgence::setLibelle","1"],[100,1,"Urgence.php.html#69","App\\Entity\\Urgence::getPrompt","1"],[100,1,"Urgence.php.html#74","App\\Entity\\Urgence::setPrompt","1"],[100,1,"Urgence.php.html#80","App\\Entity\\Urgence::getNote","1"],[100,1,"Urgence.php.html#85","App\\Entity\\Urgence::setNote","1"],[100,1,"Urgence.php.html#96","App\\Entity\\Urgence::__toString","1"],[100,1,"Utilisateur.php.html#95","App\\Entity\\Utilisateur::__construct","1"],[100,1,"Utilisateur.php.html#110","App\\Entity\\Utilisateur::getUserIdentifier","1"],[100,1,"Utilisateur.php.html#115","App\\Entity\\Utilisateur::getRoles","1"],[100,1,"Utilisateur.php.html#122","App\\Entity\\Utilisateur::getPassword","1"],[100,1,"Utilisateur.php.html#129","App\\Entity\\Utilisateur::getId","1"],[100,1,"Utilisateur.php.html#134","App\\Entity\\Utilisateur::getClient","1"],[100,1,"Utilisateur.php.html#138","App\\Entity\\Utilisateur::setClient","1"],[100,1,"Utilisateur.php.html#194","App\\Entity\\Utilisateur::getNom","1"],[100,1,"Utilisateur.php.html#198","App\\Entity\\Utilisateur::setNom","1"],[100,1,"Utilisateur.php.html#204","App\\Entity\\Utilisateur::getPrenom","1"],[100,1,"Utilisateur.php.html#208","App\\Entity\\Utilisateur::setPrenom","1"],[100,1,"Utilisateur.php.html#214","App\\Entity\\Utilisateur::getEmail","1"],[100,1,"Utilisateur.php.html#218","App\\Entity\\Utilisateur::setEmail","1"],[100,1,"Utilisateur.php.html#224","App\\Entity\\Utilisateur::getRole","1"],[100,1,"Utilisateur.php.html#228","App\\Entity\\Utilisateur::setRole","1"],[100,1,"Utilisateur.php.html#238","App\\Entity\\Utilisateur::setMotDePasse","1"],[100,1,"Utilisateur.php.html#244","App\\Entity\\Utilisateur::getDateCreation","1"],[100,1,"Utilisateur.php.html#249","App\\Entity\\Utilisateur::isTopActif","1"],[100,1,"Utilisateur.php.html#259","App\\Entity\\Utilisateur::getNumTel","1"],[100,1,"Utilisateur.php.html#263","App\\Entity\\Utilisateur::setNumTel","1"]]</script>
+  <script type="text/javascript" defer>
+  const barLabels = [
+    '0%',
+    '0-10%',
+    '10-20%',
+    '20-30%',
+    '30-40%',
+    '40-50%',
+    '50-60%',
+    '60-70%',
+    '70-80%',
+    '80-90%',
+    '90-100%',
+    '100%'
+  ];
+  const barConfig = (name, fullName, values) => ({
+    axis: {
+      x: {
+        type: "category",
+        categories: barLabels,
+      },
+      y: {
+        label: {
+          text: `#${name}`,
+          position: 'outer-top',
+        },
+      },
+    },
+    bindto: `#${name}CoverageDistribution`,
+    data: {
+      columns: [
+        [fullName].concat(values),
+      ],
+      colors: {
+        [fullName]: "rgba(69, 114, 167, 0.75)",
+      },
+      type: "bar",
+    },
+    bar: {
+      width: {
+        ratio: 0.9,
+      },
+    },
+    grid: {
+      focus: {
+        show: false,
+      },
+      x: {
+        show: true,
+      },
+      y: {
+        show: true,
+      },
+    },
+    legend: {
+      show: false,
+    },
+    tooltip: {
+      contents: function (data) {
+        return `<table class="bb-tooltip"><tbody>
+            <tr><th colspan="2">Coverage ${barLabels[data[0].x]}</th></tr>
+            <tr><td class="value">${data[0].value} ${name}</td></tr>
+          </tbody></table>`;
+      },
+      grouped: false,
+    },
+  });
+  bb.generate(
+    barConfig('classes', "Class Coverage", [7,0,0,2,0,1,1,0,1,0,2,0])
+  );
+  bb.generate(
+    barConfig('methods', "Method Coverage", [148,0,0,0,0,0,0,0,0,1,0,76])
+  );
+
+  const scatterConfig = (name, complexityData) => ({
+    axis: {
+      x: {
+        label: {
+          text: 'Code Coverage (in percent)',
+          position: 'outer-right',
+        },
+        tick: {
+          values: [0, 20, 40, 60, 80, 100],
+        },
+      },
+      y: {
+        label: {
+          text: 'Cyclomatic Complexity',
+          position: 'outer-top',
+        },
+        min: 0,
+        padding: {
+          bottom: 0,
+          top: 5,
+        },
+      },
+    },
+    bindto: `#${name}Complexity`,
+    data: {
+      columns: [
+        ["complexity_x"].concat(complexityData.map(d => d[0])),
+        ["complexity"].concat(complexityData.map(d => d[1])),
+      ],
+      onclick: function(data, element) {
+        window.location = complexityData[data.index][2];
+      },
+      type: "scatter",
+      xs: {
+        "complexity": "complexity_x",
+      },
+    },
+    grid: {
+      focus: {
+        show: true,
+        y: true,
+      },
+      x: {
+        show: true,
+      },
+      y: {
+        show: true,
+      },
+    },
+    legend: {
+      show: false,
+    },
+    tooltip: {
+      contents: function (data) {
+        const coverage = Math.round(data[0].x);
+        const complexity = data[0].value;
+        const targetName = complexityData[data[0].index][3];
+        const crap = complexityData[data[0].index][4];
+        return `<table class="bb-tooltip"><tbody>
+            <tr><th colspan="2">${targetName}</th></tr>
+            <tr class="bb-tooltip-name-complexity"><td>Coverage</td><td class="name">${coverage}%</td></tr>
+            <tr class="bb-tooltip-name-complexity"><td>Complexity</td><td class="value">${complexity}</td></tr>
+            <tr class="bb-tooltip-name-complexity"><td>Crap</td><td class="value">${crap}</td></tr>
+          </tbody></table>`;
+      },
+      grouped: false,
+    },
+  });
+  const classComplexityData = JSON.parse(document.getElementById('complexity_class').textContent);
+  bb.generate(
+    scatterConfig("class", classComplexityData)
+  );
+  const methodComplexityData = JSON.parse(document.getElementById('complexity_method').textContent);
+  bb.generate(
+    scatterConfig("method", methodComplexityData),
+  );
+  </script>
+ </body>
+</html>

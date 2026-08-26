@@ -2,7 +2,7 @@ name: Symfony CI
 
 on:
   push:
-    branches: [ "main", "master", "develop" ]
+    branches: [ "main"]
   pull_request:
     branches: [ "main", "master", "develop" ]
 
@@ -19,7 +19,7 @@ jobs:
         with:
           php-version: '8.3'
           extensions: ctype, iconv, pdo_sqlite, mbstring, intl
-          coverage: none
+          coverage: pcov
 
       - name: Cache des dépendances Composer
         uses: actions/cache@v4
@@ -37,12 +37,48 @@ jobs:
           DATABASE_URL: "sqlite:///%kernel.project_dir%/var/test.db"
           APP_ENV: test
           APP_SECRET: ${{ secrets.APP_SECRET || 'SecretForCI' }}
+          MERCURE_URL: "http://mercure.test/.well-known/mercure"
+          MERCURE_PUBLIC_URL: "http://mercure.test/.well-known/mercure"
+          MERCURE_JWT_SECRET: "CIOnlyDummyJwtSecretNotUsedForRealAuth"
         run: |
           php bin/console doctrine:schema:create --env=test --no-interaction
 
-      - name: Exécution des tests PHPUnit
+      - name: Exécution des tests PHPUnit avec couverture
         env:
           DATABASE_URL: "sqlite:///%kernel.project_dir%/var/test.db"
           APP_ENV: test
           APP_SECRET: ${{ secrets.APP_SECRET || 'SecretForCI' }}
-        run: vendor/bin/phpunit
+          MERCURE_URL: "http://mercure.test/.well-known/mercure"
+          MERCURE_PUBLIC_URL: "http://mercure.test/.well-known/mercure"
+          MERCURE_JWT_SECRET: "CIOnlyDummyJwtSecretNotUsedForRealAuth"
+        run: vendor/bin/phpunit --coverage-clover coverage.xml --coverage-text=coverage.txt
+
+      - name: Vérification du seuil de couverture (70% minimum)
+        run: |
+          COVERAGE=$(php -r '
+            $xml = simplexml_load_file("coverage.xml");
+            $metrics = $xml->xpath("//metrics");
+            $covered = 0;
+            $total = 0;
+            foreach ($metrics as $m) {
+                $covered += (int) $m["coveredstatements"];
+                $total += (int) $m["statements"];
+            }
+            echo $total > 0 ? round(($covered / $total) * 100, 2) : 0;
+          ')
+          echo "Couverture actuelle : $COVERAGE%"
+          if (( $(echo "$COVERAGE < 70" | bc -l) )); then
+            echo "❌ Couverture insuffisante : $COVERAGE% (minimum requis : 70%)"
+            exit 1
+          else
+            echo "✅ Couverture suffisante : $COVERAGE%"
+          fi
+
+      - name: Publication du rapport de couverture
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: |
+            coverage.xml
+            coverage.txt

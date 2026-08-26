@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Tickets - Historique Client
+{% endblock %}
+
+{% block body %}
+
+	<div class="navbar">
+		<a href="#" onclick="history.back(); return false;" class="group inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200" style="color: #7c5cbf; background-color: #7c5cbf1a;" onmouseover="this.style.backgroundColor='#7c5cbf2e'" onmouseout="this.style.backgroundColor='#7c5cbf1a'">
+			<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+			</svg>
+			Retour
+		</a>
+		<h1>Mes Tickets</h1>
+	</div>
+
+	<div class="historique-container">
+
+		<div
+			class="filter-bar">
+			{# Filtre Statut Uniquement #}
+			<div class="filter-group">
+				<label for="filter-status">Filtrer par Statut</label>
+				<select id="filter-status">
+					<option value="">Tous les statuts</option>
+					{% for statut in statuts %}
+						<option value="{{ statut.value }}">{{ statut.value }}</option>
+					{% endfor %}
+				</select>
+			</div>
+		</div>
+
+		<div class="table-responsive">
+			<table class="ticket-table border-separate border-spacing-8 border border-gray-400 dark:border-gray-500" id="tickets-table">
+				<thead>
+					<tr>
+						<th class="border border-gray-300 dark:border-gray-600">ID</th>
+						<th>Titre</th>
+						<th>Développeur Assigné</th>
+						<th>Statut</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for ticket in tickets %}
+						{% set dev_nom = ticket.assigne ? (ticket.assigne.prenom ~ ' ' ~ ticket.assigne.nom) : 'Non assigné' %}
+
+						<tr class="ticket-row" data-status="{{ ticket.statut.value }}">
+							<td>
+								<p class="text-yellow-600 font-semibold">#{{ ticket.id }}</p>
+							</td>
+							<td>{{ ticket.titre }}</td>
+							<td>
+								{% if ticket.assigne %}
+									{{ dev_nom }}
+								{% else %}
+									<span style="color: #999; font-style: italic;">Non assigné</span>
+								{% endif %}
+							</td>
+							<td>
+								<span class="badge">{{ ticket.statut.value }}</span>
+							</td>
+							<td>
+								<a href="{{ path('app_ticket_show', {'id': ticket.id}) }}" class="takeitlight">Voir</a>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="5" class="no-tickets">Aucun ticket trouvé.</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<script>
+		function initFiltres() {
+const filterStatus = document.getElementById('filter-status');
+const rows = document.querySelectorAll('.ticket-row');
+
+if (! filterStatus) 
+return;
+
+
+function filterTable() {
+const statusValue = filterStatus.value.toLowerCase();
+
+rows.forEach(row => {
+const rowStatus = row.getAttribute('data-status').toLowerCase();
+const matchesStatus = ! statusValue || rowStatus === statusValue;
+
+row.style.display = matchesStatus ? '' : 'none';
+});
+}
+
+filterTable();
+filterStatus.addEventListener('change', filterTable);
+}
+
+document.addEventListener('turbo:load', initFiltres);
+document.addEventListener('DOMContentLoaded', initFiltres);
+	</script>
+{% endblock %}

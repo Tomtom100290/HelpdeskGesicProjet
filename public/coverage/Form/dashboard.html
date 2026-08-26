@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for /app/src/Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../_css/bootstrap.min.css?v=12.5.7" rel="stylesheet" type="text/css">
+  <link href="../_css/billboard.min.css?v=12.5.7" rel="stylesheet" type="text/css">
+  <link href="../_css/style.css?v=12.5.7" rel="stylesheet" type="text/css">
+  <link href="../_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="../index.html">/app/src</a></li>
+         <li class="breadcrumb-item"><a href="index.html">Form</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classesCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="CategorieTicketType.php.html#10">App\Form\CategorieTicketType</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ClientType.php.html#10">App\Form\ClientType</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ImpactType.php.html#10">App\Form\ImpactType</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="InstallationMultipleType.php.html#14">App\Form\InstallationMultipleType</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="LogicielClientType.php.html#13">App\Form\LogicielClientType</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="LogicielType.php.html#11">App\Form\LogicielType</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MessageType.php.html#11">App\Form\MessageType</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PrioriteType.php.html#10">App\Form\PrioriteType</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TacheType.php.html#15">App\Form\TacheType</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TicketType.php.html#21">App\Form\TicketType</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UrgenceType.php.html#10">App\Form\UrgenceType</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UtilisateurRegistrationType.php.html#15">App\Form\UtilisateurRegistrationType</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UtilisateurType.php.html#18">App\Form\UtilisateurType</a></td><td class="text-right">0%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+         <th class="text-right">Complexity</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2 style="margin-top: 3rem;">Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodsCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="CategorieTicketType.php.html#12"><abbr title="App\Form\CategorieTicketType::buildForm">buildForm</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CategorieTicketType.php.html#20"><abbr title="App\Form\CategorieTicketType::configureOptions">configureOptions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ClientType.php.html#12"><abbr title="App\Form\ClientType::buildForm">buildForm</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ClientType.php.html#32"><abbr title="App\Form\ClientType::configureOptions">configureOptions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ImpactType.php.html#12"><abbr title="App\Form\ImpactType::buildForm">buildForm</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ImpactType.php.html#22"><abbr title="App\Form\ImpactType::configureOptions">configureOptions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="InstallationMultipleType.php.html#16"><abbr title="App\Form\InstallationMultipleType::buildForm">buildForm</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="InstallationMultipleType.php.html#38"><abbr title="App\Form\InstallationMultipleType::configureOptions">configureOptions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="LogicielClientType.php.html#15"><abbr title="App\Form\LogicielClientType::buildForm">buildForm</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="LogicielClientType.php.html#35"><abbr title="App\Form\LogicielClientType::configureOptions">configureOptions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="LogicielType.php.html#13"><abbr title="App\Form\LogicielType::buildForm">buildForm</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="LogicielType.php.html#27"><abbr title="App\Form\LogicielType::configureOptions">configureOptions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MessageType.php.html#13"><abbr title="App\Form\MessageType::buildForm">buildForm</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="MessageType.php.html#21"><abbr title="App\Form\MessageType::configureOptions">configureOptions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PrioriteType.php.html#12"><abbr title="App\Form\PrioriteType::buildForm">buildForm</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PrioriteType.php.html#21"><abbr title="App\Form\PrioriteType::configureOptions">configureOptions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TacheType.php.html#17"><abbr title="App\Form\TacheType::buildForm">buildForm</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TacheType.php.html#42"><abbr title="App\Form\TacheType::configureOptions">configureOptions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TicketType.php.html#23"><abbr title="App\Form\TicketType::buildForm">buildForm</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TicketType.php.html#124"><abbr title="App\Form\TicketType::configureOptions">configureOptions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UrgenceType.php.html#12"><abbr title="App\Form\UrgenceType::buildForm">buildForm</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UrgenceType.php.html#22"><abbr title="App\Form\UrgenceType::configureOptions">configureOptions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UtilisateurRegistrationType.php.html#17"><abbr title="App\Form\UtilisateurRegistrationType::buildForm">buildForm</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UtilisateurRegistrationType.php.html#40"><abbr title="App\Form\UtilisateurRegistrationType::configureOptions">configureOptions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UtilisateurType.php.html#20"><abbr title="App\Form\UtilisateurType::buildForm">buildForm</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UtilisateurType.php.html#71"><abbr title="App\Form\UtilisateurType::configureOptions">configureOptions</abbr></a></td><td class="text-right">0%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+         <th class="text-right">Complexity</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 12.5.7</a> using <a href="https://www.php.net/" target="_top">PHP 8.3.33</a> and <a href="https://phpunit.de/">PHPUnit 12.5.33</a> at Mon Aug 10 10:10:41 CEST 2026.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="../_js/billboard.pkgd.min.js?v=12.5.7" type="text/javascript"></script>
+  <script type="application/json" id="complexity_class">[[0,2,"CategorieTicketType.php.html#10","App\\Form\\CategorieTicketType","6"],[0,2,"ClientType.php.html#10","App\\Form\\ClientType","6"],[0,2,"ImpactType.php.html#10","App\\Form\\ImpactType","6"],[0,2,"InstallationMultipleType.php.html#14","App\\Form\\InstallationMultipleType","6"],[0,2,"LogicielClientType.php.html#13","App\\Form\\LogicielClientType","6"],[0,2,"LogicielType.php.html#11","App\\Form\\LogicielType","6"],[0,2,"MessageType.php.html#11","App\\Form\\MessageType","6"],[0,2,"PrioriteType.php.html#10","App\\Form\\PrioriteType","6"],[0,2,"TacheType.php.html#15","App\\Form\\TacheType","6"],[0,2,"TicketType.php.html#21","App\\Form\\TicketType","6"],[0,2,"UrgenceType.php.html#10","App\\Form\\UrgenceType","6"],[0,2,"UtilisateurRegistrationType.php.html#15","App\\Form\\UtilisateurRegistrationType","6"],[0,2,"UtilisateurType.php.html#18","App\\Form\\UtilisateurType","6"],[100,2,"NvxTicketType.php.html#19","App\\Form\\NvxTicketType","2"]]</script>
+  <script type="application/json" id="complexity_method">[[0,1,"CategorieTicketType.php.html#12","App\\Form\\CategorieTicketType::buildForm","2"],[0,1,"CategorieTicketType.php.html#20","App\\Form\\CategorieTicketType::configureOptions","2"],[0,1,"ClientType.php.html#12","App\\Form\\ClientType::buildForm","2"],[0,1,"ClientType.php.html#32","App\\Form\\ClientType::configureOptions","2"],[0,1,"ImpactType.php.html#12","App\\Form\\ImpactType::buildForm","2"],[0,1,"ImpactType.php.html#22","App\\Form\\ImpactType::configureOptions","2"],[0,1,"InstallationMultipleType.php.html#16","App\\Form\\InstallationMultipleType::buildForm","2"],[0,1,"InstallationMultipleType.php.html#38","App\\Form\\InstallationMultipleType::configureOptions","2"],[0,1,"LogicielClientType.php.html#15","App\\Form\\LogicielClientType::buildForm","2"],[0,1,"LogicielClientType.php.html#35","App\\Form\\LogicielClientType::configureOptions","2"],[0,1,"LogicielType.php.html#13","App\\Form\\LogicielType::buildForm","2"],[0,1,"LogicielType.php.html#27","App\\Form\\LogicielType::configureOptions","2"],[0,1,"MessageType.php.html#13","App\\Form\\MessageType::buildForm","2"],[0,1,"MessageType.php.html#21","App\\Form\\MessageType::configureOptions","2"],[0,1,"PrioriteType.php.html#12","App\\Form\\PrioriteType::buildForm","2"],[0,1,"PrioriteType.php.html#21","App\\Form\\PrioriteType::configureOptions","2"],[0,1,"TacheType.php.html#17","App\\Form\\TacheType::buildForm","2"],[0,1,"TacheType.php.html#42","App\\Form\\TacheType::configureOptions","2"],[0,1,"TicketType.php.html#23","App\\Form\\TicketType::buildForm","2"],[0,1,"TicketType.php.html#124","App\\Form\\TicketType::configureOptions","2"],[0,1,"UrgenceType.php.html#12","App\\Form\\UrgenceType::buildForm","2"],[0,1,"UrgenceType.php.html#22","App\\Form\\UrgenceType::configureOptions","2"],[0,1,"UtilisateurRegistrationType.php.html#17","App\\Form\\UtilisateurRegistrationType::buildForm","2"],[0,1,"UtilisateurRegistrationType.php.html#40","App\\Form\\UtilisateurRegistrationType::configureOptions","2"],[0,1,"UtilisateurType.php.html#20","App\\Form\\UtilisateurType::buildForm","2"],[0,1,"UtilisateurType.php.html#71","App\\Form\\UtilisateurType::configureOptions","2"],[100,1,"NvxTicketType.php.html#21","App\\Form\\NvxTicketType::buildForm","1"],[100,1,"NvxTicketType.php.html#74","App\\Form\\NvxTicketType::configureOptions","1"]]</script>
+  <script type="text/javascript" defer>
+  const barLabels = [
+    '0%',
+    '0-10%',
+    '10-20%',
+    '20-30%',
+    '30-40%',
+    '40-50%',
+    '50-60%',
+    '60-70%',
+    '70-80%',
+    '80-90%',
+    '90-100%',
+    '100%'
+  ];
+  const barConfig = (name, fullName, values) => ({
+    axis: {
+      x: {
+        type: "category",
+        categories: barLabels,
+      },
+      y: {
+        label: {
+          text: `#${name}`,
+          position: 'outer-top',
+        },
+      },
+    },
+    bindto: `#${name}CoverageDistribution`,
+    data: {
+      columns: [
+        [fullName].concat(values),
+      ],
+      colors: {
+        [fullName]: "rgba(69, 114, 167, 0.75)",
+      },
+      type: "bar",
+    },
+    bar: {
+      width: {
+        ratio: 0.9,
+      },
+    },
+    grid: {
+      focus: {
+        show: false,
+      },
+      x: {
+        show: true,
+      },
+      y: {
+        show: true,
+      },
+    },
+    legend: {
+      show: false,
+    },
+    tooltip: {
+      contents: function (data) {
+        return `<table class="bb-tooltip"><tbody>
+            <tr><th colspan="2">Coverage ${barLabels[data[0].x]}</th></tr>
+            <tr><td class="value">${data[0].value} ${name}</td></tr>
+          </tbody></table>`;
+      },
+      grouped: false,
+    },
+  });
+  bb.generate(
+    barConfig('classes', "Class Coverage", [13,0,0,0,0,0,0,0,0,0,0,1])
+  );
+  bb.generate(
+    barConfig('methods', "Method Coverage", [26,0,0,0,0,0,0,0,0,0,0,2])
+  );
+
+  const scatterConfig = (name, complexityData) => ({
+    axis: {
+      x: {
+        label: {
+          text: 'Code Coverage (in percent)',
+          position: 'outer-right',
+        },
+        tick: {
+          values: [0, 20, 40, 60, 80, 100],
+        },
+      },
+      y: {
+        label: {
+          text: 'Cyclomatic Complexity',
+          position: 'outer-top',
+        },
+        min: 0,
+        padding: {
+          bottom: 0,
+          top: 5,
+        },
+      },
+    },
+    bindto: `#${name}Complexity`,
+    data: {
+      columns: [
+        ["complexity_x"].concat(complexityData.map(d => d[0])),
+        ["complexity"].concat(complexityData.map(d => d[1])),
+      ],
+      onclick: function(data, element) {
+        window.location = complexityData[data.index][2];
+      },
+      type: "scatter",
+      xs: {
+        "complexity": "complexity_x",
+      },
+    },
+    grid: {
+      focus: {
+        show: true,
+        y: true,
+      },
+      x: {
+        show: true,
+      },
+      y: {
+        show: true,
+      },
+    },
+    legend: {
+      show: false,
+    },
+    tooltip: {
+      contents: function (data) {
+        const coverage = Math.round(data[0].x);
+        const complexity = data[0].value;
+        const targetName = complexityData[data[0].index][3];
+        const crap = complexityData[data[0].index][4];
+        return `<table class="bb-tooltip"><tbody>
+            <tr><th colspan="2">${targetName}</th></tr>
+            <tr class="bb-tooltip-name-complexity"><td>Coverage</td><td class="name">${coverage}%</td></tr>
+            <tr class="bb-tooltip-name-complexity"><td>Complexity</td><td class="value">${complexity}</td></tr>
+            <tr class="bb-tooltip-name-complexity"><td>Crap</td><td class="value">${crap}</td></tr>
+          </tbody></table>`;
+      },
+      grouped: false,
+    },
+  });
+  const classComplexityData = JSON.parse(document.getElementById('complexity_class').textContent);
+  bb.generate(
+    scatterConfig("class", classComplexityData)
+  );
+  const methodComplexityData = JSON.parse(document.getElementById('complexity_method').textContent);
+  bb.generate(
+    scatterConfig("method", methodComplexityData),
+  );
+  </script>
+ </body>
+</html>

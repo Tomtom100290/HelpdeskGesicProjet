@@ -7,11 +7,15 @@ use App\Repository\UtilisateurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use App\Entity\CompteRendu;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 #[ORM\Table(name: 'utilisateur')]
+#[Vich\Uploadable]
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -23,6 +27,21 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(name: 'id_client', referencedColumnName: 'id_client', nullable: true)]
     private ?Client $client = null;
 
+    // On stocke uniquement le NOM du fichier en base, pas l'image elle-même
+    #[ORM\Column(name: 'image_profil', type: 'string', length: 80, nullable: true)]
+    private ?string $imageProfil = null;
+
+    #[ORM\Column(name: 'image_profil_size', type: 'integer', nullable: true)]
+    private ?int $imageProfilSize = null;
+
+    // Champ NON mappé en base : Vich s'en sert pour gérer l'upload du fichier physique
+    #[Vich\UploadableField(mapping: 'user_profile', fileNameProperty: 'imageProfil', size: 'imageProfilSize')]
+    private ?File $imageProfilFile = null;
+
+    // Obligatoire pour que Doctrine détecte le changement et déclenche l'upload Vich
+    #[ORM\Column(name: 'updated_at', type: 'datetime_immutable', nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
+
     #[ORM\Column(name: 'nom', type: 'string', length: 80)]
     private string $nom;
 
@@ -31,9 +50,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(name: 'email', type: 'string', length: 150, unique: true)]
     private string $email;
-
-    //#[ORM\Column(name: 'entreprise', type: 'string', length: 150, nullable: true)]
-    //private ?string $entreprise = null;
 
     #[ORM\Column(name: 'role', type: 'string', enumType: Role::class)]
     private Role $role;
@@ -94,13 +110,63 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    // ✅ Corrigé : $this->role->value retourne déjà 'ROLE_ADMIN', pas besoin d'ajouter 'ROLE_'
+    /**
+     * Méthode requise par UserInterface pour la sécurité Symfony
+     * @return list<string>
+     */
     public function getRoles(): array
     {
-        return [$this->role->value];
+        $roles = [];
+
+        if (isset($this->role)) {
+            $roles[] = $this->role->value;
+        }
+
+        // On garantit que tout utilisateur connecté a au moins ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
     }
 
     public function eraseCredentials(): void {}
+
+    // --- Sérialisation (exclut les propriétés non sérialisables comme File) ---
+
+    public function __serialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'nom' => $this->nom,
+            'prenom' => $this->prenom,
+            'email' => $this->email,
+            'role' => $this->role ?? null,
+            'motDePasse' => $this->motDePasse,
+            'dateCreation' => $this->dateCreation,
+            'topActif' => $this->topActif,
+            'numTel' => $this->numTel,
+            'imageProfil' => $this->imageProfil,
+            'imageProfilSize' => $this->imageProfilSize,
+            'updatedAt' => $this->updatedAt,
+        ];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        $this->id = $data['id'];
+        $this->nom = $data['nom'];
+        $this->prenom = $data['prenom'];
+        $this->email = $data['email'];
+        if ($data['role'] !== null) {
+            $this->role = $data['role'];
+        }
+        $this->motDePasse = $data['motDePasse'];
+        $this->dateCreation = $data['dateCreation'];
+        $this->topActif = $data['topActif'];
+        $this->numTel = $data['numTel'];
+        $this->imageProfil = $data['imageProfil'];
+        $this->imageProfilSize = $data['imageProfilSize'];
+        $this->updatedAt = $data['updatedAt'] ?? null;
+    }
 
     public function getPassword(): string
     {
@@ -121,6 +187,52 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setClient(?Client $client): static
     {
         $this->client = $client;
+        return $this;
+    }
+
+    public function getImageProfil(): ?string
+    {
+        return $this->imageProfil;
+    }
+    public function setImageProfil(?string $imageProfil): static
+    {
+        $this->imageProfil = $imageProfil;
+        return $this;
+    }
+
+    public function getImageProfilSize(): ?int
+    {
+        return $this->imageProfilSize;
+    }
+    public function setImageProfilSize(?int $imageProfilSize): static
+    {
+        $this->imageProfilSize = $imageProfilSize;
+        return $this;
+    }
+
+    public function getImageProfilFile(): ?File
+    {
+        return $this->imageProfilFile;
+    }
+
+    public function setImageProfilFile(?File $imageProfilFile = null): static
+    {
+        $this->imageProfilFile = $imageProfilFile;
+
+        if (null !== $imageProfilFile) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
         return $this;
     }
 
@@ -154,13 +266,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    //public function getEntreprise(): ?string { return $this->entreprise; }
-    //public function setEntreprise(?string $entreprise): static { $this->entreprise = $entreprise; return $this; }
-
-    // ✅ Corrigé : retourne l'objet Role, pas un tableau
-    public function getRole(): Role
+    public function getRole(): ?Role
     {
-        return $this->role;
+        return $this->role ?? null;
     }
     public function setRole(Role $role): static
     {

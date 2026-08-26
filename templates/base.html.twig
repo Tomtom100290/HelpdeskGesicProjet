@@ -11,7 +11,7 @@
 		<!--script type="module" src="path/to/web-awesome.js"></script-->
 		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>"> <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 		{% block stylesheets %}
-			<link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+			<link rel="stylesheet" href="{{ asset('styles/app.css') }}?v={{ 'now'|date('U') }}">
 		{% endblock %}
 
 		{% block javascripts %}
@@ -36,7 +36,7 @@
 					class="space-y-2">
 					<!--Récupération de l'utilisateur-->
 					<div class="UtilisateurID">
-						<div class="imgUtilisateur"></div>
+						<div class="imgUtilisateur" style="{% if app.user.imageProfil %}background-image: url('{{ vich_uploader_asset(app.user, 'imageProfilFile') }}');{% endif %}"></div>
 						{% if app.user %}
 							<p>Bonjour,
 								{{ app.user.prenom }}
@@ -48,9 +48,19 @@
 								-
 								{{ app.user.role.label() }}</p>
 
-							<a href="{{ path('app_logout') }}">Se déconnecter</a>
+							<a href="{{ path('app_logout') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition text-sm text-white decoration-none">
+								<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-300/80">
+									<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+									<polyline points="16 17 21 12 16 7"/>
+									<line x1="21" y1="12" x2="9" y2="12"/>
+								</svg>Se déconnecter</a>
 						{% else %}
-							<a href="{{ path('app_login') }}">Se Connecter</a>
+							<a href="{{ path('app_login') }}">
+								<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-300/80">
+									<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+									<polyline points="10 17 15 12 10 7"/>
+									<line x1="15" y1="12" x2="3" y2="12"/>
+								</svg>Se Connecter</a>
 						{% endif %}
 					</div>
 					<!--FIN Récupération de l'utilisateur-->
@@ -77,69 +87,88 @@
 							</svg>
 							Nouveau ticket
 						</a>
+						<a href="{{ path('app_ticket_all') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition text-sm text-white decoration-none">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-list-icon lucide-list"><path d="M3 5h.01"/><path d="M3 12h.01"/><path d="M3 19h.01"/><path d="M8 5h13"/><path d="M8 12h13"/><path d="M8 19h13"/></svg>
+							Tous les tickets
+						</a>
+						<!--Cacher les Paramètres avancés si c'est un client-->
+						{% if not is_granted('ROLE_CLIENT') %}
+							<div class="h-[1px] bg-white/10 my-1 mx-3"></div>
 
+
+							<h3>Paramètres avancés</h3>
+
+							<a href="{{ path('app_logiciel_index') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition text-sm text-purple-100 hover:text-white decoration-none">
+								<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-300/80">
+									<rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+									<line x1="8" y1="21" x2="16" y2="21"/>
+									<line x1="12" y1="17" x2="12" y2="21"/>
+								</svg>
+								Logiciel
+							</a>
+
+							<a href="{{ path('app_logiciel_client_index') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition text-sm text-purple-100 hover:text-white decoration-none">
+								<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-300/80">
+									<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+									<circle cx="9" cy="7" r="4"/>
+									<path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+									<path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+								</svg>
+								Logiciel Client
+							</a>
+
+							<a href="{{ path('app_client_index') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition text-sm text-purple-100 hover:text-white decoration-none">
+								<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-300/80">
+									<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+									<polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+									<line x1="12" y1="22.08" x2="12" y2="12"/>
+								</svg>
+								Client
+							</a>
+
+							<a href="{{ path('app_utilisateur_index') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition text-sm text-purple-100 hover:text-white decoration-none">
+								<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-300/80">
+									<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+									<circle cx="12" cy="7" r="4"/>
+								</svg>
+								Utilisateur
+							</a>
+
+							<a href="{{ path('app_ticket_historique') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition text-sm text-purple-100 hover:text-white decoration-none">
+								<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-300/80">
+									<polyline points="12 8 12 12 14 14"/>
+									<path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"/>
+								</svg>
+								Historique
+							</a>
+						</div>
+
+						<!--Séparateur-->
 						<div class="h-[1px] bg-white/10 my-1 mx-3"></div>
 
-						<h3>Paramètres avancés</h3>
-
-						<a href="{{ path('app_logiciel_index') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition text-sm text-purple-100 hover:text-white decoration-none">
-							<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-300/80">
-								<rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-								<line x1="8" y1="21" x2="16" y2="21"/>
-								<line x1="12" y1="17" x2="12" y2="21"/>
-							</svg>
-							Logiciel
-						</a>
-
-						<a href="{{ path('app_logiciel_client_index') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition text-sm text-purple-100 hover:text-white decoration-none">
-							<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-300/80">
-								<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-								<circle cx="9" cy="7" r="4"/>
-								<path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-								<path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-							</svg>
-							Logiciel Client
-						</a>
-
-						<a href="{{ path('app_client_index') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition text-sm text-purple-100 hover:text-white decoration-none">
-							<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-300/80">
-								<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-								<polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
-								<line x1="12" y1="22.08" x2="12" y2="12"/>
-							</svg>
-							Client
-						</a>
-
-						<a href="{{ path('app_utilisateur_index') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition text-sm text-purple-100 hover:text-white decoration-none">
-							<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-300/80">
-								<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-								<circle cx="12" cy="7" r="4"/>
-							</svg>
-							Utilisateur
-						</a>
-
-						<a href="{{ path('app_ticket_historique') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition text-sm text-purple-100 hover:text-white decoration-none">
+						<!--taches-->
+						<h3>Paramètres des tâches</h3>
+						<a href="{{ path('app_tache_index') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition text-sm text-purple-100 hover:text-white decoration-none">
 							<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-300/80">
 								<polyline points="12 8 12 12 14 14"/>
 								<path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"/>
 							</svg>
-							Historique
+							Liste des Tâches
 						</a>
-					</div>
+					{% endif %}
+					<!--Afficher les Paramètres si c'est un client-->
+					{% if is_granted('ROLE_CLIENT') %}
+						<div class="h-[1px] bg-white/10 my-1 mx-3"></div>
 
-					<!--Séparateur-->
-					<div class="h-[1px] bg-white/10 my-1 mx-3"></div>
-
-					<!--taches-->
-					<h3>Liste des tâches</h3>
-					<a href="{{ path('app_tache_index') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition text-sm text-purple-100 hover:text-white decoration-none">
-						<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-300/80">
-							<polyline points="12 8 12 12 14 14"/>
-							<path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"/>
-						</svg>
-						Les Tâches
-					</a>
-
+						<h3>Paramètres</h3>
+						<a href="{{ path('app_ticket_historiqueclient') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition text-sm text-purple-100 hover:text-white decoration-none">
+							<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-300/80">
+								<polyline points="12 8 12 12 14 14"/>
+								<path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"/>
+							</svg>
+							Historique des tickets
+						</a>
+					{% endif %}
 				</nav>
 			</aside>
 
@@ -148,3 +177,4 @@
 			</main>
 		</body>
 	</html>
+</body></html>
