@@ -1617,3 +1617,14 @@ label {
     z-index: 1;
     /* pour que le contenu reste au-dessus du voile */
 }
+
+#photoprofil {
+    background-color: #1a6e4a;
+    width: 120px;
+}
+
+.enteteNvxtickets {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}

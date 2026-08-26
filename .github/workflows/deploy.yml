@@ -1,0 +1,86 @@
+name: Déploiement production
+
+# Se déclenche automatiquement après la réussite du workflow de tests sur main
+on:
+  workflow_run:
+    workflows: ["Symfony CI"]
+    branches:
+      - main
+    types:
+      - completed
+  # Permet toujours le déclenchement manuel si besoin
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    name: Build et push de l'image Docker
+    # S'exécute si lancé manuellement OU si la CI a réussi
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Connexion à GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build et push de l'image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: docker/Dockerfile
+          build-args: |
+            APP_ENV=prod
+          push: true
+          tags: |
+            ghcr.io/tomtom100290/helpdesk-app:latest
+            ghcr.io/tomtom100290/helpdesk-app:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    name: Déployer sur le VPS
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Connexion SSH et déploiement
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT }}
+          script: |
+            set -e
+            cd ~/helpdesk-app
+
+            echo "Chargement des variables d'environnement..."
+            export $(grep -v '^#' .env.prod | xargs)
+
+            echo "Récupération de la nouvelle image..."
+            docker compose -f docker-compose.prod.yml pull app
+
+            echo "Redémarrage du conteneur app uniquement..."
+            docker compose -f docker-compose.prod.yml up -d --no-deps app
+
+            echo "Exécution des migrations..."
+            docker compose -f docker-compose.prod.yml exec -T app php bin/console doctrine:migrations:migrate --no-interaction
+
+            echo "Nettoyage du cache..."
+            docker compose -f docker-compose.prod.yml exec -T app php bin/console cache:clear --env=prod
+
+            echo "Nettoyage des anciennes images Docker inutilisées..."
+            docker image prune -f
+
+            echo "Déploiement terminé."
