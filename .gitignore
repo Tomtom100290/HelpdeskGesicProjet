@@ -21,3 +21,12 @@
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+###> phpstan/phpstan ###
+phpstan.neon
+###< phpstan/phpstan ###
+
+docker-compose.override.yml
+
+###< backup ###
+backups/
+/.env.docker

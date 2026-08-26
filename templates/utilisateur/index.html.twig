@@ -1,53 +1,165 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Utilisateur index
+{% block title %}Liste des Utilisateurs
 {% endblock %}
 
 {% block body %}
 
+	<div class="navbar">
+		<a href="#" onclick="history.back(); return false;" class="group inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200" style="color: #7c5cbf; background-color: #7c5cbf1a;" onmouseover="this.style.backgroundColor='#7c5cbf2e'" onmouseout="this.style.backgroundColor='#7c5cbf1a'">
+			<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+			</svg>
+			Retour
+		</a>
+		<h1>Liste des Utilisateurs</h1>
+	</div>
 
-	<h1>Utilisateur index</h1>
+	<div class="historique-container">
 
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Id</th>
-				<th>Nom</th>
-				<th>Prenom</th>
-				<th>Email</th>
-				<th>Entreprise</th>
-				<th>Role</th>
-				<th>DateCreation</th>
-				<th>TopActif</th>
-				<th>NumTel</th>
-				<th>actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for utilisateur in utilisateurs %}
-				<tr>
-					<td>{{ utilisateur.id }}</td>
-					<td>{{ utilisateur.nom }}</td>
-					<td>{{ utilisateur.prenom }}</td>
-					<td>{{ utilisateur.email }}</td>
-					<td>{{ utilisateur.client ? utilisateur.client.raisonSocial : 'N/A' }}</td>
-					<td>{{ utilisateur.role.label }}</td>
-					<td>{{ utilisateur.dateCreation ? utilisateur.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
-					<td>{{ utilisateur.topActif ? 'Yes' : 'No' }}</td>
-					<td>{{ utilisateur.numTel }}</td>
-					<td>
-						<a href="{{ path('app_utilisateur_show', {'id': utilisateur.id}) }}">show</a>
-						<a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}">edit</a>
-					</td>
-				</tr>
-			{% else %}
-				<tr>
-					<td colspan="11">no records found</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+		<div
+			class="filter-bar">
+			{# Filtre Rôle #}
+			<div class="filter-group">
+				<label for="filter-role">Filtrer par Rôle</label>
+				<select id="filter-role">
+					<option value="">Tous les rôles</option>
+					{% set roles_ajoutes = [] %}
+					{% for utilisateur in utilisateurs %}
+						{% if utilisateur.role.value not in roles_ajoutes %}
+							<option value="{{ utilisateur.role.value }}">{{ utilisateur.role.label }}</option>
+							{% set roles_ajoutes = roles_ajoutes|merge([utilisateur.role.value]) %}
+						{% endif %}
+					{% endfor %}
+				</select>
+			</div>
 
-	<a href="{{ path('app_utilisateur_new') }}">Create new</a>
+			{# Filtre Entreprise / Client #}
+			<div class="filter-group">
+				<label for="filter-entreprise">Filtrer par Entreprise</label>
+				<select id="filter-entreprise">
+					<option value="">Toutes les entreprises</option>
+					{% set entreprises_ajoutees = [] %}
+					{% for utilisateur in utilisateurs %}
+						{% set entreprise_nom = utilisateur.client ? utilisateur.client.raisonSocial : 'N/A' %}
+						{% if entreprise_nom not in entreprises_ajoutees %}
+							<option value="{{ entreprise_nom }}">{{ entreprise_nom }}</option>
+							{% set entreprises_ajoutees = entreprises_ajoutees|merge([entreprise_nom]) %}
+						{% endif %}
+					{% endfor %}
+				</select>
+			</div>
 
+			{# Filtre Statut actif #}
+			<div class="filter-group">
+				<label for="filter-actif">Filtrer par Statut</label>
+				<select id="filter-actif">
+					<option value="">Tous les statuts</option>
+					<option value="oui">Actif</option>
+					<option value="non">Inactif</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="table-responsive">
+			<table class="ticket-table border-separate border-spacing-8 border border-gray-400 dark:border-gray-500" id="utilisateurs-table" style="table-layout: auto;">
+				<thead>
+					<tr>
+						<th class="border border-gray-300 dark:border-gray-600" style="white-space: nowrap;">ID</th>
+						<th style="white-space: nowrap;">Nom</th>
+						<th style="white-space: nowrap;">Prénom</th>
+						<th style="white-space: nowrap;">Email</th>
+						<th style="white-space: nowrap;">Entreprise</th>
+						<th style="white-space: nowrap;">Rôle</th>
+						<th style="white-space: nowrap;">Date de création</th>
+						<th style="white-space: nowrap;">Statut</th>
+						<th style="white-space: nowrap;">Téléphone</th>
+						<th style="white-space: nowrap; min-width: 190px;">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for utilisateur in utilisateurs %}
+						{% set entreprise_nom = utilisateur.client ? utilisateur.client.raisonSocial : 'N/A' %}
+
+						<tr class="ticket-row" data-role="{{ utilisateur.role.value }}" data-entreprise="{{ entreprise_nom }}" data-actif="{{ utilisateur.topActif ? 'oui' : 'non' }}">
+							<td>
+								<p class="text-yellow-600 font-semibold">#{{ utilisateur.id }}</p>
+							</td>
+							<td>{{ utilisateur.nom }}</td>
+							<td>{{ utilisateur.prenom }}</td>
+							<td>{{ utilisateur.email }}</td>
+							<td>{{ entreprise_nom }}</td>
+							<td>
+								<span class="badge">{{ utilisateur.role.label }}</span>
+							</td>
+							<td>{{ utilisateur.dateCreation ? utilisateur.dateCreation|date('d/m/Y H:i') : '' }}</td>
+							<td>
+								{% if utilisateur.topActif %}
+									<span class="badge bg-green-50 text-green-600">Actif</span>
+								{% else %}
+									<span class="badge bg-gray-100 text-gray-600">Inactif</span>
+								{% endif %}
+							</td>
+							<td>{{ utilisateur.numTel ?: '—' }}</td>
+							<td style="min-width: 190px;">
+								<div style="display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: nowrap;">
+									<a href="{{ path('app_utilisateur_show', {'id': utilisateur.id}) }}" style="background-color: #3b82f6; color: white; padding: 6px 14px; border-radius: 8px; white-space: nowrap; text-decoration: none; font-size: 0.85rem; font-weight: 600;">Voir</a>
+									<a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}" style="background-color: #f97316; color: white; padding: 6px 14px; border-radius: 8px; white-space: nowrap; text-decoration: none; font-size: 0.85rem; font-weight: 600;">Éditer</a>
+								</div>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="10" class="no-tickets">Aucun utilisateur trouvé.</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+
+		<div class="flex items-center justify-end pt-4 pb-6">
+			<a href="{{ path('app_utilisateur_new') }}" class="takeit" style="text-align: center; padding-top: 16px; padding-bottom: 16px;">✓ Créer un utilisateur</a>
+		</div>
+	</div>
+
+	<script>
+		function initFiltresUtilisateurs() {
+const filterRole = document.getElementById('filter-role');
+const filterEntreprise = document.getElementById('filter-entreprise');
+const filterActif = document.getElementById('filter-actif');
+const rows = document.querySelectorAll('#utilisateurs-table .ticket-row');
+
+if (! filterRole || ! filterEntreprise || ! filterActif) 
+return;
+
+
+
+function filterTable() {
+const roleValue = filterRole.value.toLowerCase();
+const entrepriseValue = filterEntreprise.value.toLowerCase();
+const actifValue = filterActif.value.toLowerCase();
+
+rows.forEach(row => {
+const rowRole = row.getAttribute('data-role').toLowerCase();
+const rowEntreprise = row.getAttribute('data-entreprise').toLowerCase();
+const rowActif = row.getAttribute('data-actif').toLowerCase();
+
+const matchesRole = ! roleValue || rowRole === roleValue;
+const matchesEntreprise = ! entrepriseValue || rowEntreprise === entrepriseValue;
+const matchesActif = ! actifValue || rowActif === actifValue;
+
+row.style.display = (matchesRole && matchesEntreprise && matchesActif) ? '' : 'none';
+});
+}
+
+filterTable();
+
+filterRole.addEventListener('change', filterTable);
+filterEntreprise.addEventListener('change', filterTable);
+filterActif.addEventListener('change', filterTable);
+}
+
+document.addEventListener('turbo:load', initFiltresUtilisateurs);
+document.addEventListener('DOMContentLoaded', initFiltresUtilisateurs);
+	</script>
 {% endblock %}

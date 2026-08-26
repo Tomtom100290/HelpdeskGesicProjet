@@ -125,6 +125,9 @@ class TicketType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Ticket::class,
+            'csrf_protection' => true,         // Active explicitement la protection
+            'csrf_field_name' => '_token',      // Nom du champ caché généré dans le HTML
+            'csrf_token_id'   => 'ticket_form', // Identifiant unique pour le calcul du jeton
         ]);
 
         $resolver->setRequired('id_client');

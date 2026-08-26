@@ -11,10 +11,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted; // 
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/utilisateur')]
-//#[IsGranted('ROLE_ADMIN')]
+// #[IsGranted('ROLE_ADMIN')]
 final class UtilisateurController extends AbstractController
 {
     #[Route(name: 'app_utilisateur_index', methods: ['GET'])]
@@ -32,17 +32,17 @@ final class UtilisateurController extends AbstractController
         UserPasswordHasherInterface $passwordHasher
     ): Response {
         $utilisateur = new Utilisateur();
-        $form = $this->createForm(UtilisateurType::class, $utilisateur);
+        $form = $this->createForm(UtilisateurType::class, $utilisateur, [
+            'is_edit' => false,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // 1. On récupère le mot de passe brut saisi dans l'UtilisateurType
-            $plainPassword = $utilisateur->getMotDePasse();
+            // ✅ Récupération de la saisie depuis le champ non mappé 'plainPassword'
+            $plainPassword = $form->get('plainPassword')->getData();
 
-            // 2. On le hache selon les règles de sécurité
+            // Hashage du mot de passe
             $hashedPassword = $passwordHasher->hashPassword($utilisateur, $plainPassword);
-
-            // 3. On remplace la valeur brute par le hash avant sauvegarde
             $utilisateur->setMotDePasse($hashedPassword);
 
             $entityManager->persist($utilisateur);
@@ -74,22 +74,17 @@ final class UtilisateurController extends AbstractController
         EntityManagerInterface $entityManager,
         UserPasswordHasherInterface $passwordHasher
     ): Response {
-        // Optionnel : On stocke l'ancien mot de passe au cas où le champ reste vide
-        $oldPassword = $utilisateur->getMotDePasse();
-
-        $form = $this->createForm(UtilisateurType::class, $utilisateur);
+        $form = $this->createForm(UtilisateurType::class, $utilisateur, [
+            'is_edit' => true,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $plainPassword = $utilisateur->getMotDePasse();
+            $plainPassword = $form->get('plainPassword')->getData();
 
-            // Si l'admin a saisi un nouveau mot de passe, on le hache
             if (!empty($plainPassword)) {
                 $hashedPassword = $passwordHasher->hashPassword($utilisateur, $plainPassword);
                 $utilisateur->setMotDePasse($hashedPassword);
-            } else {
-                // Sinon, on conserve l'ancien mot de passe haché
-                $utilisateur->setMotDePasse($oldPassword);
             }
 
             $entityManager->flush();

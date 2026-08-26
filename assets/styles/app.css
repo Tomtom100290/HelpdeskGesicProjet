@@ -153,7 +153,7 @@ li {
 .imgUtilisateur {
     width: 50px;
     height: 50px;
-    border: 3px solid rgb(233, 230, 230);
+    border: 1px solid rgb(233, 230, 230);
     border-radius: 50%;
     margin-bottom: 4px;
     margin-right: 8px;
@@ -189,10 +189,10 @@ li {
 /* ─── CARD ──────────────────────────────────────────────── */
 /* Stats tickets*/
 .statscard {
-    width: 80px;
+    width: 90px;
     margin: 4px 4px 4px 8px;
     background-color: rgba(67, 67, 75, 0);
-    height: 80px;
+    height: 90px;
     padding: 4px;
     background: var(--surface2);
     backdrop-filter: blur(14px);
@@ -583,7 +583,27 @@ li {
     flex: 1;
     min-height: 0;
     overflow-y: auto;
-    margin: 8px 0 32px;
+    margin: 32px 0 32px;
+    padding: 8px 0;
+    max-height: 100%;
+}
+
+#all-tickets-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 16px;
+    /* Espace entre les cartes */
+    background: var(--mauve-light);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    margin: 32px 0 32px;
     padding: 8px 0;
     max-height: 100%;
 }
@@ -659,6 +679,26 @@ li {
     margin: 8px;
     height: 90%;
     overflow-y: auto;
+}
+
+.BlocAllTickets {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 320px;
+    border-radius: 12px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    margin: 8px;
+    height: 90%;
+    overflow-y: auto;
+    background-color: #0861d6;
+}
+
+#all-tickets-container .card {
+    flex: 1 1 300px;
+    /* S'adapte mais garde au moins 300px de large */
+    max-width: 100%;
 }
 
 .BlocEquipe {
@@ -1172,7 +1212,7 @@ label {
     min-height: 100vh;
     box-sizing: border-box;
     margin-bottom: 24px;
-    background-color: #2e9e6e;
+    background-color: #e7ebe9;
 }
 
 .FormContainter {
@@ -1310,7 +1350,7 @@ label {
     -moz-border-radius: 10px;
     -ms-border-radius: 10px;
     -o-border-radius: 10px;
-    background-color: #2dd4bf;
+    background-color: #F6B932;
     display: flex;
     justify-content: start;
     align-items: center;
@@ -1371,20 +1411,16 @@ label {
 }
 
 .bloctaches {
-    background-color: #6a7282;
-    height: 104px;
+    background-color: #316909 !important;
+    min-height: 104px;
+    /* Souplesse pour le contenu */
     width: 65%;
-    padding: 0px 8px;
+    padding: 0 8px;
     display: flex;
     align-items: center;
-    overflow: visible;
     border-radius: 10px;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    -o-border-radius: 10px;
+    /* Les prefixer -webkit/-moz ne sont plus nécessaires */
     position: relative;
-
 }
 
 
@@ -1627,4 +1663,11 @@ label {
     display: flex;
     justify-content: space-between;
     flex-direction: row;
+}
+
+/**Liste des tous les tickets**/
+.ListTiicketsAll {
+    background-color: #0069f3;
+    width: 100%;
+    margin-left: 48px;
 }

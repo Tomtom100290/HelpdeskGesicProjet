@@ -1,4 +1,117 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, { attr: { class: 'space-y-8' } }) }}
+{{ form_errors(form) }}
+
+{# Libellé de la tâche #}
+<div>
+	<label for="{{ form.libelle.vars.id }}" class="block text-xs font-bold uppercase tracking-wider mb-2" style="color: #a68dda;">
+		Libellé de la tâche
+	</label>
+	{{ form_widget(form.libelle, {
+            attr: {
+                class: 'w-full rounded-xl px-4 py-3 text-sm transition duration-150 ease-in-out focus:outline-none',
+                style: 'background: rgba(124, 92, 191, 0.08); border: 1px solid rgba(166, 141, 218, 0.25); color: #f3f0fb;',
+                placeholder: 'Ex: Analyse du problème d\'affichage'
+            }
+        }) }}
+    {{ form_errors(form.libelle) }}
+</div>
+
+{# Description #}
+<div>
+    <label for="{{ form.description.vars.id }}" class="block text-xs font-bold uppercase tracking-wider mb-2" style="color: #a68dda;">
+        Description
+    </label>
+    {{ form_widget(form.description, {
+            attr: {
+                class: 'w-full rounded-xl px-4 py-3 text-sm transition duration-150 ease-in-out focus:outline-none',
+                style: 'background: rgba(124, 92, 191, 0.08); border: 1px solid rgba(166, 141, 218, 0.25); color: #f3f0fb;',
+                rows: '4',
+                placeholder: 'Détails des actions à réaliser...'
+            }
+        }) }}
+    {{ form_errors(form.description) }}
+</div>
+
+{# Date de réalisation & Statut (2 colonnes) #}
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+    <div>
+        <label for="{{ form.dateRealisation.vars.id }}" class="block text-xs font-bold uppercase tracking-wider mb-2" style="color: #a68dda;">
+            Date de réalisation
+        </label>
+        {{ form_widget(form.dateRealisation, {
+                attr: {
+                    class: 'w-full rounded-xl px-4 py-3 text-sm transition duration-150 ease-in-out focus:outline-none',
+                    style: 'background: rgba(124, 92, 191, 0.08); border: 1px solid rgba(166, 141, 218, 0.25); color: #f3f0fb;'
+                }
+            }) }}
+        {{ form_errors(form.dateRealisation) }}
+    </div>
+
+    <div>
+        <label for="{{ form.statut.vars.id }}" class="block text-xs font-bold uppercase tracking-wider mb-2" style="color: #a68dda;">
+            Statut
+        </label>
+        {{ form_widget(form.statut, {
+                attr: {
+                    class: 'w-full rounded-xl px-4 py-3 text-sm transition duration-150 ease-in-out focus:outline-none cursor-pointer',
+                    style: 'background: #1c1530; border: 1px solid rgba(166, 141, 218, 0.25); color: #f3f0fb;'
+                }
+            }) }}
+        {{ form_errors(form.statut) }}
+    </div>
+</div>
+
+{# Ticket rattaché #}
+<div>
+    <label for="{{ form.ticket.vars.id }}" class="block text-xs font-bold uppercase tracking-wider mb-2" style="color: #a68dda;">
+        Ticket rattaché
+    </label>
+    {{ form_widget(form.ticket, {
+            attr: {
+                class: 'w-full rounded-xl px-4 py-3 text-sm transition duration-150 ease-in-out focus:outline-none cursor-pointer',
+                style: 'background: #1c1530; border: 1px solid rgba(166, 141, 218, 0.25); color: #f3f0fb;'
+            }
+        }) }}
+    {{ form_errors(form.ticket) }}
+</div>
+
+{# Utilisateur Assigné & Créateur (2 colonnes) #}
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+    <div>
+        <label for="{{ form.utilisateurAssigne.vars.id }}" class="block text-xs font-bold uppercase tracking-wider mb-2" style="color: #a68dda;">
+            Assigné à
+        </label>
+        {{ form_widget(form.utilisateurAssigne, {
+                attr: {
+                    class: 'w-full rounded-xl px-4 py-3 text-sm transition duration-150 ease-in-out focus:outline-none cursor-pointer',
+                    style: 'background: #1c1530; border: 1px solid rgba(166, 141, 218, 0.25); color: #f3f0fb;'
+                }
+            }) }}
+        {{ form_errors(form.utilisateurAssigne) }}
+    </div>
+
+    <div>
+        <label for="{{ form.utilisateurCreateur.vars.id }}" class="block text-xs font-bold uppercase tracking-wider mb-2" style="color: #a68dda;">
+            Créé par
+        </label>
+        {{ form_widget(form.utilisateurCreateur, {
+                attr: {
+                    class: 'w-full rounded-xl px-4 py-3 text-sm transition duration-150 ease-in-out focus:outline-none cursor-pointer',
+                    style: 'background: #1c1530; border: 1px solid rgba(166, 141, 218, 0.25); color: #f3f0fb;'
+                }
+            }) }}
+        {{ form_errors(form.utilisateurCreateur) }}
+    </div>
+</div>
+
+{# Bouton de soumission #}
+<div class="flex items-center justify-end pt-6" style="border-top: 1px solid rgba(166, 141, 218, 0.2);">
+    <button type="submit" class="inline-flex items-center gap-2 rounded-xl text-sm font-semibold text-white shadow-lg transition-all duration-200 hover:opacity-90 hover:shadow-xl" style="background: linear-gradient(135deg, #7c5cbf, #4a3480); padding: 10px 24px; min-width: 180px; justify-content: center;">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+        </svg>
+        {{ button_label|default('Enregistrer') }}
+    </button>
+</div>
+
 {{ form_end(form) }}

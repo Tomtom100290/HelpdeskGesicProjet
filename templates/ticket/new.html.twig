@@ -26,8 +26,8 @@
 				<p class="text-sm text-gray-800 mt-1">Renseignez les informations pour ouvrir une nouvelle demande de support.</p>
 			</div>
 
-			{{ form_start(form, { attr: { class: 'space-y-4' } }) }}
-
+			{{ form_start(form, { attr: { class: 'space-y-4', 'data-turbo': 'false' } }) }}
+			{{ form_errors(form) }}
 
 			<div class="bg-white border border-gray-200 rounded-xl p-6">
 				<h2 class="text-s font-semibold uppercase tracking-wide text-gray-800 border-b border-gray-100 pb-3 mb-5">

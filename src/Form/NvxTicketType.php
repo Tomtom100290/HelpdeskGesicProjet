@@ -66,7 +66,7 @@ class NvxTicketType extends AbstractType
                 'label_attr' => ['class' => $labelClasses],
                 'attr' => ['class' => $inputClasses],
                 'choice_label' => fn(LogicielClient $lc) => $lc->getLogiciel()->getLibelle() . ' - ' . $lc->getClient()->getRaisonSocial(),
-                'query_builder' => fn(LogicielClientRepository $repo) => $repo->findByClient($idClient),
+                'query_builder' => fn(LogicielClientRepository $repo) => $repo->findAllActifs(),
             ])
         ;
     }

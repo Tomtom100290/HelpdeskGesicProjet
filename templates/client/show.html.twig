@@ -1,80 +1,147 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Client
+{% block title %}Détails Client -
+	{{ client.raisonSocial }}
 {% endblock %}
 
 {% block body %}
-	<h1>Client</h1>
+	<div class="navbar">
+		<a href="#" onclick="history.back(); return false;" class="group inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200" style="color: #7c5cbf; background-color: #7c5cbf1a;" onmouseover="this.style.backgroundColor='#7c5cbf2e'" onmouseout="this.style.backgroundColor='#7c5cbf1a'">
+			<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+			</svg>
+			Retour
+		</a>
 
-	<table class="table">
-		<tbody>
-			<tr>
-				<th>Id</th>
-				<td>{{ client.id }}</td>
-			</tr>
-			<tr>
-				<th>RaisonSocial</th>
-				<td>{{ client.raisonSocial }}</td>
-			</tr>
-			<tr>
-				<th>Adresse</th>
-				<td>{{ client.adresse }}</td>
-			</tr>
-			<tr>
-				<th>Ville</th>
-				<td>{{ client.ville }}</td>
-			</tr>
-			<tr>
-				<th>CodePostal</th>
-				<td>{{ client.codePostal }}</td>
-			</tr>
-			<tr>
-				<th>NumTel</th>
-				<td>{{ client.numTel }}</td>
-			</tr>
-			<tr>
-				<th>Email</th>
-				<td>{{ client.email }}</td>
-			</tr>
-			<tr>
-				<th>PositionX</th>
-				<td>{{ client.positionX }}</td>
-			</tr>
-			<tr>
-				<th>PositionY</th>
-				<td>{{ client.positionY }}</td>
-			</tr>
-			<tr>
-				<th>DateCreation</th>
-				<td>{{ client.dateCreation ? client.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
-			</tr>
-			<tr>
-				<th>TopActif</th>
-				<td>{{ client.topActif ? 'Yes' : 'No' }}</td>
-			</tr>
-		</tbody>
-	</table>
+		<h1>Client</h1>
+	</div>
+	<div
+		class="min-h-screen p-4 md:p-8 flex items-center justify-center" style="background: radial-gradient(circle at top left, #1a1428, #120d1f); font-family: system-ui, -apple-system, sans-serif;">
 
-	<h3>Configuration des logiciels installés :</h3>
+		{# Container Carte #}
+		<div
+			class="w-full max-w-4xl rounded-3xl p-6 md:p-10 shadow-2xl space-y-8" style="background: linear-gradient(160deg, #241a3d 0%, #1c1530 100%); border: 1px solid rgba(166, 141, 218, 0.25); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(124, 92, 191, 0.08) inset;">
 
-	{% if logicielClient is not empty %}
-		<ul>
-			{% for installation in logicielClient %}
-				<li>
-					{{ installation.logiciel.libelle }}
-					- Version :
-					{{ installation.versionLogiciel }}
-				</li>
-			{% endfor %}
-		</ul>
-	{% else %}
-		<p>Aucun logiciel n'est installé pour ce client.</p>
-	{% endif %}
+			{# En-tête avec navigation & actions #}
+			<div class="flex flex-wrap items-center justify-between gap-4 pb-6" style="border-bottom: 1px solid rgba(166, 141, 218, 0.2);">
+				<div class="flex items-center gap-4">
+					<a href="{{ path('app_client_index') }}" class="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200" style="background: rgba(124, 92, 191, 0.12); color: #c4b3e8; border: 1px solid rgba(166, 141, 218, 0.2);">
+						<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+						</svg>
+						Retour à la liste
+					</a>
+					<div>
+						<div class="flex items-center gap-3">
+							<h1 class="text-2xl font-extrabold tracking-tight" style="color: #f3f0fb;">{{ client.raisonSocial }}</h1>
+							{% if client.topActif %}
+								<span class="px-3 py-1 text-xs font-bold rounded-full" style="background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3);">Actif</span>
+							{% else %}
+								<span class="px-3 py-1 text-xs font-bold rounded-full" style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3);">Inactif</span>
+							{% endif %}
+						</div>
+						<p class="text-xs mt-1" style="color: #a68dda;">Client #{{ client.id }}
+							— Créé le
+							{{ client.dateCreation ? client.dateCreation|date('d/m/Y à H:i') : 'N/A' }}</p>
+					</div>
+				</div>
 
+				{# Actions : Édition & Suppression #}
+				<div class="flex items-center gap-3">
+					<a href="{{ path('app_client_edit', {'id': client.id}) }}" class="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-xl transition-all duration-200" style="background: linear-gradient(135deg, #7c5cbf, #4a3480); color: white;">
+						<svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 210.3H3v-3.572L16.732 3.732z"/>
+						</svg>
+						Modifier
+					</a>
+					{{ include('client/_delete_form.html.twig') }}
+				</div>
+			</div>
 
-	<a href="{{ path('app_client_index') }}">back to list</a>
+			{# Grille des informations principales #}
+			<div
+				class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-	<a href="{{ path('app_client_edit', {'id': client.id}) }}">edit</a>
+				{# Bloc Coordonnées #}
+				<div class="p-5 rounded-2xl space-y-4" style="background: rgba(124, 92, 191, 0.05); border: 1px solid rgba(166, 141, 218, 0.15);">
+					<span class="text-xs font-bold uppercase tracking-wider block mb-2" style="color: #a68dda;">Contact & Coordonnées</span>
 
-	{{ include('client/_delete_form.html.twig') }}
+					<div>
+						<span class="text-xs block" style="color: #a68dda;">Email</span>
+						<p class="text-sm font-medium" style="color: #f3f0fb;">{{ client.email ?: 'Non renseigné' }}</p>
+					</div>
+
+					<div>
+						<span class="text-xs block" style="color: #a68dda;">Téléphone</span>
+						<p class="text-sm font-medium" style="color: #f3f0fb;">{{ client.numTel ?: 'Non renseigné' }}</p>
+					</div>
+				</div>
+
+				{# Bloc Localisation #}
+				<div class="p-5 rounded-2xl space-y-4" style="background: rgba(124, 92, 191, 0.05); border: 1px solid rgba(166, 141, 218, 0.15);">
+					<span class="text-xs font-bold uppercase tracking-wider block mb-2" style="color: #a68dda;">Localisation</span>
+
+					<div>
+						<span class="text-xs block" style="color: #a68dda;">Adresse</span>
+						<p class="text-sm font-medium" style="color: #f3f0fb;">{{ client.adresse ?: 'Non renseignée' }}</p>
+					</div>
+
+					<div class="grid grid-cols-2 gap-4">
+						<div>
+							<span class="text-xs block" style="color: #a68dda;">Code postal</span>
+							<p class="text-sm font-medium" style="color: #f3f0fb;">{{ client.codePostal ?: 'N/A' }}</p>
+						</div>
+						<div>
+							<span class="text-xs block" style="color: #a68dda;">Ville</span>
+							<p class="text-sm font-medium" style="color: #f3f0fb;">{{ client.ville ?: 'N/A' }}</p>
+						</div>
+					</div>
+
+					{% if client.positionX or client.positionY %}
+						<div class="pt-2" style="border-top: 1px stroke rgba(166, 141, 218, 0.1);">
+							<span class="text-xs block" style="color: #a68dda;">Coordonnées GPS</span>
+							<p class="text-xs font-mono" style="color: #c4b3e8;">X:
+								{{ client.positionX ?: '0' }}
+								| Y:
+								{{ client.positionY ?: '0' }}</p>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+
+			{# Section Logiciels installés #}
+			<div class="space-y-4 pt-4">
+				<h2 class="text-sm font-bold uppercase tracking-wider" style="color: #a68dda;">
+					Logiciels installés
+				</h2>
+
+				{% if logicielClient is not empty %}
+					<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+						{% for installation in logicielClient %}
+							<div class="p-4 rounded-xl flex items-center justify-between" style="background: rgba(124, 92, 191, 0.08); border: 1px solid rgba(166, 141, 218, 0.2);">
+								<div class="flex items-center gap-3">
+									<div class="p-2 rounded-lg" style="background: rgba(124, 92, 191, 0.2); color: #c4b3e8;">
+										<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="2">
+											<path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+										</svg>
+									</div>
+									<span class="text-sm font-semibold" style="color: #f3f0fb;">
+										{{ installation.logiciel.libelle }}
+									</span>
+								</div>
+								<span class="px-2.5 py-1 text-xs font-mono font-medium rounded-md" style="background: #1c1530; color: #a68dda; border: 1px solid rgba(166, 141, 218, 0.2);">
+									v{{ installation.versionLogiciel }}
+								</span>
+							</div>
+						{% endfor %}
+					</div>
+				{% else %}
+					<div class="p-6 rounded-2xl text-center" style="background: rgba(124, 92, 191, 0.04); border: 1px dashed rgba(166, 141, 218, 0.2);">
+						<p class="text-sm" style="color: #a68dda;">Aucun logiciel n'est actuellement installé pour ce client.</p>
+					</div>
+				{% endif %}
+			</div>
+
+		</div>
+	</div>
 {% endblock %}

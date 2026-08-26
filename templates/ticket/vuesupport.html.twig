@@ -13,22 +13,26 @@
 	<!---->
 	<div class="StatetTaches">
 		<div
-			class="statsTickets">
+			class="statsTickets" style="background-color: #Ffffff !important;">
 			<!--stats-->
 
-			<div class="statscard">
+			<div class="statscard" style="background-color: #2F9D90 !important; width:90px; height:90px; padding-top:10px;">
 				<h5>Tickets<br>ouvert</h5>
-				<p class="text-yellow-600 text-center text-[24px] font-bold">10</p>
+				<p class="text-white text-center text-[24px] font-bold">{{ nbTicketsOuverts }}</p>
 			</div>
-			<div class="statscard">
+			<div class="statscard" style="background-color: #4D74DC !important; width:90px; height:90px; padding-top:10px;">
 				<h5>Tickets<br>en cours</h5>
-				<p class="text-yellow-600 text-center text-[24px] font-bold">4</p>
+				<p class=" text-white text-center text-[24px] font-bold">{{ nbTicketsEnCours }}</p>
+			</div>
+			<div class="statscard" style="background-color: #FF2B5C !important; width:90px; height:90px; padding-top:10px;">
+				<h5>Tickets<br>urgent</h5>
+				<p class="text-white text-center text-[24px] font-bold">{{ nbTicketsUrgents }}</p>
 			</div>
 
 
 		</div>
 		<!--TACHES-->
-		<div class="bloctaches">
+		<div class="bloctaches" style=" background-color: #ffffff !important; border:1px #BDA6D6 solid !important;">
 			<div id="notif" alt="Nombre de tâches à faire">{{ nbTachesAFaire }}</div>
 			<div class="scroll-container">
 				<div class="ssbloctaches scroll-track">
@@ -37,7 +41,7 @@
 					{% else %}
 						{% for i in 1..2 %}
 							{% for tache in taches %}
-								<div class="cardtache item">
+								<div class="cardtache item" style="background-color: #7940B3 !important;">
 									<div class="headCardtache">
 										<div class="tache-body">
 											<h5>{{ tache.libelle }}</h5>
@@ -73,13 +77,15 @@
 
 			{# ── Nouveaux tickets ── #}
 			<div class="BlocTickets">
-				<h2>Nouveaux tickets</h2>
-				<a class="takeit" href="{{ path('app_ticket_new') }}" style="display: flex; align-items: center; gap: 6px; color: white; text-decoration: none;">
-					<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 640 640" width="24" height="24" fill="white">
-						<path d="M352 128C352 110.3 337.7 96 320 96C302.3 96 288 110.3 288 128L288 288L128 288C110.3 288 96 302.3 96 320C96 337.7 110.3 352 128 352L288 352L288 512C288 529.7 302.3 544 320 544C337.7 544 352 529.7 352 512L352 352L512 352C529.7 352 544 337.7 544 320C544 302.3 529.7 288 512 288L352 288L352 128z"/>
-					</svg>
-					Nouveau ticket
-				</a>
+				<div class="enteteNvxtickets">
+					<h2>Nouveaux tickets</h2>
+					<a class="takeit" href="{{ path('app_ticket_new') }}" style="display: flex; align-items: center; gap: 6px; color: white; text-decoration: none;">
+						<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 640 640" width="24" height="24" fill="white">
+							<path d="M352 128C352 110.3 337.7 96 320 96C302.3 96 288 110.3 288 128L288 288L128 288C110.3 288 96 302.3 96 320C96 337.7 110.3 352 128 352L288 352L288 512C288 529.7 302.3 544 320 544C337.7 544 352 529.7 352 512L352 352L512 352C529.7 352 544 337.7 544 320C544 302.3 529.7 288 512 288L352 288L352 128z"/>
+						</svg>
+						Nouveau ticket
+					</a>
+				</div>
 				<div id="tickets-container">
 					{% if nouveauxtickets is empty %}
 						<p class="text-gray-400 empty-message">Aucun ticket trouvé</p>
@@ -180,7 +186,7 @@
 							</a>
 							<div class="idpersonnel">
 
-								<div class="imgUtilisateur"></div>
+								<div class="imgUtilisateur" style="{% if developpeur.imageProfil %}background-image: url('{{ vich_uploader_asset(developpeur, 'imageProfilFile') }}');{% endif %}"></div>
 								<div class="infoMessage">
 									<strong>{{ developpeur.prenom }}
 										{{ developpeur.nom }}</strong>

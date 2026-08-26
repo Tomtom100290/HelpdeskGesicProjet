@@ -1,13 +1,49 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Logiciel{% endblock %}
+{% block title %}Modifier Logiciel -
+	{{ logiciel.libelle }}
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Logiciel</h1>
+	<div class="navbar">
+		<a href="#" onclick="history.back(); return false;" class="group inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200" style="color: #7c5cbf; background-color: #7c5cbf1a;" onmouseover="this.style.backgroundColor='#7c5cbf2e'" onmouseout="this.style.backgroundColor='#7c5cbf1a'">
+			<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+			</svg>
+			Retour
+		</a>
 
-    {{ include('logiciel/_form.html.twig', {'button_label': 'Update'}) }}
+		<h1>Modification Logiciel</h1>
+	</div>
+	<div
+		class="min-h-screen p-4 md:p-8 flex items-center justify-center" style="background: radial-gradient(circle at top left, #1a1428, #120d1f); font-family: system-ui, -apple-system, sans-serif;">
 
-    <a href="{{ path('app_logiciel_index') }}">back to list</a>
+		{# Container Carte #}
+		<div
+			class="w-full max-w-2xl rounded-3xl p-6 md:p-10 shadow-2xl space-y-8" style="background: linear-gradient(160deg, #241a3d 0%, #1c1530 100%); border: 1px solid rgba(166, 141, 218, 0.25); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(124, 92, 191, 0.08) inset;">
 
-    {{ include('logiciel/_delete_form.html.twig') }}
+			{# En-tête avec navigation & titre #}
+			<div class="flex items-center justify-between gap-4 pb-6" style="border-bottom: 1px solid rgba(166, 141, 218, 0.2);">
+				<div class="flex items-center gap-4">
+
+					<div>
+						<h1 class="text-2xl font-extrabold tracking-tight" style="color: #f3f0fb;">Modifier le logiciel</h1>
+						<p class="text-xs mt-0.5" style="color: #a68dda;">{{ logiciel.libelle }}
+							(#{{ logiciel.id }})</p>
+					</div>
+				</div>
+			</div>
+
+			{# Inclusions du formulaire principal (avec libellé du bouton mis à jour) #}
+			<div class="space-y-6">
+				{{ include('logiciel/_form.html.twig', {'button_label': 'Enregistrer les modifications'}) }}
+			</div>
+
+			{# Zone d'action dangereuse : Suppression #}
+			<div class="pt-6 flex justify-end" style="border-top: 1px solid rgba(166, 141, 218, 0.15);">
+				{{ include('logiciel/_delete_form.html.twig') }}
+			</div>
+
+		</div>
+	</div>
 {% endblock %}

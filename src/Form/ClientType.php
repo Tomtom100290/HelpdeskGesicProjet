@@ -4,6 +4,10 @@ namespace App\Form;
 
 use App\Entity\Client;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,20 +16,33 @@ class ClientType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('raisonSocial')
-            ->add('adresse')
-            ->add('ville')
-            ->add('codePostal')
-            ->add('numTel')
-            ->add('email')
-            ->add('positionX')
-            ->add('positionY')
-            ->add('dateCreation', null, [
-                'widget' => 'single_text',
-                'mapped' => false,
-                'disabled' => true,
+            ->add('raisonSocial', TextType::class, [
+                'label' => 'Raison sociale'
             ])
-            ->add('topActif')
+            ->add('email', EmailType::class, [
+                'label' => 'Email',
+                'required' => false
+            ])
+            ->add('numTel', TelType::class, [
+                'label' => 'Téléphone',
+                'required' => false
+            ])
+            ->add('adresse', TextType::class, [
+                'label' => 'Adresse',
+                'required' => false
+            ])
+            ->add('codePostal', TextType::class, [
+                'label' => 'Code postal',
+                'required' => false
+            ])
+            ->add('ville', TextType::class, [
+                'label' => 'Ville',
+                'required' => false
+            ])
+            ->add('topActif', CheckboxType::class, [
+                'label' => 'Actif',
+                'required' => false
+            ])
         ;
     }
 

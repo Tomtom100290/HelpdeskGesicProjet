@@ -1,56 +1,140 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Client index
+{% block title %}Liste des Clients
 {% endblock %}
 
 {% block body %}
 
-	<h1>Client index</h1>
+	<div class="navbar">
+		<a href="#" onclick="history.back(); return false;" class="group inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200" style="color: #7c5cbf; background-color: #7c5cbf1a;" onmouseover="this.style.backgroundColor='#7c5cbf2e'" onmouseout="this.style.backgroundColor='#7c5cbf1a'">
+			<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+			</svg>
+			Retour
+		</a>
+		<h1>Liste des Clients</h1>
+	</div>
 
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Id</th>
-				<th>RaisonSocial</th>
-				<th>Adresse</th>
-				<th>Ville</th>
-				<th>CodePostal</th>
-				<th>NumTel</th>
-				<th>Email</th>
-				<th>PositionX</th>
-				<th>PositionY</th>
-				<th>DateCreation</th>
-				<th>TopActif</th>
-				<th>actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for client in clients %}
-				<tr>
-					<td>{{ client.id }}</td>
-					<td>{{ client.raisonSocial }}</td>
-					<td>{{ client.adresse }}</td>
-					<td>{{ client.ville }}</td>
-					<td>{{ client.codePostal }}</td>
-					<td>{{ client.numTel }}</td>
-					<td>{{ client.email }}</td>
-					<td>{{ client.positionX }}</td>
-					<td>{{ client.positionY }}</td>
-					<td>{{ client.dateCreation ? client.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
-					<td>{{ client.topActif ? 'Yes' : 'No' }}</td>
-					<td>
-						<a href="{{ path('app_client_show', {'id': client.id}) }}">show</a>
-						<a href="{{ path('app_client_edit', {'id': client.id}) }}">edit</a>
-					</td>
-				</tr>
-			{% else %}
-				<tr>
-					<td colspan="12">no records found</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+	<div class="historique-container">
 
-	<a href="{{ path('app_client_new') }}">Create new</a>
+		<div
+			class="filter-bar">
+			{# Filtre Ville #}
+			<div class="filter-group">
+				<label for="filter-ville">Filtrer par Ville</label>
+				<select id="filter-ville">
+					<option value="">Toutes les villes</option>
+					{% set villes_ajoutees = [] %}
+					{% for client in clients %}
+						{% if client.ville and client.ville not in villes_ajoutees %}
+							<option value="{{ client.ville }}">{{ client.ville }}</option>
+							{% set villes_ajoutees = villes_ajoutees|merge([client.ville]) %}
+						{% endif %}
+					{% endfor %}
+				</select>
+			</div>
 
+			{# Filtre Statut actif #}
+			<div class="filter-group">
+				<label for="filter-actif">Filtrer par Statut</label>
+				<select id="filter-actif">
+					<option value="">Tous les statuts</option>
+					<option value="oui">Actif</option>
+					<option value="non">Inactif</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="table-responsive">
+			<table class="ticket-table border-separate border-spacing-8 border border-gray-400 dark:border-gray-500" id="clients-table" style="table-layout: auto;">
+				<thead>
+					<tr>
+						<th class="border border-gray-300 dark:border-gray-600" style="white-space: nowrap;">ID</th>
+						<th style="white-space: nowrap;">Raison Sociale</th>
+						<th style="white-space: nowrap;">Adresse</th>
+						<th style="white-space: nowrap;">Ville</th>
+						<th style="white-space: nowrap;">Code Postal</th>
+						<th style="white-space: nowrap;">Téléphone</th>
+						<th style="white-space: nowrap;">Email</th>
+						<th style="white-space: nowrap;">Date de création</th>
+						<th style="white-space: nowrap;">Statut</th>
+						<th style="white-space: nowrap; min-width: 190px;">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for client in clients %}
+						<tr class="ticket-row" data-ville="{{ client.ville }}" data-actif="{{ client.topActif ? 'oui' : 'non' }}">
+							<td>
+								<p class="text-yellow-600 font-semibold">#{{ client.id }}</p>
+							</td>
+							<td>{{ client.raisonSocial }}</td>
+							<td>{{ client.adresse }}</td>
+							<td>{{ client.ville }}</td>
+							<td>{{ client.codePostal }}</td>
+							<td>{{ client.numTel }}</td>
+							<td>{{ client.email }}</td>
+							<td>{{ client.dateCreation ? client.dateCreation|date('d/m/Y H:i') : '' }}</td>
+							<td>
+								{% if client.topActif %}
+									<span class="badge bg-green-50 text-green-600">Actif</span>
+								{% else %}
+									<span class="badge bg-gray-100 text-gray-600">Inactif</span>
+								{% endif %}
+							</td>
+							<td style="min-width: 190px;">
+								<div style="display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: nowrap;">
+									<a href="{{ path('app_client_show', {'id': client.id}) }}" style="background-color: #3b82f6; color: white; padding: 6px 14px; border-radius: 8px; white-space: nowrap; text-decoration: none; font-size: 0.85rem; font-weight: 600;">Voir</a>
+									<a href="{{ path('app_client_edit', {'id': client.id}) }}" style="background-color: #f97316; color: white; padding: 6px 14px; border-radius: 8px; white-space: nowrap; text-decoration: none; font-size: 0.85rem; font-weight: 600;">Éditer</a>
+								</div>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="10" class="no-tickets">Aucun client trouvé.</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+
+		<div class="flex items-center justify-end pt-4 pb-6">
+			<a href="{{ path('app_client_new') }}" class="takeit" style="text-align: center; padding-top: 16px; padding-bottom: 16px;">✓ Créer un client</a>
+		</div>
+	</div>
+
+	<script>
+		function initFiltresClients() {
+const filterVille = document.getElementById('filter-ville');
+const filterActif = document.getElementById('filter-actif');
+const rows = document.querySelectorAll('#clients-table .ticket-row');
+
+if (! filterVille || ! filterActif) 
+return;
+
+
+
+function filterTable() {
+const villeValue = filterVille.value.toLowerCase();
+const actifValue = filterActif.value.toLowerCase();
+
+rows.forEach(row => {
+const rowVille = (row.getAttribute('data-ville') || '').toLowerCase();
+const rowActif = row.getAttribute('data-actif').toLowerCase();
+
+const matchesVille = ! villeValue || rowVille === villeValue;
+const matchesActif = ! actifValue || rowActif === actifValue;
+
+row.style.display = (matchesVille && matchesActif) ? '' : 'none';
+});
+}
+
+filterTable();
+
+filterVille.addEventListener('change', filterTable);
+filterActif.addEventListener('change', filterTable);
+}
+
+document.addEventListener('turbo:load', initFiltresClients);
+document.addEventListener('DOMContentLoaded', initFiltresClients);
+	</script>
 {% endblock %}

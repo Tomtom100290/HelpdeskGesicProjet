@@ -94,7 +94,7 @@
 								<span class="badge">{{ ticket.statut.value }}</span>
 							</td>
 							<td>
-								<a href="{{ path('app_ticket_show', {'id': ticket.id}) }}" class="takeitlight">Voir</a>
+								<a href="{{ path('app_ticket_show', {'id': ticket.id}) }}" style="background-color: #3b82f6; color: white; padding: 6px 14px; border-radius: 8px; white-space: nowrap; text-decoration: none; font-size: 0.85rem; font-weight: 600;">Voir</a>
 							</td>
 						</tr>
 					{% else %}
@@ -108,12 +108,16 @@
 	</div>
 
 	<script>
-		// 🎯 Modification : On utilise 'pageshow' au lieu de 'DOMContentLoaded'
-window.addEventListener('pageshow', function (event) {
+		function initFiltres() {
 const filterClient = document.getElementById('filter-client');
 const filterDev = document.getElementById('filter-dev');
 const filterStatus = document.getElementById('filter-status');
 const rows = document.querySelectorAll('.ticket-row');
+
+if (! filterClient || ! filterDev || ! filterStatus) 
+return;
+
+
 
 function filterTable() {
 const clientValue = filterClient.value.toLowerCase();
@@ -129,22 +133,18 @@ const matchesClient = ! clientValue || rowClient === clientValue;
 const matchesDev = ! devValue || rowDev === devValue;
 const matchesStatus = ! statusValue || rowStatus === statusValue;
 
-if (matchesClient && matchesDev && matchesStatus) {
-row.style.display = '';
-} else {
-row.style.display = 'none';
-}
+row.style.display = (matchesClient && matchesDev && matchesStatus) ? '' : 'none';
 });
 }
 
-// Si l'utilisateur revient en arrière, on ré-applique immédiatement le filtre existant
-// au cas où le navigateur aurait mémorisé la valeur des selects du formulaire.
 filterTable();
 
-// On ré-attache proprement les écouteurs sur les listes déroulantes
 filterClient.addEventListener('change', filterTable);
 filterDev.addEventListener('change', filterTable);
 filterStatus.addEventListener('change', filterTable);
-});
+}
+
+document.addEventListener('turbo:load', initFiltres);
+document.addEventListener('DOMContentLoaded', initFiltres);
 	</script>
 {% endblock %}

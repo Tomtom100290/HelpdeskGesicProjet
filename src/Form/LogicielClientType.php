@@ -18,9 +18,6 @@ class LogicielClientType extends AbstractType
             ->add('dateInstallation')
             ->add('versionLogiciel')
             ->add('notes')
-            ->add('dateCreation', null, [
-                'widget' => 'single_text',
-            ])
             ->add('client', EntityType::class, [
                 'class' => Client::class,
                 'choice_label' => 'raison_social',

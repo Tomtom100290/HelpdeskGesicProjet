@@ -2,80 +2,116 @@
 
 namespace App\Entity;
 
+use App\Enum\StatutTicket;
 use App\Repository\TicketRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use App\Enum\StatutTicket;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: TicketRepository::class)]
-#[ORM\Table(name: 'ticket')]
+// 1. DÉCLARATION DE L'ENTITÉ & CONFIGURATION DE LA TABLE
+#[ORM\Entity(repositoryClass: TicketRepository::class)] // Indique à Doctrine que cette classe est une entité BDD et lui associe son Repository
+#[ORM\Table(name: 'ticket')] // Spécifie le nom exact de la table MySQL/MariaDB
 class Ticket
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(name: 'id_ticket', type: 'integer')]
+    // 2. CLÉ PRIMAIRE ET AUTO-INCREMENT
+    #[ORM\Id] // Définit la propriété comme clé primaire
+    #[ORM\GeneratedValue] // Active l'auto-incrément (1, 2, 3...)
+    #[ORM\Column(name: 'id_ticket', type: 'integer')] // Mappe la propriété vers la colonne 'id_ticket' de type INT
     private ?int $id = null;
 
-    #[ORM\Column(name: 'titre', type: 'string', length: 200)]
+    // 3. CHAMPS DU FORMULAIRE (Titre & Description)
+    #[ORM\Column(name: 'titre', type: 'string', length: 200)] // Colonne VARCHAR(200)
+    #[Assert\NotBlank(message: 'Le titre est obligatoire.')] // Validation : le champ ne peut pas être vide
+    #[Assert\Length( // Validation : contraintes de longueur minimale et maximale
+        min: 5,
+        max: 200,
+        minMessage: 'Le titre doit contenir au moins {{ limit }} caractères.',
+        maxMessage: 'Le titre ne peut pas dépasser {{ limit }} caractères.'
+    )]
     private string $titre;
 
-    #[ORM\Column(name: 'description', type: 'text')]
+    #[ORM\Column(name: 'description', type: 'text')] // Colonne TEXT (pour des contenus longs)
+    #[Assert\NotBlank(message: 'La description est obligatoire.')]
+    #[Assert\Length(
+        min: 10,
+        minMessage: 'La description doit faire au moins {{ limit }} caractères pour être explicite.'
+    )]
     private string $description;
 
-    #[ORM\ManyToOne(targetEntity: Utilisateur::class, inversedBy: 'ticketsCrees')]
-    #[ORM\JoinColumn(name: 'id_utilisateur', referencedColumnName: 'id_user', nullable: false)]
+    // 4. RELATIONS UTILISATEURS (3 rôles différents pointant vers la même entité Utilisateur)
+    // Relation : Créateur (Obligatoire)
+    #[ORM\ManyToOne(targetEntity: Utilisateur::class, inversedBy: 'ticketsCrees')] // Un utilisateur peut créer plusieurs tickets
+    #[ORM\JoinColumn(name: 'id_utilisateur', referencedColumnName: 'id_user', nullable: false)] // Clé étrangère 'id_utilisateur' NOT NULL
+    #[Assert\NotNull(message: 'Le créateur du ticket doit être renseigné.')]
     private Utilisateur $createur;
 
+    // Relation : Développeur/Support Assigné (Optionnel)
     #[ORM\ManyToOne(targetEntity: Utilisateur::class, inversedBy: 'ticketsAssignes')]
-    #[ORM\JoinColumn(name: 'id_assigne', referencedColumnName: 'id_user', nullable: true)]
+    #[ORM\JoinColumn(name: 'id_assigne', referencedColumnName: 'id_user', nullable: true)] // Clé étrangère 'id_assigne' NULLABLE
     private ?Utilisateur $assigne = null;
 
+    // Relation : Destinataire / Interlocuteur cible (Optionnel)
     #[ORM\ManyToOne(targetEntity: Utilisateur::class, inversedBy: 'ticketsDestines')]
-    #[ORM\JoinColumn(name: 'id_destinataire', referencedColumnName: 'id_user', nullable: true)]
+    #[ORM\JoinColumn(name: 'id_destinataire', referencedColumnName: 'id_user', nullable: true)] // Clé étrangère 'id_destinataire' NULLABLE
     private ?Utilisateur $destinataire = null;
 
-    #[ORM\ManyToOne(targetEntity: Impact::class, inversedBy: 'tickets')]
+    // 5. RÈGLES MÉTIER ET PRIORISATION
+    #[ORM\ManyToOne(targetEntity: Impact::class, inversedBy: 'tickets')] // Clé étrangère vers la table 'impact'
     #[ORM\JoinColumn(name: 'id_impact', referencedColumnName: 'id_impact', nullable: false)]
+    #[Assert\NotNull(message: 'Veuillez sélectionner un niveau d\'impact.')]
     private Impact $impact;
 
-    #[ORM\ManyToOne(targetEntity: Urgence::class, inversedBy: 'tickets')]
+    #[ORM\ManyToOne(targetEntity: Urgence::class, inversedBy: 'tickets')] // Clé étrangère vers la table 'urgence'
     #[ORM\JoinColumn(name: 'id_urgence', referencedColumnName: 'id_urgence', nullable: false)]
+    #[Assert\NotNull(message: 'Veuillez sélectionner un niveau d\'urgence.')]
     private Urgence $urgence;
 
-    #[ORM\Column(name: 'priorite_calculee', type: 'smallint')]
+    #[ORM\Column(name: 'priorite_calculee', type: 'smallint')] // Colonne SMALLINT pour stocker le score (Note Impact x Note Urgence)
+    #[Assert\PositiveOrZero(message: 'La priorité calculée doit être positive ou nulle.')]
     private int $prioriteCalculee = 0;
 
-    // ✅ Enum au lieu de ManyToOne
-    #[ORM\Column(name: 'statut', type: 'string', enumType: StatutTicket::class)]
+    #[ORM\Column(name: 'statut', type: 'string', enumType: StatutTicket::class)] // Mappe un Enum PHP 8 vers une colonne String
+    #[Assert\NotNull(message: 'Le statut du ticket est obligatoire.')]
     private StatutTicket $statut = StatutTicket::NOUVEAU;
 
-    #[ORM\ManyToOne(targetEntity: LogicielClient::class, inversedBy: 'tickets')]
+    #[ORM\ManyToOne(targetEntity: LogicielClient::class, inversedBy: 'tickets')] // Clé étrangère vers le logiciel du client concerné
     #[ORM\JoinColumn(name: 'id_logiciel_client', referencedColumnName: 'id_client_logiciel', nullable: false)]
+    #[Assert\NotNull(message: 'Veuillez sélectionner le logiciel concerné.')]
     private LogicielClient $logicielClient;
 
-    //#[ORM\ManyToOne(targetEntity: CategorieTicket::class, inversedBy: 'tickets')]
-    // #[ORM\JoinColumn(name: 'id_categorie', referencedColumnName: 'id_categorie', nullable: false)]
-    // private CategorieTicket $categorie;
-
-    #[ORM\Column(name: 'date_creation', type: 'datetime_immutable')]
+    // 6. GESTION DES DATES
+    #[ORM\Column(name: 'date_creation', type: 'datetime_immutable')] // Date non modifiable après création
+    #[Assert\NotNull]
     private \DateTimeImmutable $dateCreation;
 
-    #[ORM\Column(name: 'date_cloture', type: 'datetime', nullable: true)]
+    #[ORM\Column(name: 'date_cloture', type: 'datetime', nullable: true)] // Date de clôture remplie uniquement à la résolution
+    #[Assert\GreaterThan( // Validation : la date de clôture doit être strictement postérieure à la date de création
+        propertyPath: 'dateCreation',
+        message: 'La date de clôture doit être supérieure à la date de création.'
+    )]
     private ?\DateTimeInterface $dateCloture = null;
 
+    // 7. RELATIONS EN CASCADE (OneToMany / OneToOne)
+    // Supression en cascade : si le ticket est supprimé, ses messages associés le sont aussi
     #[ORM\OneToMany(mappedBy: 'ticket', targetEntity: Message::class, cascade: ['remove'])]
     private Collection $messages;
 
+    // Supression en cascade des historiques associés
     #[ORM\OneToMany(mappedBy: 'ticket', targetEntity: HistoriqueStatutTicket::class, cascade: ['remove'])]
     private Collection $historiques;
 
+    // Relation 1-à-1 avec le compte-rendu de résolution
     #[ORM\OneToOne(mappedBy: 'ticket', targetEntity: CompteRendu::class, cascade: ['remove'])]
+    #[Assert\Valid] // Validation : déclenche la validation des règles situées dans l'entité CompteRendu
     private ?CompteRendu $compteRendu = null;
 
+    // Relation 1-à-plusieurs vers les tâches de travail liées à ce ticket
     #[ORM\OneToMany(mappedBy: 'ticket', targetEntity: Tache::class)]
     private Collection $taches;
-
+    /**
+     * Undocumented function
+     */
     public function __construct()
     {
         $this->dateCreation = new \DateTimeImmutable();
@@ -168,7 +204,7 @@ class Ticket
         $this->prioriteCalculee = $p;
         return $this;
     }
-    //Calcul de la priorité en fonction de l'impact et de l'urgence
+
     public function getLibellePriorite(): string
     {
         if ($this->urgence->getNote() >= 17) {
@@ -191,7 +227,6 @@ class Ticket
     public function setStatut(StatutTicket $s): static
     {
         $this->statut = $s;
-        // Si le ticket repasse à "nouveau", on retire l'assignation pour qu'il disparait du BLOC "MES TICKETS" du dev
         if ($s === StatutTicket::NOUVEAU) {
             $this->assigne = null;
         }
@@ -207,16 +242,6 @@ class Ticket
         $this->logicielClient = $l;
         return $this;
     }
-
-    //public function getCategorie(): CategorieTicket
-    //{
-    //    return $this->categorie;
-    //}
-    //public function setCategorie(CategorieTicket $c): static
-    //{
-    //    $this->categorie = $c;
-    //    return $this;
-    //}
 
     public function getDateCreation(): \DateTimeImmutable
     {

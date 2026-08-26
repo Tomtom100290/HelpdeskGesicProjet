@@ -1,0 +1,73 @@
+# syntax=docker/dockerfile:1
+
+##############################################
+# Dockerfile DEV - pour usage local uniquement
+# (le VPS/prod continue d'utiliser docker/Dockerfile)
+##############################################
+
+FROM composer:2 AS composer
+
+FROM php:8.3-fpm-bookworm AS symfony_php_dev
+
+ARG APP_ENV=dev
+ENV APP_ENV=${APP_ENV} \
+    COMPOSER_ALLOW_SUPERUSER=1 \
+    COMPOSER_HOME=/tmp/composer
+
+WORKDIR /var/www/html
+
+# --- Dependances systeme + extensions PHP necessaires a Symfony ---
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    unzip \
+    libicu-dev \
+    libzip-dev \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    libxml2-dev \
+    libpq-dev \
+    acl \
+    curl \
+    watchman \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j"$(nproc)" \
+    pdo \
+    pdo_mysql \
+    mysqli \
+    intl \
+    zip \
+    gd \
+    opcache \
+    xml \
+    soap \
+    bcmath \
+    && pecl install apcu redis pcov \
+    && docker-php-ext-enable apcu redis pcov \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# --- Copie de Composer depuis le stage officiel ---
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+
+# --- Configuration PHP recommandee ---
+COPY docker/php.ini /usr/local/etc/php/conf.d/symfony.ini
+COPY docker/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+
+# --- Copie du code source ---
+COPY . .
+
+# --- Installation des dependances PHP (AVEC les paquets dev : debug-bundle, profiler, maker...) ---
+RUN composer install \
+    --no-interaction \
+    --no-progress \
+    --prefer-dist \
+    && composer dump-autoload --optimize
+
+# --- Droits sur var/ (cache, logs) pour www-data ---
+RUN mkdir -p var/cache var/log \
+    && chown -R www-data:www-data var \
+    && chmod -R 775 var
+
+EXPOSE 9000
+
+CMD ["php-fpm"]

@@ -172,6 +172,40 @@ class TicketRepository extends ServiceEntityRepository
     }
 
     /**
+     * Nombre de tickets ayant un statut donné (enum StatutTicket).
+     * Utilisé pour les cartes de stats du dashboard (ex: "Tickets ouvert", "Tickets en cours").
+     */
+    public function countTicketsParStatut(EnumStatutTicket $statut): int
+    {
+        return (int) $this->createQueryBuilder('t')
+            ->select('COUNT(t.id)')
+            ->andWhere('t.statut = :statut')
+            ->setParameter('statut', $statut)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * Nombre de tickets urgents actuellement ouverts (non clôturés).
+     * Urgent = priorité calculée >= 17 OU note d'urgence >= 17 (cf. Ticket::getLibellePriorite()).
+     */
+    public function countUrgents(): int
+    {
+        return (int) $this->createQueryBuilder('t')
+            ->select('COUNT(t.id)')
+            ->join('t.urgence', 'u')
+            ->andWhere('(t.prioriteCalculee >= 17 OR u.note >= 17)')
+            ->andWhere('t.statut NOT IN (:statutsExclus)')
+            ->setParameter('statutsExclus', [
+                EnumStatutTicket::FERMER,
+                EnumStatutTicket::REJETER,
+                EnumStatutTicket::RESOLU,
+            ])
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
      * Nombre de tickets fermés par jour sur une période donnée (indicateurs)
      */
     public function countFermesParJour(\DateTimeInterface $debut, \DateTimeInterface $fin): array

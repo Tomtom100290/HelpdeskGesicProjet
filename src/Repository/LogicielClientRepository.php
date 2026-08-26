@@ -29,7 +29,21 @@ class LogicielClientRepository extends ServiceEntityRepository
             ->setParameter('actif', true)
             ->orderBy('l.libelle', 'ASC');
     }
-
+    /**
+     * Retourne tous les logiciels actifs déployés, tous clients confondus
+     */
+    public function findAllActifs()
+    {
+        return $this->createQueryBuilder('lc')
+            ->join('lc.logiciel', 'l')
+            ->addSelect('l')
+            ->join('lc.client', 'c')
+            ->addSelect('c')
+            ->andWhere('l.topActif = :actif')
+            ->setParameter('actif', true)
+            ->orderBy('c.raisonSocial', 'ASC')
+            ->addOrderBy('l.libelle', 'ASC');
+    }
     /**
      * Retourne les contrats arrivant à expiration dans N jours
      */

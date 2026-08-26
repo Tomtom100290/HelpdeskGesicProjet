@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1
 
-##############################################
+
 # Stage 1 : dependances Composer
-##############################################
+
 FROM composer:2 AS composer
 
 ##############################################
@@ -43,8 +43,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     xml \
     soap \
     bcmath \
-    && pecl install apcu redis \
-    && docker-php-ext-enable apcu redis \
+    && pecl install apcu redis pcov \
+    && docker-php-ext-enable apcu redis pcov \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # --- Copie de Composer depuis le stage officiel ---
@@ -71,18 +71,14 @@ RUN mkdir -p var/cache var/log \
     && chown -R www-data:www-data var \
     && chmod -R 775 var
 
-# --- Valeurs FACTICES, utilisees UNIQUEMENT pour permettre au kernel Symfony
-#     de booter pendant la compilation des assets. Jamais utilisees en
-#     runtime : ecrasees par les vraies variables d'environnement du conteneur
-#     (voir docker-compose.prod.yml). Evite qu'un secret de prod ne soit
-#     grave dans les layers de l'image (principe 12-factor app).
+# --- Valeurs FACTICES pour le build ---
 ENV APP_SECRET=build_time_dummy_secret \
     DATABASE_URL="mysql://user:pass@127.0.0.1:3306/db?serverVersion=mariadb-11.0.0&charset=utf8mb4"
 
 # --- Compilation du CSS Tailwind ---
 RUN php bin/console tailwind:build --minify
 
-# --- Compilation des assets AssetMapper (si utilisé) ---
+# --- Compilation des assets AssetMapper ---
 RUN php bin/console asset-map:compile --env=prod
 
 USER www-data
