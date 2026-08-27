@@ -32,7 +32,7 @@ class UtilisateurTest extends TestCase
     {
         $utilisateur = $this->createUtilisateur(Role::ADMIN);
 
-        $this->assertSame(['ROLE_ADMIN'], $utilisateur->getRoles());
+        $this->assertSame(['ROLE_ADMIN', 'ROLE_USER'], $utilisateur->getRoles());
     }
 
     public function testGetPasswordRetourneLeMotDePasseHache(): void
