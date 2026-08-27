@@ -30,7 +30,7 @@
 		<div
 			class="flex flex-wrap gap-4 justify-start">
 
-			{# Itération sur la liste des tâches (ou affichage du message vide si aucun résultat) #}
+			{# Itération sur la liste des tâches #}
 			{% for tache in taches %}
 				<div
 					class="card" style="min-width: 280px; max-width: 340px;">
@@ -112,25 +112,27 @@
 
 							<a href="{{ path('app_tache_edit', {'id': tache.id}) }}" class="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-xl transition-all duration-200 border" style="background: rgba(249, 115, 22, 0.12); color: #fb923c; border-color: rgba(249, 115, 22, 0.3);">
 								<svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="2">
-									<path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 210.3H3v-3.572L16.732 3.732z"/>
+									<path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.03H3v-3.572L16.732 3.732z"/>
 								</svg>
 								Modifier
 							</a>
 						</div>
-
 					</div>
-				{% else %}
-					{# Gestion du cas où la collection est vide #}
-					<p class="text-gray-400">Aucune tâche trouvée</p>
-				{% endfor %}
 
-			</div>
-		</div>
+				</div>
+				{# Fermeture explicite de la carte #}
+			{% else %}
+				{# Gestion du cas où la collection est vide #}
+				<p class="text-gray-400">Aucune tâche trouvée</p>
+			{% endfor %}
 
-		{# Action principale : Bouton de création d'une nouvelle tâche #}
-		<div style="text-align: center; margin-top: 20px;">
-			<a href="{{ path('app_tache_new') }}" class="btn-primary">
-				+ Nouvelle tâche
-			</a>
 		</div>
-	{% endblock %}
+	</div>
+
+	{# Action principale : Bouton de création d'une nouvelle tâche #}
+	<div style="text-align: center; margin-top: 20px;">
+		<a href="{{ path('app_tache_new') }}" class="btn-primary">
+			+ Nouvelle tâche
+		</a>
+	</div>
+{% endblock %}
