@@ -1,4 +1,89 @@
-{{ form_start(form) }}
-{{ form_widget(form) }}
-<button class=" takeit btn">{{ button_label|default('✓ Enregistrer le déploiement') }}</button>
+{{ form_start(form, { attr: { class: 'space-y-8' } }) }}
+{{ form_errors(form) }}
+
+{# Client & Logiciel (2 colonnes) #}
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+	<div>
+		<label for="{{ form.client.vars.id }}" class="block text-xs font-bold uppercase tracking-wider mb-2" style="color: #a68dda;">
+			Client
+		</label>
+		{{ form_widget(form.client, {
+            attr: {
+                class: 'w-full rounded-xl px-4 py-3 text-sm transition duration-150 ease-in-out focus:outline-none cursor-pointer',
+                style: 'background: #1c1530; border: 1px solid rgba(166, 141, 218, 0.25); color: #f3f0fb;'
+            }
+        }) }}
+		{{ form_errors(form.client) }}
+	</div>
+
+	<div>
+		<label for="{{ form.logiciel.vars.id }}" class="block text-xs font-bold uppercase tracking-wider mb-2" style="color: #a68dda;">
+			Logiciel
+		</label>
+		{{ form_widget(form.logiciel, {
+            attr: {
+                class: 'w-full rounded-xl px-4 py-3 text-sm transition duration-150 ease-in-out focus:outline-none cursor-pointer',
+                style: 'background: #1c1530; border: 1px solid rgba(166, 141, 218, 0.25); color: #f3f0fb;'
+            }
+        }) }}
+		{{ form_errors(form.logiciel) }}
+	</div>
+</div>
+
+{# Version & Date d'installation (2 colonnes) #}
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+	<div>
+		<label for="{{ form.versionLogiciel.vars.id }}" class="block text-xs font-bold uppercase tracking-wider mb-2" style="color: #a68dda;">
+			Version installée
+		</label>
+		{{ form_widget(form.versionLogiciel, {
+            attr: {
+                class: 'w-full rounded-xl px-4 py-3 text-sm transition duration-150 ease-in-out focus:outline-none',
+                style: 'background: rgba(124, 92, 191, 0.08); border: 1px solid rgba(166, 141, 218, 0.25); color: #f3f0fb;',
+                placeholder: 'Ex: v2.4.1'
+            }
+        }) }}
+		{{ form_errors(form.versionLogiciel) }}
+	</div>
+
+	<div>
+		<label for="{{ form.dateInstallation.vars.id }}" class="block text-xs font-bold uppercase tracking-wider mb-2" style="color: #a68dda;">
+			Date d'installation
+		</label>
+		{{ form_widget(form.dateInstallation, {
+            attr: {
+                class: 'w-full rounded-xl px-4 py-3 text-sm transition duration-150 ease-in-out focus:outline-none',
+                style: 'background: rgba(124, 92, 191, 0.08); border: 1px solid rgba(166, 141, 218, 0.25); color: #f3f0fb;'
+            }
+        }) }}
+		{{ form_errors(form.dateInstallation) }}
+	</div>
+</div>
+
+{# Notes / Remarques #}
+<div>
+	<label for="{{ form.notes.vars.id }}" class="block text-xs font-bold uppercase tracking-wider mb-2" style="color: #a68dda;">
+		Notes de déploiement
+	</label>
+	{{ form_widget(form.notes, {
+        attr: {
+            class: 'w-full rounded-xl px-4 py-3 text-sm transition duration-150 ease-in-out focus:outline-none',
+            style: 'background: rgba(124, 92, 191, 0.08); border: 1px solid rgba(166, 141, 218, 0.25); color: #f3f0fb;',
+            rows: '4',
+            placeholder: 'Remarques sur la configuration, environnement du client...'
+        }
+    }) }}
+	{{ form_errors(form.notes) }}
+</div>
+
+{# Bouton de soumission #}
+<div class="flex items-center justify-end pt-6" style="border-top: 1px solid rgba(166, 141, 218, 0.2);">
+	<button type="submit" class="inline-flex items-center gap-2 rounded-xl text-sm font-semibold text-white shadow-lg transition-all duration-200 hover:opacity-90 hover:shadow-xl" style="background: linear-gradient(135deg, #7c5cbf, #4a3480); padding: 10px 24px; min-width: 180px; justify-content: center;">
+		<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+			<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+		</svg>
+		{{ button_label|default('Enregistrer') }}
+	</button>
+</div>
+
 {{ form_end(form) }}
