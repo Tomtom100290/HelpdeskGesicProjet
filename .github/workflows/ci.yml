@@ -42,14 +42,19 @@ jobs:
           MERCURE_JWT_SECRET: "CIOnlyDummyJwtSecretNotUsedForRealAuth"
         run: |
           php bin/console doctrine:schema:create --env=test --no-interaction
+      
+      - name: Compilation du CSS Tailwind
+        run: php bin/console tailwind:build
 
       - name: Exécution des tests PHPUnit avec couverture
         env:
           DATABASE_URL: "sqlite:///%kernel.project_dir%/var/test.db"
           APP_ENV: test
           APP_SECRET: ${{ secrets.APP_SECRET || 'SecretForCI' }}
-          MERCURE_URL: "http://mercure.test/.well-known/mercure"
-          MERCURE_PUBLIC_URL: "http://mercure.test/.well-known/mercure"
+          MERCURE_URL: "http://localhost/.well-known/mercure"
+          MERCURE_PUBLIC_URL: "http://localhost/.well-known/mercure"
+          #MERCURE_URL: "http://mercure.test/.well-known/mercure"
+          #MERCURE_PUBLIC_URL: "http://mercure.test/.well-known/mercure"
           MERCURE_JWT_SECRET: "CIOnlyDummyJwtSecretNotUsedForRealAuth"
         run: vendor/bin/phpunit --coverage-clover coverage.xml --coverage-text=coverage.txt
 
