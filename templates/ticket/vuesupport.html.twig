@@ -39,29 +39,27 @@
 					{% if taches is empty %}
 						<p class="text-gray-400">Aucune tâche trouvée</p>
 					{% else %}
-						{% for i in 1..2 %}
-							{% for tache in taches %}
-								<div class="cardtache item" style="background-color: #7940B3 !important;">
-									<div class="headCardtache">
-										<div class="tache-body">
-											<h5>{{ tache.libelle }}</h5>
-										</div>
-									</div>
-									<div class="foot-card">
-										{% if tache.statut.value != 'realisee' %}
-											<form method="post" class="form-effectuer" action="{{ path('app_tache_effectuer', {'id': tache.id}) }}">
-												<input type="hidden" name="_token" value="{{ csrf_token('effectuer' ~ tache.id) }}">
-												<button type="submit" class="lien-effectuer">
-													Effectuer
-												</button>
-											</form>
-										{% endif %}
-										<p class="badge bg-purple-100 text-purple-800">
-											{{ tache.statut.label }}
-										</p>
+						{% for tache in taches %}
+							<div class="cardtache item" style="background-color: #7940B3 !important;">
+								<div class="headCardtache">
+									<div class="tache-body">
+										<h5>{{ tache.libelle }}</h5>
 									</div>
 								</div>
-							{% endfor %}
+								<div class="foot-card">
+									{% if tache.statut.value != 'realisee' %}
+										<form method="post" class="form-effectuer" action="{{ path('app_tache_effectuer', {'id': tache.id}) }}">
+											<input type="hidden" name="_token" value="{{ csrf_token('effectuer' ~ tache.id) }}">
+											<button type="submit" class="lien-effectuer">
+												Effectuer
+											</button>
+										</form>
+									{% endif %}
+									<p class="badge bg-purple-100 text-purple-800">
+										{{ tache.statut.label }}
+									</p>
+								</div>
+							</div>
 						{% endfor %}
 					{% endif %}
 				</div>
@@ -78,13 +76,14 @@
 			{# ── Nouveaux tickets ── #}
 			<div class="BlocTickets">
 				<div class="enteteNvxtickets">
-					<h2>Nouveaux tickets</h2>
 					<a class="takeit" href="{{ path('app_ticket_new') }}" style="display: flex; align-items: center; gap: 6px; color: white; text-decoration: none;">
 						<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 640 640" width="24" height="24" fill="white">
 							<path d="M352 128C352 110.3 337.7 96 320 96C302.3 96 288 110.3 288 128L288 288L128 288C110.3 288 96 302.3 96 320C96 337.7 110.3 352 128 352L288 352L288 512C288 529.7 302.3 544 320 544C337.7 544 352 529.7 352 512L352 352L512 352C529.7 352 544 337.7 544 320C544 302.3 529.7 288 512 288L352 288L352 128z"/>
 						</svg>
 						Nouveau ticket
 					</a>
+					<h2>Nouveaux tickets</h2>
+
 				</div>
 				<div id="tickets-container">
 					{% if nouveauxtickets is empty %}
