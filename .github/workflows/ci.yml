@@ -56,7 +56,7 @@ jobs:
           #MERCURE_URL: "http://mercure.test/.well-known/mercure"
           #MERCURE_PUBLIC_URL: "http://mercure.test/.well-known/mercure"
           MERCURE_JWT_SECRET: "CIOnlyDummyJwtSecretNotUsedForRealAuth"
-        run: vendor/bin/phpunit --coverage-clover coverage.xml --coverage-text=coverage.txt
+        run: vendor/bin/phpunit --coverage-clover coverage.xml --coverage-text=coverage.txt --coverage-html coverage-html --testdox
 
       - name: Vérification du seuil de couverture (10% minimum)
         run: |
