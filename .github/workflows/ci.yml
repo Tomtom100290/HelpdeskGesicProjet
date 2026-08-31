@@ -27,8 +27,7 @@ jobs:
         run: composer install --prefer-dist --no-progress --no-interaction
 
       - name: Analyse PHPStan
-        run: vendor/bin/phpstan analyse --no-progress --error-format=table
-
+        run: phpstan analyse --no-progress --error-format=table
   tests:
     name: Tests unitaires & Couverture
     runs-on: ubuntu-latest
