@@ -167,8 +167,7 @@ final class TicketController extends AbstractController
         $tickets = $ticketRepo->findBy(['assigne' => $developpeur]);
         $nbTickets = count($tickets);
         $maxTickets = 10;
-        $pourcentage = $maxTickets > 0 ? min(100, round(($nbTickets / $maxTickets) * 100)) : 0;
-
+        $pourcentage = min(100, round(($nbTickets / $maxTickets) * 100));
         return $this->render('ticket/detailsTicketParUtilisateur.html.twig', [
             'developpeur' => $developpeur,
             'tickets'     => $tickets,
@@ -215,7 +214,7 @@ final class TicketController extends AbstractController
                     'description' => $ticket->getDescription(),
                     'statut' => 'nouveau', // Ou la valeur exacte de votre statut (ex: $ticket->getStatut()->getValue())
                     'libellePriorite' => $ticket->getPrioriteCalculee(), // Ou le libellé formaté
-                    'dateCreation' => $ticket->getDateCreation()?->format('d/m/Y H:i'),
+                    'dateCreation' => $ticket->getDateCreation()->format('d/m/Y H:i'),
                 ])
             );
 
@@ -287,10 +286,10 @@ final class TicketController extends AbstractController
         EntityManagerInterface $em,
         HubInterface $hub
     ): JsonResponse {
-        /** @var \App\Entity\Utilisateur $user */
+
         $user = $this->getUser();
 
-        if (!$user) {
+        if (!$user instanceof Utilisateur) {
             return $this->json(['success' => false, 'error' => 'Utilisateur introuvable'], 404);
         }
 
@@ -338,7 +337,9 @@ final class TicketController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $message->setTicket($ticket);
-            $message->setUtilisateur($this->getUser());
+            /** @var \App\Entity\Utilisateur $user */
+            $user = $this->getUser();
+            $message->setUtilisateur($user);
 
             // Gestion des réponses imbriquées (message parent)
             $parentId = $request->request->get('parent_id');

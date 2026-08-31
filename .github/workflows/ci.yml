@@ -87,3 +87,30 @@ jobs:
           path: |
             coverage.xml
             coverage.txt
+  phpstan:
+    name: Analyse statique (PHPStan)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Configuration de PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: ctype, iconv, pdo_sqlite, mbstring, intl
+
+      - name: Cache des dépendances Composer
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Installation des dépendances Composer
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Analyse PHPStan
+        run: vendor/bin/phpstan analyse --no-progress --error-format=table

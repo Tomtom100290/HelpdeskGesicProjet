@@ -8,3 +8,5 @@ parameters:
         - tests/
     ignoreErrors:
         - identifier: property.unusedType
+        - identifier: function.alreadyNarrowedType
+          path: tests/bootstrap.php
