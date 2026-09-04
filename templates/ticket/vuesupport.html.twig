@@ -4,229 +4,232 @@
 {% endblock %}
 
 {% block body %}
+	<div
+		style="background: #d3e2f1; font-family: system-ui, -apple-system, sans-serif;">
 
-	<div class="navbar">
+		{# Large Container #}
+		<div class="navbar">
 
-		<h1>Espace Support</h1>
-	</div>
-
-	<!---->
-	<div class="StatetTaches">
-		<div
-			class="statsTickets" style="background-color: #Ffffff !important;">
-			<!--stats-->
-
-			<div class="statscard" style="background-color: #2F9D90 !important; width:90px; height:90px; padding-top:10px;">
-				<h5>Tickets<br>ouvert</h5>
-				<p class="text-white text-center text-[24px] font-bold">{{ nbTicketsOuverts }}</p>
-			</div>
-			<div class="statscard" style="background-color: #4D74DC !important; width:90px; height:90px; padding-top:10px;">
-				<h5>Tickets<br>en cours</h5>
-				<p class=" text-white text-center text-[24px] font-bold">{{ nbTicketsEnCours }}</p>
-			</div>
-			<div class="statscard" style="background-color: #FF2B5C !important; width:90px; height:90px; padding-top:10px;">
-				<h5>Tickets<br>urgent</h5>
-				<p class="text-white text-center text-[24px] font-bold">{{ nbTicketsUrgents }}</p>
-			</div>
-
-
+			<h1>Espace Support</h1>
 		</div>
-		<!--TACHES-->
-		<div class="bloctaches" style=" background-color: #ffffff !important; border:1px #BDA6D6 solid !important;">
-			<div id="notif" alt="Nombre de tâches à faire">{{ nbTachesAFaire }}</div>
-			<div class="scroll-container">
-				<div class="ssbloctaches scroll-track">
-					{% if taches is empty %}
-						<p class="text-gray-400">Aucune tâche trouvée</p>
-					{% else %}
-						{% for tache in taches %}
-							<div class="cardtache item" style="background-color: #7940B3 !important;">
-								<div class="headCardtache">
-									<div class="tache-body">
-										<h5>{{ tache.libelle }}</h5>
+
+		<!---->
+		<div class="StatetTaches">
+			<div
+				class="statsTickets" style="background-color: #Ffffff !important;">
+				<!--stats-->
+
+				<div class="statscard" style="background-color: #2F9D90 !important; width:90px; height:90px; padding-top:10px;">
+					<h5>Tickets<br>ouvert</h5>
+					<p class="text-white text-center text-[24px] font-bold">{{ nbTicketsOuverts }}</p>
+				</div>
+				<div class="statscard" style="background-color: #4D74DC !important; width:90px; height:90px; padding-top:10px;">
+					<h5>Tickets<br>en cours</h5>
+					<p class=" text-white text-center text-[24px] font-bold">{{ nbTicketsEnCours }}</p>
+				</div>
+				<div class="statscard" style="background-color: #FF2B5C !important; width:90px; height:90px; padding-top:10px;">
+					<h5>Tickets<br>urgent</h5>
+					<p class="text-white text-center text-[24px] font-bold">{{ nbTicketsUrgents }}</p>
+				</div>
+
+
+			</div>
+			<!--TACHES-->
+			<div class="bloctaches" style=" background-color: #ffffff !important; border:1px #BDA6D6 solid !important;">
+				<div id="notif" alt="Nombre de tâches à faire">{{ nbTachesAFaire }}</div>
+				<div class="scroll-container">
+					<div class="ssbloctaches scroll-track">
+						{% if taches is empty %}
+							<p class="text-gray-400">Aucune tâche trouvée</p>
+						{% else %}
+							{% for tache in taches %}
+								<div class="cardtache item" style="background-color: #7940B3 !important;">
+									<div class="headCardtache">
+										<div class="tache-body">
+											<h5>{{ tache.libelle }}</h5>
+										</div>
+									</div>
+									<div class="foot-card">
+										{% if tache.statut.value != 'realisee' %}
+											<form method="post" class="form-effectuer" action="{{ path('app_tache_effectuer', {'id': tache.id}) }}">
+												<input type="hidden" name="_token" value="{{ csrf_token('effectuer' ~ tache.id) }}">
+												<button type="submit" class="lien-effectuer">
+													Effectuer
+												</button>
+											</form>
+										{% endif %}
+										<p class="badge bg-purple-100 text-purple-800">
+											{{ tache.statut.label }}
+										</p>
 									</div>
 								</div>
-								<div class="foot-card">
-									{% if tache.statut.value != 'realisee' %}
-										<form method="post" class="form-effectuer" action="{{ path('app_tache_effectuer', {'id': tache.id}) }}">
-											<input type="hidden" name="_token" value="{{ csrf_token('effectuer' ~ tache.id) }}">
-											<button type="submit" class="lien-effectuer">
-												Effectuer
-											</button>
-										</form>
-									{% endif %}
-									<p class="badge bg-purple-100 text-purple-800">
-										{{ tache.statut.label }}
-									</p>
-								</div>
-							</div>
-						{% endfor %}
-					{% endif %}
+							{% endfor %}
+						{% endif %}
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
 	<!---->
-	<div class="bg-gray-50 py-4 px-4" style="box-sizing: border-box; overflow: hidden;">
+	<div class="bg-gray-50 py-4 px-4" style="box-sizing: border-box; overflow: hidden;"></div>
+	<div
+		class="indexSupport">
 
+		{# ── Nouveaux tickets ── #}
+		<div class="BlocTickets">
+			<div class="enteteNvxtickets">
+				<a class="takeit" href="{{ path('app_ticket_new') }}" style="display: flex; align-items: center; gap: 6px; color: white; text-decoration: none;">
+					<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 640 640" width="24" height="24" fill="white">
+						<path d="M352 128C352 110.3 337.7 96 320 96C302.3 96 288 110.3 288 128L288 288L128 288C110.3 288 96 302.3 96 320C96 337.7 110.3 352 128 352L288 352L288 512C288 529.7 302.3 544 320 544C337.7 544 352 529.7 352 512L352 352L512 352C529.7 352 544 337.7 544 320C544 302.3 529.7 288 512 288L352 288L352 128z"/>
+					</svg>
+					Nouveau ticket
+				</a>
+				<h2>Nouveaux tickets</h2>
 
-		<div
-			class="indexSupport">
+			</div>
+			<div id="tickets-container">
+				{% if nouveauxtickets is empty %}
+					<p class="text-gray-400 empty-message">Aucun ticket trouvé</p>
+				{% endif %}
 
-			{# ── Nouveaux tickets ── #}
-			<div class="BlocTickets">
-				<div class="enteteNvxtickets">
-					<a class="takeit" href="{{ path('app_ticket_new') }}" style="display: flex; align-items: center; gap: 6px; color: white; text-decoration: none;">
-						<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 640 640" width="24" height="24" fill="white">
-							<path d="M352 128C352 110.3 337.7 96 320 96C302.3 96 288 110.3 288 128L288 288L128 288C110.3 288 96 302.3 96 320C96 337.7 110.3 352 128 352L288 352L288 512C288 529.7 302.3 544 320 544C337.7 544 352 529.7 352 512L352 352L512 352C529.7 352 544 337.7 544 320C544 302.3 529.7 288 512 288L352 288L352 128z"/>
-						</svg>
-						Nouveau ticket
-					</a>
-					<h2>Nouveaux tickets</h2>
+				{% for nouveauxticket in nouveauxtickets %}
+					<div class="card" data-ticket-id="{{ nouveauxticket.id }}">
+						<div class="head">
+							<div class="clientId">#{{ nouveauxticket.id }}</div>
+							<p class="priority">{{ nouveauxticket.libellePriorite }}</p>
+						</div>
 
-				</div>
-				<div id="tickets-container">
-					{% if nouveauxtickets is empty %}
-						<p class="text-gray-400 empty-message">Aucun ticket trouvé</p>
-					{% endif %}
+						<div class="ticket-body">
+							<h3>{{ nouveauxticket.titre }}</h3>
+							<p class="descripTicket">{{ nouveauxticket.description }}</p>
+						</div>
 
-					{% for nouveauxticket in nouveauxtickets %}
-						<div class="card" data-ticket-id="{{ nouveauxticket.id }}">
-							<div class="head">
-								<div class="clientId">#{{ nouveauxticket.id }}</div>
-								<p class="priority">{{ nouveauxticket.libellePriorite }}</p>
+						<div class="foot">
+							<div class="datecreat">
+								{{ nouveauxticket.dateCreation|date('d/m/Y') }}
 							</div>
-
-							<div class="ticket-body">
-								<h3>{{ nouveauxticket.titre }}</h3>
-								<p class="descripTicket">{{ nouveauxticket.description }}</p>
-							</div>
-
-							<div class="foot">
-								<div class="datecreat">
-									{{ nouveauxticket.dateCreation|date('d/m/Y') }}
-								</div>
-								<div class="actions">
-									<a href="{{ path('app_ticket_show', {'id': nouveauxticket.id}) }}" class="card-link">Voir</a>
-									<a href="{{ path('app_ticket_edit', {'id': nouveauxticket.id}) }}" class="card-link">Éditer</a>
-								</div>
-							</div>
-
-							<div id="statut-{{ nouveauxticket.id }}" class="status">
-								<span class="libstatus {{ nouveauxticket.statut.color() }}">
-									{{ nouveauxticket.statut.label() }}
-								</span>
-								{% if nouveauxticket.statut.value == 'nouveau' %}
-									<button data-action="prendre-en-charge" data-id="{{ nouveauxticket.id }}" class="takeitsmall">
-										Prendre en charge
-									</button>
-								{% endif %}
+							<div class="actions">
+								<a href="{{ path('app_ticket_show', {'id': nouveauxticket.id}) }}" class="card-link">Voir</a>
+								<a href="{{ path('app_ticket_edit', {'id': nouveauxticket.id}) }}" class="card-link">Éditer</a>
 							</div>
 						</div>
-					{% endfor %}
-				</div>
-			</div>
 
-			{# ── Mes tickets en cours ── #}
-			<div class="BlocTickets">
-				<h2>Mes Tickets "en cours"</h2>
-				<div id="mestickets-container">
-					{% if ticketsassignes is empty %}
-						<p class="text-gray-400 empty-message">Aucun ticket trouvé</p>
-					{% endif %}
-
-					{% for ticketsassigne in ticketsassignes %}
-						<div class="card" data-ticket-id="{{ ticketsassigne.id }}">
-							<div class="head">
-								<div class="clientId">#{{ ticketsassigne.id }}</div>
-								<p class="priority">{{ ticketsassigne.libellePriorite }}</p>
-							</div>
-
-							<div class="ticket-body">
-								<h3>{{ ticketsassigne.titre }}</h3>
-								<p class="descripTicket">{{ ticketsassigne.description }}</p>
-							</div>
-
-							<div class="foot">
-								<div class="datecreat">
-									{{ ticketsassigne.dateCreation|date('d/m/Y') }}
-								</div>
-								<div class="actions">
-									<a href="{{ path('app_ticket_show', {'id': ticketsassigne.id}) }}" class="card-link">Voir</a>
-									<a href="{{ path('app_ticket_edit', {'id': ticketsassigne.id}) }}" class="card-link">Éditer</a>
-								</div>
-							</div>
-
-							<div id="statut-{{ ticketsassigne.id }}" class="status">
-								<span class="libstatus {{ ticketsassigne.statut.color() }}">
-									{{ ticketsassigne.statut.label() }}
-								</span>
-							</div>
+						<div id="statut-{{ nouveauxticket.id }}" class="status">
+							<span class="libstatus {{ nouveauxticket.statut.color() }}">
+								{{ nouveauxticket.statut.label() }}
+							</span>
+							{% if nouveauxticket.statut.value == 'nouveau' %}
+								<button data-action="prendre-en-charge" data-id="{{ nouveauxticket.id }}" class="takeitsmall">
+									Prendre en charge
+								</button>
+							{% endif %}
 						</div>
-					{% endfor %}
-				</div>
+					</div>
+				{% endfor %}
 			</div>
-
-			{# ── Charge de l'équipe ── #}
-			<div class="BlocEquipe">
-				<h2>Charge de l'Équipe</h2>
-				<div id="equipe-container">
-
-					{% for developpeur in developpeurs %}
-						{% set ticketsEnCours = developpeur.ticketsAssignes|filter(t => t.statut.value == 'en_cours') %}
-						{% set nbTickets = ticketsEnCours|length %}
-						{% set pourcentage = nbTickets >= 10 ? 100 : (nbTickets * 10) %}
-
-						<div class="personnel">
-							<a href="{{ path('details_ticket_utilisateur', { id: developpeur.id }) }}">
-								<div class="détailsCharge">
-									<wa-icon name="eye" variant="regular" style="color: rgb(61, 51, 51);"></wa-icon>Voir détails
-								</div>
-							</a>
-							<div class="idpersonnel">
-
-								<div class="imgUtilisateur" style="{% if developpeur.imageProfil %}background-image: url('{{ vich_uploader_asset(developpeur, 'imageProfilFile') }}');{% endif %}"></div>
-								<div class="infoMessage">
-									<strong>{{ developpeur.prenom }}
-										{{ developpeur.nom }}</strong>
-								</div>
-								{# ── Barre de charge ── #}
-								<div class="flex items-center justify-between mb-1 mt-2">
-									<span class="text-xs text-white w-30">Charge de travail</span>
-									<span class="text-xs font-bold text-white mr-2">{{ pourcentage }}%</span>
-								</div>
-								<div class="w-full  bg-gray-300 border border-gray-300 rounded-full h-2 mb-2 ">
-									<div class="h-2 rounded-full transition-all duration-500" style="width: {{ pourcentage }}%; background: {% if pourcentage < 50 %}var(--vert){% elseif pourcentage < 80 %}orange{% else %}#ef4444{% endif %};"></div>
-								</div>
-								<p class="text-xs text-white mb-1 ml-4">{{ nbTickets }}
-									tickets</p>
-							</div>
-
-							<div
-								class="donnéesCharge">
-
-
-								{# ── Liste des tickets ── #}
-								<div class="listeTickets">
-									{% for ticket in ticketsEnCours %}
-										<div>#{{ ticket.id }}
-											-
-											{{ ticket.titre }}</div>
-									{% endfor %}
-								</div>
-
-							</div>
-						</div>
-					{% endfor %}
-
-				</div>
-			</div>
-
 		</div>
-	</div>
 
-	<script>
-		(function () {
+		{# ── Mes tickets en cours ── #}
+		<div class="BlocTickets">
+			<h2>Mes Tickets "en cours"</h2>
+			<div id="mestickets-container">
+				{% if ticketsassignes is empty %}
+					<p class="text-gray-400 empty-message">Aucun ticket trouvé</p>
+				{% endif %}
+
+				{% for ticketsassigne in ticketsassignes %}
+					<div class="card" data-ticket-id="{{ ticketsassigne.id }}">
+						<div class="head">
+							<div class="clientId">#{{ ticketsassigne.id }}</div>
+							<p class="priority">{{ ticketsassigne.libellePriorite }}</p>
+						</div>
+
+						<div class="ticket-body">
+							<h3>{{ ticketsassigne.titre }}</h3>
+							<p class="descripTicket">{{ ticketsassigne.description }}</p>
+						</div>
+
+						<div class="foot">
+							<div class="datecreat">
+								{{ ticketsassigne.dateCreation|date('d/m/Y') }}
+							</div>
+							<div class="actions">
+								<a href="{{ path('app_ticket_show', {'id': ticketsassigne.id}) }}" class="card-link">Voir</a>
+								<a href="{{ path('app_ticket_edit', {'id': ticketsassigne.id}) }}" class="card-link">Éditer</a>
+							</div>
+						</div>
+
+						<div id="statut-{{ ticketsassigne.id }}" class="status">
+							<span class="libstatus {{ ticketsassigne.statut.color() }}">
+								{{ ticketsassigne.statut.label() }}
+							</span>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+
+		{# ── Charge de l'équipe ── #}
+		<div class="BlocEquipe">
+			<h2>Charge de l'Équipe</h2>
+			<div id="equipe-container">
+
+				{% for developpeur in developpeurs %}
+					{% set ticketsEnCours = developpeur.ticketsAssignes|filter(t => t.statut.value == 'en_cours') %}
+					{% set nbTickets = ticketsEnCours|length %}
+					{% set pourcentage = nbTickets >= 10 ? 100 : (nbTickets * 10) %}
+
+					<div class="personnel">
+						<a href="{{ path('details_ticket_utilisateur', { id: developpeur.id }) }}">
+							<div class="détailsCharge">
+								<wa-icon name="eye" variant="regular" style="color: rgb(61, 51, 51);"></wa-icon>Voir détails
+							</div>
+						</a>
+						<div class="idpersonnel">
+
+							<div class="imgUtilisateur" style="{% if developpeur.imageProfil %}background-image: url('{{ vich_uploader_asset(developpeur, 'imageProfilFile') }}');{% endif %}"></div>
+							<div class="infoMessage">
+								<strong>{{ developpeur.prenom }}
+									{{ developpeur.nom }}</strong>
+							</div>
+							{# ── Barre de charge ── #}
+							<div class="flex items-center justify-between mb-1 mt-2">
+								<span class="text-xs text-white w-30">Charge de travail</span>
+								<span class="text-xs font-bold text-white mr-2">{{ pourcentage }}%</span>
+							</div>
+							<div class="w-full  bg-gray-300 border border-gray-300 rounded-full h-2 mb-2 ">
+								<div class="h-2 rounded-full transition-all duration-500" style="width: {{ pourcentage }}%; background: {% if pourcentage < 50 %}var(--vert){% elseif pourcentage < 80 %}orange{% else %}#ef4444{% endif %};"></div>
+							</div>
+							<p class="text-xs text-white mb-1 ml-4">{{ nbTickets }}
+								tickets</p>
+						</div>
+
+						<div
+							class="donnéesCharge">
+
+
+							{# ── Liste des tickets ── #}
+							<div class="listeTickets">
+								{% for ticket in ticketsEnCours %}
+									<div>#{{ ticket.id }}
+										-
+										{{ ticket.titre }}</div>
+								{% endfor %}
+							</div>
+
+						</div>
+					</div>
+				{% endfor %}
+
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<script>
+	(function () {
 if (window._mercureInitialized) {
 return;
 }
@@ -501,10 +504,10 @@ window._mercureEs = null;
 window._mercureInitialized = false;
 });
 })();
-	</script>
-	<!--Pour le scroll des taches-->
-	<script>
-		(function () {
+</script>
+<!--Pour le scroll des taches-->
+<script>
+	(function () {
 const track = document.querySelector('.scroll-track');
 if (! track) 
 return;
@@ -530,5 +533,4 @@ window.addEventListener('load', ajusterVitesse);
 // la largeur du contenu ne change pas en soi, mais on sécurise le calcul)
 window.addEventListener('resize', ajusterVitesse);
 })();
-	</script>
-{% endblock %}
+</script>{% endblock %}

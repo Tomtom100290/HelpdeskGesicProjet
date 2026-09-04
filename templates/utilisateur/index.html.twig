@@ -4,129 +4,136 @@
 {% endblock %}
 
 {% block body %}
+	<div
+		class="min-h-screen p-4 md:p-8" style="background: radial-gradient(circle at top left, #1a1428, #120d1f); font-family: system-ui, -apple-system, sans-serif;">
 
-	<div class="navbar">
-		<a href="#" onclick="history.back(); return false;" class="group inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200" style="color: #7c5cbf; background-color: #7c5cbf1a;" onmouseover="this.style.backgroundColor='#7c5cbf2e'" onmouseout="this.style.backgroundColor='#7c5cbf1a'">
-			<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-				<path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-			</svg>
-			Retour
-		</a>
-		<h1>Liste des Utilisateurs</h1>
-	</div>
-	{# Bouton Nouvel utilisateur #}
-	<a class="takeit" href="{{ path('app_utilisateur_new') }}" style="display: flex; align-items: center; gap: 6px; color: white; text-decoration: none; margin-left:78px; margin-top:8px;">
-		<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 640 640" width="24" height="24" fill="white">
-			<path d="M352 128C352 110.3 337.7 96 320 96C302.3 96 288 110.3 288 128L288 288L128 288C110.3 288 96 302.3 96 320C96 337.7 110.3 352 128 352L288 352L288 512C288 529.7 302.3 544 320 544C337.7 544 352 529.7 352 512L352 352L512 352C529.7 352 544 337.7 544 320C544 302.3 529.7 288 512 288L352 288L352 128z"/>
-		</svg>
-		Nouvel utilisateur
-	</a>
-
-	<div class="historique-container">
-
+		{# Large Container #}
 		<div
-			class="filter-bar">
-			{# Filtre Rôle #}
-			<div class="filter-group">
-				<label for="filter-role">Filtrer par Rôle</label>
-				<select id="filter-role">
-					<option value="">Tous les rôles</option>
-					{% set roles_ajoutes = [] %}
-					{% for utilisateur in utilisateurs %}
-						{% if utilisateur.role.value not in roles_ajoutes %}
-							<option value="{{ utilisateur.role.value }}">{{ utilisateur.role.label }}</option>
-							{% set roles_ajoutes = roles_ajoutes|merge([utilisateur.role.value]) %}
-						{% endif %}
-					{% endfor %}
-				</select>
+			class="max-w-7xl mx-auto space-y-8">
+
+			{# En-tête : Navigation & Titre principal #}
+
+			<div class="navbar">
+				<a href="#" onclick="history.back(); return false;" class="group inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200" style="color: #7c5cbf; background-color: #7c5cbf1a;" onmouseover="this.style.backgroundColor='#7c5cbf2e'" onmouseout="this.style.backgroundColor='#7c5cbf1a'">
+					<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+					</svg>
+					Retour
+				</a>
+				<h1>Liste des Utilisateurs</h1>
 			</div>
+			{# Bouton Nouvel utilisateur #}
+			<a class="takeit" href="{{ path('app_utilisateur_new') }}" style="display: flex; align-items: center; gap: 6px; color: white; text-decoration: none; margin-left:78px; margin-top:8px;">
+				<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 640 640" width="24" height="24" fill="white">
+					<path d="M352 128C352 110.3 337.7 96 320 96C302.3 96 288 110.3 288 128L288 288L128 288C110.3 288 96 302.3 96 320C96 337.7 110.3 352 128 352L288 352L288 512C288 529.7 302.3 544 320 544C337.7 544 352 529.7 352 512L352 352L512 352C529.7 352 544 337.7 544 320C544 302.3 529.7 288 512 288L352 288L352 128z"/>
+				</svg>
+				Nouvel utilisateur
+			</a>
 
-			{# Filtre Entreprise / Client #}
-			<div class="filter-group">
-				<label for="filter-entreprise">Filtrer par Entreprise</label>
-				<select id="filter-entreprise">
-					<option value="">Toutes les entreprises</option>
-					{% set entreprises_ajoutees = [] %}
-					{% for utilisateur in utilisateurs %}
-						{% set entreprise_nom = utilisateur.client ? utilisateur.client.raisonSocial : 'N/A' %}
-						{% if entreprise_nom not in entreprises_ajoutees %}
-							<option value="{{ entreprise_nom }}">{{ entreprise_nom }}</option>
-							{% set entreprises_ajoutees = entreprises_ajoutees|merge([entreprise_nom]) %}
-						{% endif %}
-					{% endfor %}
-				</select>
-			</div>
+			<div class="historique-container">
 
-			{# Filtre Statut actif #}
-			<div class="filter-group">
-				<label for="filter-actif">Filtrer par Statut</label>
-				<select id="filter-actif">
-					<option value="">Tous les statuts</option>
-					<option value="oui">Actif</option>
-					<option value="non">Inactif</option>
-				</select>
-			</div>
-		</div>
-
-		<div class="table-responsive">
-			<table class="ticket-table border-separate border-spacing-8 border border-gray-400 dark:border-gray-500" id="utilisateurs-table" style="table-layout: auto;">
-				<thead>
-					<tr>
-						<th class="border border-gray-300 dark:border-gray-600" style="white-space: nowrap;">ID</th>
-						<th style="white-space: nowrap;">Nom</th>
-						<th style="white-space: nowrap;">Prénom</th>
-						<th style="white-space: nowrap;">Email</th>
-						<th style="white-space: nowrap;">Entreprise</th>
-						<th style="white-space: nowrap;">Rôle</th>
-						<th style="white-space: nowrap;">Date de création</th>
-						<th style="white-space: nowrap;">Statut</th>
-						<th style="white-space: nowrap;">Téléphone</th>
-						<th style="white-space: nowrap; min-width: 190px;">Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for utilisateur in utilisateurs %}
-						{% set entreprise_nom = utilisateur.client ? utilisateur.client.raisonSocial : 'N/A' %}
-
-						<tr class="ticket-row" data-role="{{ utilisateur.role.value }}" data-entreprise="{{ entreprise_nom }}" data-actif="{{ utilisateur.topActif ? 'oui' : 'non' }}">
-							<td>
-								<p class="text-yellow-600 font-semibold">#{{ utilisateur.id }}</p>
-							</td>
-							<td>{{ utilisateur.nom }}</td>
-							<td>{{ utilisateur.prenom }}</td>
-							<td>{{ utilisateur.email }}</td>
-							<td>{{ entreprise_nom }}</td>
-							<td>
-								<span class="badge">{{ utilisateur.role.label }}</span>
-							</td>
-							<td>{{ utilisateur.dateCreation ? utilisateur.dateCreation|date('d/m/Y H:i') : '' }}</td>
-							<td>
-								{% if utilisateur.topActif %}
-									<span class="badge bg-green-50 text-green-600">Actif</span>
-								{% else %}
-									<span class="badge bg-gray-100 text-gray-600">Inactif</span>
+				<div
+					class="filter-bar">
+					{# Filtre Rôle #}
+					<div class="filter-group">
+						<label for="filter-role">Filtrer par Rôle</label>
+						<select id="filter-role">
+							<option value="">Tous les rôles</option>
+							{% set roles_ajoutes = [] %}
+							{% for utilisateur in utilisateurs %}
+								{% if utilisateur.role.value not in roles_ajoutes %}
+									<option value="{{ utilisateur.role.value }}">{{ utilisateur.role.label }}</option>
+									{% set roles_ajoutes = roles_ajoutes|merge([utilisateur.role.value]) %}
 								{% endif %}
-							</td>
-							<td>{{ utilisateur.numTel ?: '—' }}</td>
-							<td style="min-width: 190px;">
-								<div style="display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: nowrap;">
-									<a href="{{ path('app_utilisateur_show', {'id': utilisateur.id}) }}" style="background-color: #3b82f6; color: white; padding: 6px 14px; border-radius: 8px; white-space: nowrap; text-decoration: none; font-size: 0.85rem; font-weight: 600;">Voir</a>
-									<a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}" style="background-color: #f97316; color: white; padding: 6px 14px; border-radius: 8px; white-space: nowrap; text-decoration: none; font-size: 0.85rem; font-weight: 600;">Éditer</a>
-								</div>
-							</td>
-						</tr>
-					{% else %}
-						<tr>
-							<td colspan="10" class="no-tickets">Aucun utilisateur trouvé.</td>
-						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
-	</div>
+							{% endfor %}
+						</select>
+					</div>
 
-	<script>
-		function initFiltresUtilisateurs() {
+					{# Filtre Entreprise / Client #}
+					<div class="filter-group">
+						<label for="filter-entreprise">Filtrer par Entreprise</label>
+						<select id="filter-entreprise">
+							<option value="">Toutes les entreprises</option>
+							{% set entreprises_ajoutees = [] %}
+							{% for utilisateur in utilisateurs %}
+								{% set entreprise_nom = utilisateur.client ? utilisateur.client.raisonSocial : 'N/A' %}
+								{% if entreprise_nom not in entreprises_ajoutees %}
+									<option value="{{ entreprise_nom }}">{{ entreprise_nom }}</option>
+									{% set entreprises_ajoutees = entreprises_ajoutees|merge([entreprise_nom]) %}
+								{% endif %}
+							{% endfor %}
+						</select>
+					</div>
+
+					{# Filtre Statut actif #}
+					<div class="filter-group">
+						<label for="filter-actif">Filtrer par Statut</label>
+						<select id="filter-actif">
+							<option value="">Tous les statuts</option>
+							<option value="oui">Actif</option>
+							<option value="non">Inactif</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="table-responsive">
+					<table class="ticket-table border-collapse border border-gray-300 dark:border-gray-700 w-full" id="utilisateurs-table" style="table-layout: auto;">
+						<thead>
+							<tr>
+								<th class="border border-gray-300 dark:border-gray-700 p-3" style="white-space: nowrap;">ID</th>
+								<th class="border border-gray-300 dark:border-gray-700 p-3" style="white-space: nowrap;">Nom</th>
+								<th class="border border-gray-300 dark:border-gray-700 p-3" style="white-space: nowrap;">Prénom</th>
+								<th class="border border-gray-300 dark:border-gray-700 p-3" style="white-space: nowrap;">Email</th>
+								<th class="border border-gray-300 dark:border-gray-700 p-3" style="white-space: nowrap;">Entreprise</th>
+								<th class="border border-gray-300 dark:border-gray-700 p-3" style="white-space: nowrap;">Rôle</th>
+								<th class="border border-gray-300 dark:border-gray-700 p-3" style="white-space: nowrap;">Statut</th>
+								<th class="border border-gray-300 dark:border-gray-700 p-3" style="white-space: nowrap;">Téléphone</th>
+								<th class="border border-gray-300 dark:border-gray-700 p-3" style="white-space: nowrap; min-width: 190px;">Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for utilisateur in utilisateurs %}
+								{% set entreprise_nom = utilisateur.client ? utilisateur.client.raisonSocial : 'N/A' %}
+
+								<tr class="ticket-row" data-role="{{ utilisateur.role.value }}" data-entreprise="{{ entreprise_nom }}" data-actif="{{ utilisateur.topActif ? 'oui' : 'non' }}">
+									<td class="border border-gray-300 dark:border-gray-700 p-3">
+										<p class="text-yellow-600 font-semibold">#{{ utilisateur.id }}</p>
+									</td>
+									<td class="border border-gray-300 dark:border-gray-700 p-3">{{ utilisateur.nom }}</td>
+									<td class="border border-gray-300 dark:border-gray-700 p-3">{{ utilisateur.prenom }}</td>
+									<td class="border border-gray-300 dark:border-gray-700 p-3">{{ utilisateur.email }}</td>
+									<td class="border border-gray-300 dark:border-gray-700 p-3">{{ entreprise_nom }}</td>
+									<td class="border border-gray-300 dark:border-gray-700 p-3">
+										<span class="badge">{{ utilisateur.role.label }}</span>
+									</td>
+									<td class="border border-gray-300 dark:border-gray-700 p-3">
+										{% if utilisateur.topActif %}
+											<span class="badge bg-green-50 text-green-600">Actif</span>
+										{% else %}
+											<span class="badge bg-gray-100 text-gray-600">Inactif</span>
+										{% endif %}
+									</td>
+									<td class="border border-gray-300 dark:border-gray-700 p-3">{{ utilisateur.numTel ?: '—' }}</td>
+									<td class="border border-gray-300 dark:border-gray-700 p-3" style="min-width: 190px;">
+										<div style="display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: nowrap;">
+											<a href="{{ path('app_utilisateur_show', {'id': utilisateur.id}) }}" style="background-color: #3b82f6; color: white; padding: 6px 14px; border-radius: 8px; white-space: nowrap; text-decoration: none; font-size: 0.85rem; font-weight: 600;">Voir</a>
+											<a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}" style="background-color: #f97316; color: white; padding: 6px 14px; border-radius: 8px; white-space: nowrap; text-decoration: none; font-size: 0.85rem; font-weight: 600;">Éditer</a>
+										</div>
+									</td>
+								</tr>
+							{% else %}
+								<tr>
+									<td colspan="10" class="border border-gray-300 dark:border-gray-700 p-3 no-tickets">Aucun utilisateur trouvé.</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			function initFiltresUtilisateurs() {
 const filterRole = document.getElementById('filter-role');
 const filterEntreprise = document.getElementById('filter-entreprise');
 const filterActif = document.getElementById('filter-actif');
@@ -164,5 +171,5 @@ filterActif.addEventListener('change', filterTable);
 
 document.addEventListener('turbo:load', initFiltresUtilisateurs);
 document.addEventListener('DOMContentLoaded', initFiltresUtilisateurs);
-	</script>
-{% endblock %}
+		</script>
+	{% endblock %}
