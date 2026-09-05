@@ -8,7 +8,7 @@ on:
 
 jobs:
   phpstan:
-    name: Analyse statique (PHPStan)
+    name: Analyse statique de code (PHPStan)
     runs-on: ubuntu-latest
 
     steps:
@@ -20,7 +20,7 @@ jobs:
         with:
           php-version: '8.3'
           extensions: ctype, iconv, pdo_sqlite, mbstring, intl
-          tools: phpstan, composer:v2 # Installe PHPStan globalement si jamais il manque dans composer.lock
+          tools: phpstan, composer:v2
           tools-cache: true
 
       - name: Installation des dépendances Composer
@@ -28,6 +28,28 @@ jobs:
 
       - name: Analyse PHPStan
         run: phpstan analyse --no-progress --error-format=table
+
+  phpcs:
+    name: Style de code (PHPCS)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Configuration de PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: ctype, iconv, pdo_sqlite, mbstring, intl
+          tools: composer:v2
+
+      - name: Installation des dépendances Composer
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Vérification du style de code (PHPCS)
+        run: vendor/bin/phpcs -n
+
   tests:
     name: Tests unitaires & Couverture
     runs-on: ubuntu-latest
@@ -57,6 +79,9 @@ jobs:
           MERCURE_JWT_SECRET: "CIOnlyDummyJwtSecretNotUsedForRealAuth"
         run: |
           php bin/console doctrine:schema:create --env=test --no-interaction
+          # Volontairement schema:create (pas migrations:migrate) : l'historique de
+          # migrations contient encore des doublons de contraintes non nettoyés.
+          # À corriger APRÈS l'examen, sans urgence de temps.
 
       - name: Compilation du CSS Tailwind
         run: php bin/console tailwind:build
