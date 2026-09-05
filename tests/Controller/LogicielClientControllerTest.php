@@ -164,10 +164,12 @@ final class LogicielClientControllerTest extends WebTestCase
         $em->persist($lc);
         $em->flush();
 
-        $crawler = $client->request('GET', '/logicielclient/' . $lc->getId() . '/edit');
+        $id = $lc->getId(); // on sauvegarde l'ID avant que $lc ne devienne obsolète
+
+        $crawler = $client->request('GET', '/logicielclient/' . $id . '/edit');
         $this->assertResponseIsSuccessful();
 
-        $form = $crawler->selectButton('Mettre à jour')->form([
+        $form = $crawler->selectButton('Update')->form([
             'logiciel_client[versionLogiciel]' => 'v1.1-MAJ',
         ]);
 
@@ -175,8 +177,12 @@ final class LogicielClientControllerTest extends WebTestCase
 
         $this->assertResponseRedirects('/logicielclient');
 
-        $em->refresh($lc);
-        $this->assertEquals('v1.1-MAJ', $lc->getVersionLogiciel());
+        // Le kernel a redémarré entre les requêtes : on récupère un EntityManager FRAIS
+        $freshEm = $client->getContainer()->get(EntityManagerInterface::class);
+        $updatedLc = $freshEm->getRepository(LogicielClient::class)->find($id);
+
+        $this->assertNotNull($updatedLc);
+        $this->assertEquals('v1.1-MAJ', $updatedLc->getVersionLogiciel());
     }
 
     public function testDelete(): void
