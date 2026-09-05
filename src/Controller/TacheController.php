@@ -60,6 +60,8 @@ final class TacheController extends AbstractController
             $entityManager->persist($tache);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Tâche créée avec succès !');
+
             return $this->redirectToRoute('app_tache_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -101,6 +103,7 @@ final class TacheController extends AbstractController
             $entityManager->flush();
         }
 
+        $this->addFlash('success', 'Tâche marquée comme réalisée !');
         return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
     }
 

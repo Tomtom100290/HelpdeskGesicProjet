@@ -205,6 +205,8 @@ final class TicketController extends AbstractController
             $em->persist($ticket);
             $em->flush();
 
+            $this->addFlash('success', 'Ticket créé avec succès !');
+
             // --- PUBLICATION MERCURE ---
             $update = new Update(
                 'ticket/liste',
