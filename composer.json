@@ -88,6 +88,11 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "check-phpcs-phpstan": [
+            "@php vendor/bin/phpcs -n",
+            "@php vendor/bin/phpstan analyse",
+            "@php bin/phpunit"
         ]
     },
     "conflict": {
@@ -95,12 +100,14 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
+            "allow-contrib": true,
             "require": "7.4.*"
         }
     },
     "require-dev": {
+        "phpstan/phpstan": "*",
         "phpunit/phpunit": "^12.5",
+        "squizlabs/php_codesniffer": "*",
         "symfony/browser-kit": "7.4.*",
         "symfony/css-selector": "7.4.*",
         "symfony/debug-bundle": "7.4.*",

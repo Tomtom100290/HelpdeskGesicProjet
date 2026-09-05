@@ -41,18 +41,51 @@ class StatutTicket
         $this->historiquesApres = new ArrayCollection();
     }
 
-    public function getId(): ?int { return $this->id; }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-    public function getLibelle(): string { return $this->libelle; }
-    public function setLibelle(string $libelle): static { $this->libelle = $libelle; return $this; }
+    public function getLibelle(): string
+    {
+        return $this->libelle;
+    }
+    public function setLibelle(string $libelle): static
+    {
+        $this->libelle = $libelle;
+        return $this;
+    }
 
-    public function getCouleurLib(): string { return $this->couleurLib; }
-    public function setCouleurLib(string $couleur): static { $this->couleurLib = $couleur; return $this; }
+    public function getCouleurLib(): string
+    {
+        return $this->couleurLib;
+    }
+    public function setCouleurLib(string $couleur): static
+    {
+        $this->couleurLib = $couleur;
+        return $this;
+    }
 
-    public function isTopActif(): bool { return $this->topActif; }
-    public function setTopActif(bool $topActif): static { $this->topActif = $topActif; return $this; }
+    public function isTopActif(): bool
+    {
+        return $this->topActif;
+    }
+    public function setTopActif(bool $topActif): static
+    {
+        $this->topActif = $topActif;
+        return $this;
+    }
 
-    public function getTickets(): Collection { return $this->tickets; }
-    public function getHistoriquesAvant(): Collection { return $this->historiquesAvant; }
-    public function getHistoriquesApres(): Collection { return $this->historiquesApres; }
+    public function getTickets(): Collection
+    {
+        return $this->tickets;
+    }
+    public function getHistoriquesAvant(): Collection
+    {
+        return $this->historiquesAvant;
+    }
+    public function getHistoriquesApres(): Collection
+    {
+        return $this->historiquesApres;
+    }
 }

@@ -128,7 +128,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
-    public function eraseCredentials(): void {}
+    public function eraseCredentials(): void
+    {
+    }
 
     // --- Sérialisation (exclut les propriétés non sérialisables comme File) ---
 

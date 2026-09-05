@@ -10,7 +10,7 @@ enum Role: string
 
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             Role::CLIENT      => 'Client',
             Role::DEVELOPPEUR => 'Développeur',
             Role::ADMIN       => 'Administrateur',

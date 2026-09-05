@@ -24,7 +24,7 @@ class PrioriteRepository extends ServiceEntityRepository
     public function findByScore(int $score): ?Priorite
     {
         // Critique >= 20, Haute >= 10, Normale >= 5, Faible < 5
-        $niveauCriticite = match(true) {
+        $niveauCriticite = match (true) {
             $score >= 20 => 1,
             $score >= 10 => 2,
             $score >= 5  => 3,

@@ -46,24 +46,68 @@ class Message
         $this->reponses  = new ArrayCollection();
     }
 
-    public function getId(): ?int { return $this->id; }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-    public function getTicket(): Ticket { return $this->ticket; }
-    public function setTicket(Ticket $ticket): static { $this->ticket = $ticket; return $this; }
+    public function getTicket(): Ticket
+    {
+        return $this->ticket;
+    }
+    public function setTicket(Ticket $ticket): static
+    {
+        $this->ticket = $ticket;
+        return $this;
+    }
 
-    public function getUtilisateur(): Utilisateur { return $this->utilisateur; }
-    public function setUtilisateur(Utilisateur $utilisateur): static { $this->utilisateur = $utilisateur; return $this; }
+    public function getUtilisateur(): Utilisateur
+    {
+        return $this->utilisateur;
+    }
+    public function setUtilisateur(Utilisateur $utilisateur): static
+    {
+        $this->utilisateur = $utilisateur;
+        return $this;
+    }
 
-    public function getMessageParent(): ?Message { return $this->messageParent; }
-    public function setMessageParent(?Message $message): static { $this->messageParent = $message; return $this; }
+    public function getMessageParent(): ?Message
+    {
+        return $this->messageParent;
+    }
+    public function setMessageParent(?Message $message): static
+    {
+        $this->messageParent = $message;
+        return $this;
+    }
 
-    public function getReponses(): Collection { return $this->reponses; }
+    public function getReponses(): Collection
+    {
+        return $this->reponses;
+    }
 
-    public function getContenu(): string { return $this->contenu; }
-    public function setContenu(string $contenu): static { $this->contenu = $contenu; return $this; }
+    public function getContenu(): string
+    {
+        return $this->contenu;
+    }
+    public function setContenu(string $contenu): static
+    {
+        $this->contenu = $contenu;
+        return $this;
+    }
 
-    public function isTopActif(): bool { return $this->topActif; }
-    public function setTopActif(bool $topActif): static { $this->topActif = $topActif; return $this; }
+    public function isTopActif(): bool
+    {
+        return $this->topActif;
+    }
+    public function setTopActif(bool $topActif): static
+    {
+        $this->topActif = $topActif;
+        return $this;
+    }
 
-    public function getDateEnvoi(): \DateTimeImmutable { return $this->dateEnvoi; }
+    public function getDateEnvoi(): \DateTimeImmutable
+    {
+        return $this->dateEnvoi;
+    }
 }

@@ -10,7 +10,7 @@ enum NiveauImpact: string
 
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             NiveauImpact::ISOLE      => 'Moi uniquement',
             NiveauImpact::EQUIPE     => 'Mon équipe / département',
             NiveauImpact::ENTREPRISE => 'Toute l\'entreprise',
@@ -19,7 +19,7 @@ enum NiveauImpact: string
 
     public function points(): int
     {
-        return match($this) {
+        return match ($this) {
             NiveauImpact::ISOLE      => 1,
             NiveauImpact::EQUIPE     => 3,
             NiveauImpact::ENTREPRISE => 5,

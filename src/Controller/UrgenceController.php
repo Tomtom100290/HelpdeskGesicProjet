@@ -71,7 +71,7 @@ final class UrgenceController extends AbstractController
     #[Route('/{id}', name: 'app_urgence_delete', methods: ['POST'])]
     public function delete(Request $request, Urgence $urgence, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$urgence->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $urgence->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($urgence);
             $entityManager->flush();
         }

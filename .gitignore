@@ -30,3 +30,20 @@ docker-compose.override.yml
 ###< backup ###
 backups/
 /.env.docker
+
+# Fichiers de travail / sauvegardes
+*.sql
+public/coverage/
+
+###> squizlabs/php_codesniffer ###
+/.phpcs-cache
+/phpcs.xml
+###< squizlabs/php_codesniffer ###
+
+# Fichiers generes, ne pas versionner
+/docs/
+/.phpdoc/
+/coverage/
+phpDocumentor.phar
+export_*.txt
+phpunit_result.txt

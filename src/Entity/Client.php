@@ -59,37 +59,112 @@ class Client
         $this->logicielsClient = new ArrayCollection();
     }
 
-    public function getId(): ?int { return $this->id; }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-    public function getRaisonSocial(): string { return $this->raisonSocial; }
-    public function setRaisonSocial(string $raisonSocial): static { $this->raisonSocial = $raisonSocial; return $this; }
+    public function getRaisonSocial(): string
+    {
+        return $this->raisonSocial;
+    }
+    public function setRaisonSocial(string $raisonSocial): static
+    {
+        $this->raisonSocial = $raisonSocial;
+        return $this;
+    }
 
-    public function getAdresse(): ?string { return $this->adresse; }
-    public function setAdresse(?string $adresse): static { $this->adresse = $adresse; return $this; }
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+    public function setAdresse(?string $adresse): static
+    {
+        $this->adresse = $adresse;
+        return $this;
+    }
 
-    public function getVille(): ?string { return $this->ville; }
-    public function setVille(?string $ville): static { $this->ville = $ville; return $this; }
+    public function getVille(): ?string
+    {
+        return $this->ville;
+    }
+    public function setVille(?string $ville): static
+    {
+        $this->ville = $ville;
+        return $this;
+    }
 
-    public function getCodePostal(): ?string { return $this->codePostal; }
-    public function setCodePostal(?string $codePostal): static { $this->codePostal = $codePostal; return $this; }
+    public function getCodePostal(): ?string
+    {
+        return $this->codePostal;
+    }
+    public function setCodePostal(?string $codePostal): static
+    {
+        $this->codePostal = $codePostal;
+        return $this;
+    }
 
-    public function getNumTel(): ?string { return $this->numTel; }
-    public function setNumTel(?string $numTel): static { $this->numTel = $numTel; return $this; }
+    public function getNumTel(): ?string
+    {
+        return $this->numTel;
+    }
+    public function setNumTel(?string $numTel): static
+    {
+        $this->numTel = $numTel;
+        return $this;
+    }
 
-    public function getEmail(): ?string { return $this->email; }
-    public function setEmail(?string $email): static { $this->email = $email; return $this; }
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+    public function setEmail(?string $email): static
+    {
+        $this->email = $email;
+        return $this;
+    }
 
-    public function getPositionX(): ?float { return $this->positionX; }
-    public function setPositionX(?float $positionX): static { $this->positionX = $positionX; return $this; }
+    public function getPositionX(): ?float
+    {
+        return $this->positionX;
+    }
+    public function setPositionX(?float $positionX): static
+    {
+        $this->positionX = $positionX;
+        return $this;
+    }
 
-    public function getPositionY(): ?float { return $this->positionY; }
-    public function setPositionY(?float $positionY): static { $this->positionY = $positionY; return $this; }
+    public function getPositionY(): ?float
+    {
+        return $this->positionY;
+    }
+    public function setPositionY(?float $positionY): static
+    {
+        $this->positionY = $positionY;
+        return $this;
+    }
 
-    public function getDateCreation(): \DateTimeImmutable { return $this->dateCreation; }
+    public function getDateCreation(): \DateTimeImmutable
+    {
+        return $this->dateCreation;
+    }
 
-    public function isTopActif(): bool { return $this->topActif; }
-    public function setTopActif(bool $topActif): static { $this->topActif = $topActif; return $this; }
+    public function isTopActif(): bool
+    {
+        return $this->topActif;
+    }
+    public function setTopActif(bool $topActif): static
+    {
+        $this->topActif = $topActif;
+        return $this;
+    }
 
-    public function getUtilisateurs(): Collection { return $this->utilisateurs; }
-    public function getLogicielsClient(): Collection { return $this->logicielsClient; }
+    public function getUtilisateurs(): Collection
+    {
+        return $this->utilisateurs;
+    }
+    public function getLogicielsClient(): Collection
+    {
+        return $this->logicielsClient;
+    }
 }

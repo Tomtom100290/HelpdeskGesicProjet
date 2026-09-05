@@ -10,7 +10,7 @@ enum StatutTache: string
 
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             StatutTache::A_FAIRE  => 'À faire',
             StatutTache::EN_COURS => 'En cours',
             StatutTache::REALISEE => 'Réalisée',

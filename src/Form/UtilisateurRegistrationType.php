@@ -27,6 +27,8 @@ class UtilisateurRegistrationType extends AbstractType
                 'class' => Role::class,
                 'label' => 'Rôle de l\'utilisateur'
             ])
+            // src/Form/UtilisateurRegistrationType.php
+
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'mapped' => false,
@@ -36,12 +38,12 @@ class UtilisateurRegistrationType extends AbstractType
                 'first_options'  => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Confirmer le mot de passe'],
                 'constraints' => [
-                    new NotBlank(['message' => 'Veuillez entrer un mot de passe.']),
-                    new Length([
-                        'min' => 8,
-                        'minMessage' => 'Le mot de passe doit faire au moins {{ limit }} caractères.',
-                        'max' => 4096,
-                    ]),
+                    new NotBlank(message: 'Veuillez entrer un mot de passe.'),
+                    new Length(
+                        min: 8,
+                        minMessage: 'Le mot de passe doit faire au moins {{ limit }} caractères.',
+                        max: 4096,
+                    ),
                 ],
             ])
             ->add('numTel', TextType::class, [

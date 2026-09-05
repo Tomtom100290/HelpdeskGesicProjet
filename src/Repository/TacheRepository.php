@@ -8,7 +8,6 @@ use App\Enum\StatutTache;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-
 class TacheRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)

@@ -36,19 +36,53 @@ class CompteRendu
         $this->dateRedaction = new \DateTimeImmutable();
     }
 
-    public function getId(): ?int { return $this->id; }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-    public function getTicket(): Ticket { return $this->ticket; }
-    public function setTicket(Ticket $ticket): static { $this->ticket = $ticket; return $this; }
+    public function getTicket(): Ticket
+    {
+        return $this->ticket;
+    }
+    public function setTicket(Ticket $ticket): static
+    {
+        $this->ticket = $ticket;
+        return $this;
+    }
 
-    public function getUtilisateur(): Utilisateur { return $this->utilisateur; }
-    public function setUtilisateur(Utilisateur $utilisateur): static { $this->utilisateur = $utilisateur; return $this; }
+    public function getUtilisateur(): Utilisateur
+    {
+        return $this->utilisateur;
+    }
+    public function setUtilisateur(Utilisateur $utilisateur): static
+    {
+        $this->utilisateur = $utilisateur;
+        return $this;
+    }
 
-    public function getContenu(): string { return $this->contenu; }
-    public function setContenu(string $contenu): static { $this->contenu = $contenu; return $this; }
+    public function getContenu(): string
+    {
+        return $this->contenu;
+    }
+    public function setContenu(string $contenu): static
+    {
+        $this->contenu = $contenu;
+        return $this;
+    }
 
-    public function getTempsTraitementMinutes(): ?int { return $this->tempsTraitementMinutes; }
-    public function setTempsTraitementMinutes(?int $temps): static { $this->tempsTraitementMinutes = $temps; return $this; }
+    public function getTempsTraitementMinutes(): ?int
+    {
+        return $this->tempsTraitementMinutes;
+    }
+    public function setTempsTraitementMinutes(?int $temps): static
+    {
+        $this->tempsTraitementMinutes = $temps;
+        return $this;
+    }
 
-    public function getDateRedaction(): \DateTimeImmutable { return $this->dateRedaction; }
+    public function getDateRedaction(): \DateTimeImmutable
+    {
+        return $this->dateRedaction;
+    }
 }

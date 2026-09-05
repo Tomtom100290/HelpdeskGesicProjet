@@ -39,22 +39,63 @@ class Logiciel
         $this->logicielsClient = new ArrayCollection();
     }
 
-    public function getId(): ?int { return $this->id; }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-    public function getLibelle(): string { return $this->libelle; }
-    public function setLibelle(string $libelle): static { $this->libelle = $libelle; return $this; }
+    public function getLibelle(): string
+    {
+        return $this->libelle;
+    }
+    public function setLibelle(string $libelle): static
+    {
+        $this->libelle = $libelle;
+        return $this;
+    }
 
-    public function getDescription(): ?string { return $this->description; }
-    public function setDescription(?string $description): static { $this->description = $description; return $this; }
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
+        return $this;
+    }
 
-    public function getTypeLogiciel(): ?string { return $this->typeLogiciel; }
-    public function setTypeLogiciel(?string $typeLogiciel): static { $this->typeLogiciel = $typeLogiciel; return $this; }
+    public function getTypeLogiciel(): ?string
+    {
+        return $this->typeLogiciel;
+    }
+    public function setTypeLogiciel(?string $typeLogiciel): static
+    {
+        $this->typeLogiciel = $typeLogiciel;
+        return $this;
+    }
 
-    public function getCoeffCriticite(): float { return $this->coeffCriticite; }
-    public function setCoeffCriticite(float $coeffCriticite): static { $this->coeffCriticite = $coeffCriticite; return $this; }
+    public function getCoeffCriticite(): float
+    {
+        return $this->coeffCriticite;
+    }
+    public function setCoeffCriticite(float $coeffCriticite): static
+    {
+        $this->coeffCriticite = $coeffCriticite;
+        return $this;
+    }
 
-    public function isTopActif(): bool { return $this->topActif; }
-    public function setTopActif(bool $topActif): static { $this->topActif = $topActif; return $this; }
+    public function isTopActif(): bool
+    {
+        return $this->topActif;
+    }
+    public function setTopActif(bool $topActif): static
+    {
+        $this->topActif = $topActif;
+        return $this;
+    }
 
-    public function getLogicielsClient(): Collection { return $this->logicielsClient; }
+    public function getLogicielsClient(): Collection
+    {
+        return $this->logicielsClient;
+    }
 }

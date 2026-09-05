@@ -64,7 +64,6 @@ class TicketControllerTest extends WebTestCase
 
         // Mock du Hub Mercure pour éviter d'avoir besoin du serveur Mercure actif
         $mercureHubMock = $this->createMock(HubInterface::class);
-        $client->getContainer()->set(HubInterface::class, $mercureHubMock);
 
         $client->request('GET', '/');
 

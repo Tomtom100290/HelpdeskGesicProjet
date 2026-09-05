@@ -71,7 +71,7 @@ final class ImpactController extends AbstractController
     #[Route('/{id}', name: 'app_impact_delete', methods: ['POST'])]
     public function delete(Request $request, Impact $impact, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$impact->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $impact->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($impact);
             $entityManager->flush();
         }

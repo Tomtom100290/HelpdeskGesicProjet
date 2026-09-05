@@ -11,7 +11,7 @@ final class TableauDeBordController extends AbstractController
     #[Route('/tableaudebord', name: 'app_tableau_de_bord')]
     public function index(): Response
     {
-        return $this->render('tableau_de_bord/vueclient.html.twig', [
+        return $this->render('tableau_de_bord/vue_client.html.twig', [
             'controller_name' => 'TableauDeBordController',
         ]);
     }

@@ -71,7 +71,7 @@ final class PrioriteController extends AbstractController
     #[Route('/{id}', name: 'app_priorite_delete', methods: ['POST'])]
     public function delete(Request $request, Priorite $priorite, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$priorite->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $priorite->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($priorite);
             $entityManager->flush();
         }

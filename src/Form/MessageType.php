@@ -1,5 +1,5 @@
 <?php
-// src/Form/MessageType.php
+
 namespace App\Form;
 
 use App\Entity\Message;
@@ -14,12 +14,17 @@ class MessageType extends AbstractType
     {
         $builder->add('contenu', TextareaType::class, [
             'label' => false,
-            'attr'  => ['placeholder' => 'Votre message...', 'rows' => 3],
+            'attr'  => [
+                'placeholder' => 'Votre message...',
+                'rows' => 3,
+            ],
         ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => Message::class]);
+        $resolver->setDefaults([
+            'data_class' => Message::class,
+        ]);
     }
 }

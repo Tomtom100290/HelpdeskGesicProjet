@@ -52,7 +52,7 @@ final class TicketController extends AbstractController
 
         // Vue réservée au personnel de support (Admin / Développeur)
         if (in_array('ROLE_ADMIN', $roles) || in_array('ROLE_DEVELOPPEUR', $roles)) {
-            return $this->render('ticket/vuesupport.html.twig', [
+            return $this->render('ticket/vue_support.html.twig', [
                 'tickets' => $ticketRepository->findAll(),
                 'statuts' => StatutTicket::cases(),
                 'nouveauxtickets' => $ticketRepository->findNonAssignes(),
@@ -67,7 +67,7 @@ final class TicketController extends AbstractController
         }
 
         // Vue réservée aux clients (uniquement leurs propres tickets)
-        return $this->render('ticket/vueclient.html.twig', [
+        return $this->render('ticket/vue_client.html.twig', [
             'nouveauxtickets' => $ticketRepository->findBy([
                 'createur' => $user,
                 'statut'   => StatutTicket::NOUVEAU->value,
@@ -98,7 +98,7 @@ final class TicketController extends AbstractController
 
         // Vue réservée au personnel de support (Admin / Développeur)
         if (in_array('ROLE_ADMIN', $roles) || in_array('ROLE_DEVELOPPEUR', $roles)) {
-            return $this->render('ticket/vueticketall.html.twig', [
+            return $this->render('ticket/vue_ticket_all.html.twig', [
                 'tickets' => $ticketRepository->findAll(),
                 'statuts' => StatutTicket::cases(),
                 'nouveauxtickets' => $ticketRepository->findNonAssignes(),
@@ -113,7 +113,7 @@ final class TicketController extends AbstractController
         }
 
         // Vue réservée aux clients (uniquement leurs propres tickets)
-        return $this->render('ticket/vueticketall.html.twig', [
+        return $this->render('ticket/vue_ticket_all.html.twig', [
             'nouveauxtickets' => $ticketRepository->findBy([
                 'createur' => $user,
                 'statut'   => StatutTicket::NOUVEAU->value,
